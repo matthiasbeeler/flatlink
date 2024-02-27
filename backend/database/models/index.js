@@ -9,7 +9,6 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(process.cwd()+"/database/config/config.js")[env];
 const db = {};
 
-console.log(require(process.cwd()+"/database/config/config.js"))
 let sequelize;
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 

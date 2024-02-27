@@ -86,7 +86,6 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-    console.log("flatLink backend running on http://localhost:"+server.address().port)
-
+    console.log('\x1b[47m',"\x1b[30m", "flatLink backend running on http://localhost:"+server.address().port, "\x1b[0m");
   debug('Listening on ' + bind);
 }

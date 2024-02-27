@@ -87,5 +87,6 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-  console.log("flatLink frontend running on http://localhost:"+server.address().port)
+  console.log('\x1b[47m',"\x1b[30m", "flatLink frontend running on http://localhost:"+server.address().port, "\x1b[0m");
+
 }
