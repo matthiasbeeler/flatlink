@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<%- include('./modules/head', {title:"Welcome"}) %>
+
+    <body>
+        <div class="content">
+            <img src="/assets/svg/flatLinkLogo.svg" alt="" class="topCenterLogo">
+            <p class="bigCenterTitle title">
+                Willkommen zu flatlink
+            </p>
+
+            <div class="foreground">
+                <div class="foregroundTop">
+                    <div class="oval"></div>
+                </div>
+                <form>
+                    <div class="message orangeShadowNoOffset">
+                    </div>
+                    <input type="email" name="email" required placeholder="eMail"
+                        onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                        oninvalid=" $(this).css('border', '1px solid red');">
+                    <div class="spacing8">
+
+                    </div>
+                    <input type="password" name="password" required placeholder="Password"
+                        onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                        oninvalid=" $(this).css('border', '1px solid red');">
+                    <div class="spacing8"></div>
+                    <div class="buttonDiv button submitButton">
+                        <div class="buttonText" onclick="$('form').submit()">Log in</div>
+                        </div>
+                    
+                </form>
+                <div class="spacing5"></div>
+                <center>
+                    <a href="" class="centerLink">Passwort vergessen</a>
+                </center>
+                <div class="spacing5"></div>
+
+                <div class="seperator"></div>
+                <div class="spacing5"></div>
+                <div class="spacing3"></div>
+
+                <div class="buttonDiv button lightButton">
+                    <div class="buttonText">Sign up</div>
+                    </div>
+                <div class="spacing10"></div>
+                <div class="spacing10"></div>
+
+            </div>
+        </div>
+        <%- include('./modules/footer') %>
+
+    </body>
+
+    </html>
+
+    <script>
+    $("form").submit(function(e) {
+        e.preventDefault();
+        console.log($('form').serializeArray())
+        $(".submitButton").addClass('buttonLoading');
+        $.ajax({
+            url: '<%=process.env.apiUrl%>/login',
+            type: 'POST',
+            cache: false,
+            data: $('form').serializeArray(),
+            success: function (data) {
+                console.log(data)
+                if (data.success == true) {
+                    window.location = "/user/";
+                }
+                if (data.success == false) {
+                    $(".submitButton").removeClass('buttonLoading');
+
+                    $(".button").show();
+                    $('.message').show()
+                    $('.message').html(data.message)
+                }
+            },
+            error: function(xhr){
+        alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+    }
+        });
+    })
+    </script>

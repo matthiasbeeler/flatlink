@@ -1,0 +1,289 @@
+:root{
+  --mainButtonAndLogo: #356077;
+  --mainText: #444444;
+  --mainInput: #FFFFFF;
+  --mainForeground: #F5F5F5;
+  --mainBackground: #ECF0F1;
+  --inputBorder: #D4D4D4;
+  --inputBackground: #F8F9FA;
+}
+
+html, body{
+  margin: 0px;
+  padding: 0px;
+}
+
+body{
+  background: var(--mainBackground);
+}
+
+*{
+  font-family: sans-serif;
+  color: var(--mainText);
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  -webkit-appearance: none;
+  outline: none;
+}
+
+.content {
+  position: relative;
+  min-height: 100vh;
+  max-width: 100vw;
+}
+
+.topLeftLogo{
+  width: 18vw;
+  margin: 2vw;
+  float: left;
+}
+
+.topCenterLogo{
+  height: 14vh;
+  aspect-ratio: 1/1;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 2.8vh;
+}
+
+.bigCenterTitle{
+  text-align: center;
+  width: 90%;
+  margin-left: 5%;
+  font-size: 14vw;
+}
+
+.title{
+  font-weight: 900;
+}
+.foreground{
+  width: 100%;
+  position: absolute;
+  bottom: 0%;
+  background: var(--mainForeground);
+}
+.foregroundTop{
+  background-color: var(--mainBackground);
+  height: 5vh;
+  overflow:hidden;
+}
+
+.foregroundTop .oval{
+    height: 350%;
+    width: 130%;
+    margin-left: -15%;
+    background-color: var(--mainForeground);
+    border-radius: 50%;
+}
+
+input, select{
+  width: 80%;
+  padding: 3%;
+  margin-left: 7%;
+  border: 1px solid var(--inputBorder);
+  background: var(--inputBackground);
+  border-radius: 20px;
+  font-size: 5vw;
+}
+
+select{
+  width: 86%;
+}
+
+.phoneSelect{
+  width: 20%;
+  display: inline-block;
+}
+
+.phoneInput{
+  margin-left: 4%;
+  width: 54%;
+  display: inline-block;
+}
+
+.button{
+  width: 86%;
+  padding: 2% 3% 2% 3%;
+  margin-left: 7%;
+  background: var(--mainButtonAndLogo);
+  color: var(--mainForeground);
+  border-radius: 20px;
+  font-size: 5vw;
+  text-align: center;
+  border: none;
+  font-weight: 900;
+  font-size: 6.5vw;
+  position: relative;
+  .buttonText{
+    color:var(--mainForeground);
+  }
+}
+.buttonDiv{
+  width: 80%;
+}
+
+
+.buttonText{
+  transition: all 0.2s;
+}
+.lightButton{
+  border: 2px solid var(--mainButtonAndLogo);
+  background: none;
+  .buttonText{
+    color: var(--mainButtonAndLogo);
+  }
+}
+.spacing3{
+  padding: 1.5%;
+  width: 80%;
+}
+.spacing5{
+  padding: 2.5%;
+  width: 80%;
+}
+.spacing8{
+  padding: 4%;
+  width: 80%;
+}
+.spacing10{
+  padding: 5%;
+  width: 80%;
+}
+
+.seperator {
+  padding: 0.3% 0px 0.3% 0px;
+  background-color: var(--inputBorder);
+  border-radius: 10px;
+  width: 83%;
+  opacity: 0.5;
+  margin-left: 8.5%;
+}
+
+
+.footer {
+  z-index: 20;
+  position: relative;
+  background-color: var(--mainBackground);
+  padding: 3%;
+  width: 94%;
+}
+
+.cookieNoticeBackground, .changeOverlay{
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  width: 100%;
+  height: 100vh;
+  background: #ececec;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 100;
+}
+
+.cookieNoticeBackground{
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  width: 100%;
+  height: 100vh;
+  background: var(--mainBackground);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 100;
+  display: flex;
+align-items: center;
+}
+
+.cookieNoticeBackground center{
+  width: 100%;
+}
+.cookieNotice img{
+  width: 30%;
+  margin-top: -30%;
+  
+}
+.cookieNotice{
+width: fit-content;
+max-width: 100%;
+border-radius: 20px;
+}
+.cookieNotice p{
+  width: 86%;
+  background-color: var(--mainForeground);
+padding: 1.5vw;
+border-radius: 20px;
+}
+
+
+@media (min-width: 800px) {
+
+  body {
+    width: 30%;
+    margin-left: 35%;
+  }
+
+
+  .footer {
+    padding: 1%;
+    width: 28%;
+    margin-left: 35%;
+  }
+
+.bottomFixedButton{
+  width: 25.8%;
+  padding: 1%;
+}
+}
+
+
+.message{
+  display: none;
+  font-weight: bold;
+  width: 80%;
+  padding: 3%;
+  margin-left: 7%;
+  background-color: var(--mainForeground);
+  border-radius: 20px;
+  margin-bottom: 5%;
+}
+.orangeShadowNoOffset{
+  box-shadow: 0px 0px 10px #ffa6006d;
+}
+
+.buttonLoading .buttonText{
+  color: transparent !important;
+
+}
+.buttonLoading::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  border: 4px solid transparent;
+  border-top-color: var(--mainBackground);
+  border-radius: 50%;
+  animation: button-loading-spinner 1s ease infinite;
+}
+
+.lightButton.buttonLoading::after {
+  border-top-color: var(--mainButtonAndLogo);
+}
+
+
+@keyframes button-loading-spinner {
+  from {
+      transform: rotate(0turn);
+  }
+
+  to {
+      transform: rotate(1turn);
+  }
+}

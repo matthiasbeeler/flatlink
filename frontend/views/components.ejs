@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<%- include('./modules/head', {title:"Welcome"}) %>
+
+    <body>
+        <div class="content">
+            <img src="/assets/svg/flatLinkLogo.svg" alt="" class="topLeftLogo">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <img src="/assets/svg/flatLinkLogo.svg" alt="" class="topCenterLogo">
+
+            <p class="bigCenterTitle title">
+                Big center title
+            </p>
+
+            <div class="foreground">
+                <div class="foregroundTop">
+                    <div class="oval"></div>
+                </div>
+                   
+                    <input type="password" required placeholder="input"
+                        onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                        oninvalid=" $(this).css('border', '1px solid red');">
+                        <div class="spacing5"></div>
+
+                        <select name="select" id="" onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                        oninvalid=" $(this).css('border', '1px solid red');">
+                            <option value="Select" disabled selected>Select</option>
+                            <option value="option1">option1</option>
+                        </select>
+                        <div class="spacing5"></div>
+                        <select class="phoneSelect" name="select" id="" onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                        oninvalid=" $(this).css('border', '1px solid red');">
+                            <option value="Select"  selected>+41 Switzerland</option>
+                            <option value="option1">+41 Switzerland</option>
+                        </select>
+                        <input type="text" class="phoneInput" required placeholder="Phonenumber"
+                        onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                        oninvalid=" $(this).css('border', '1px solid red');">
+                    <div class="spacing8"></div>
+
+                    <button type="submit" class="button">Submit Button</button>
+                    <div class="spacing5"></div>
+                    <div class="buttonDiv button">Submit div</div>
+                    <div class="spacing5"></div>
+                    <div class="buttonDiv button lightButton">Submit div light</div>
+
+                <div class="spacing5"></div>
+                <center>
+                    <a href="" class="">centerlink</a>
+                </center>
+                <div class="spacing5"></div>
+                <div class="seperator"></div>
+
+            </div>
+        </div>
+        <%- include('./modules/footer') %>
+
+    </body>
+
+    </html>

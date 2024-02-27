@@ -1,0 +1,65 @@
+<nav class="notSelectable">
+    <div class="tile grayShadow shadowPress payments" onclick="redirect('/payments/')">
+        <center>
+            <div class="tileImage">
+                <img src="/assets/svg/dollar.svg" alt="">
+            </div>
+            <center>
+    </div>
+    <div class="tile grayShadow shadowPress moto" onclick="redirect('/moto/')">
+        <center>
+            <div class="tileImage">
+                <img src="/assets/svg/bike.svg" alt="">
+            </div>
+            <center>
+    </div>
+    <div class="tile grayShadow shadowPress marketplace" onclick="redirect('/marketplace/')">
+        <center>
+            <div class="tileImage">
+                <img src="/assets/svg/shop.svg" alt="">
+            </div>
+            <center>
+    </div>
+    <div class="tile grayShadow shadowPress chat" onclick="redirect('/chat/')">
+        <center>
+            <div class="tileImage">
+                <img src="/assets/svg/chat.svg" alt="">
+            </div>
+            <center>
+    </div>
+    <div class="tile grayShadow shadowPress account" onclick="redirect('/account/')">
+        <center>
+            <div class="tileImage">
+                <img src="/assets/svg/account.svg" alt="">
+            </div>
+            <center>
+    </div>
+</nav>
+
+<script>
+    if (window.location.href.split("/")[3] == "payments"){
+        $('.payments').removeClass("grayShadow")
+        $('.payments').attr('onclick', "")
+        $('.payments img').css('opacity', 0.5)
+    }
+    if (window.location.href.split("/")[3] == "chat"){
+        $('.chat').removeClass("grayShadow")
+        $('.chat').attr('onclick', "")
+        $('.chat img').css('opacity', 0.5)
+    }
+    if (window.location.href.split("/")[3] == "account"){
+        $('.account').removeClass("grayShadow")
+        $('.account').attr('onclick', "")
+        $('.account img').css('opacity', 0.5)
+    }
+    if (window.location.href.split("/")[3] == "marketplace"){
+        $('.marketplace').removeClass("grayShadow")
+        $('.marketplace').attr('onclick', "")
+        $('.marketplace img').css('opacity', 0.5)
+    }
+    if (window.location.href.split("/")[3] == "moto"){
+        $('.moto').removeClass("grayShadow")
+        $('.moto').attr('onclick', "")
+        $('.moto img').css('opacity', 0.5)
+    }
+</script>
