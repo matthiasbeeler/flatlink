@@ -1,0 +1,39 @@
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title><%-title%></title>
+  <link rel="stylesheet" href="/stylesheets/style.css?v=0.0.0.0">
+  <script src="/javascripts/jquery.min.js"></script>
+  <meta name="theme-color" content="#ECF0F1">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="format-detection" content="date=no">
+  <meta name="format-detection" content="email=no">
+  <link rel="apple-touch-icon" sizes="640x640" href="/assets/images/favicon.png">
+  <meta http-equiv='expires' content='0'>
+  <script>
+    var apiUrl = "<%=process.env.apiUrl%>"
+    if (typeof navigator.serviceWorker !== 'undefined') {
+      navigator.serviceWorker.register('/pwabuilder-sw.js');
+    }
+  </script>
+</head>
+<div class="cookieNoticeBackground" style="display: none;">
+<div class="cookieNotice loginNotice">
+  <center>
+
+  <div class="warningSymbol">
+    <img src="/assets/svg/cookie.svg"  alt="">
+</div>
+<p class="grayShadowNoOffset">Um dir ein optimales Erlebnis zu bieten, verwenden wir Technologien wie Cookies, um auf Geräteinformationen zuzugreifen. Wenn du diesen Technologien zustimmst, können wir Daten wie das Surfverhalten oder eindeutige IDs auf dieser Website verarbeiten - was wir jedoch nicht tun werden. Wenn du deine Zustimmung nicht erteilst oder zurückziehst, können bestimmte Merkmale und Funktionen beeinträchtigt werden.</p>
+
+<div class="footerText"><a href="/privacy-policy" target="_blank">Datenschutzerklärung</a> · <a href="/impressum" target="_blank">Impressum</a>
+</div> <br>
+</center>
+
+<div id="dismiss-cookie-notice" class="dismiss-cookie-notice buttonDiv button">Akzeptieren</div>
+
+</div>
+</div>
