@@ -46,4 +46,9 @@ exports.login = async (request, response, User) =>{
       })
       .catch(err => console.error(err.message))        
 }
+return response.json({
+  success: false,
+  error: 2,
+  message: "Kein Account wurde gefunden.",
+}); 
 }
