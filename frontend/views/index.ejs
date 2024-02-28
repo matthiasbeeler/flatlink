@@ -60,12 +60,13 @@
         console.log($('form').serializeArray())
         $(".submitButton").addClass('buttonLoading');
         $('.submitButton').attr('onclick', '');
+        setTimeout(() => {
+            
         $.ajax({
             url: '<%=process.env.apiUrl%>/login',
             type: 'POST',
             cache: false,
             crossDomain: true,
-            async: false,
             data: $('form').serializeArray(),
             success: function (data) {
                 console.log(data)
@@ -89,5 +90,7 @@
         alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
     }
         });
+
+    }, 500);
     })
     </script>
