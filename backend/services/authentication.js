@@ -1,5 +1,11 @@
 const validator = require('validator')
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+
+//generates JWT with expiartion of 365 days - returns JWT token containing user-ID
+function generateAccessToken(id) {
+  return jwt.sign({data: id}, process.env.jwtSecret, {expiresIn: '365d'});
+}
 
 exports.login = async (request, response, User) =>{
     if (!request.body.email || !request.body.password) return response.json({ success: false, error: 1 });
@@ -27,8 +33,15 @@ exports.login = async (request, response, User) =>{
     bcrypt
       .compare(password, hash)
       .then(res => {
-        console.log(res) // return true
-  response.json({success: true})
+        if(res === true){
+          return response.json({success: true, token:generateAccessToken(user.dataValues.id)})
+        }else{
+          return response.json({
+            success: false,
+            error: 2,
+            message: "Kein Account wurde gefunden.",
+          }); 
+        }
 
       })
       .catch(err => console.error(err.message))        
