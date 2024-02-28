@@ -25,8 +25,8 @@
                         onchange="$(this).css('border', '1px solid var(--inputBorder)');"
                         oninvalid=" $(this).css('border', '1px solid red');">
                     <div class="spacing8"></div>
-                    <div class="buttonDiv button submitButton">
-                        <div class="buttonText" onclick="$('form').submit()">Log in</div>
+                    <div class="buttonDiv button submitButton" data-onclick="$('form').submit()" onclick="$('form').submit()">
+                        <div class="buttonText">Log in</div>
                         </div>
                     
                 </form>
@@ -59,17 +59,23 @@
         e.preventDefault();
         console.log($('form').serializeArray())
         $(".submitButton").addClass('buttonLoading');
+        $('.submitButton').attr('onclick', '');
         $.ajax({
             url: '<%=process.env.apiUrl%>/login',
             type: 'POST',
             cache: false,
+            crossDomain: true,
+            async: false,
             data: $('form').serializeArray(),
             success: function (data) {
                 console.log(data)
                 if (data.success == true) {
+                    setCookie("flatlinkAuth", data.token)
                     window.location = "/user/";
                 }
                 if (data.success == false) {
+                    $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+
                     $(".submitButton").removeClass('buttonLoading');
 
                     $(".button").show();
@@ -78,6 +84,8 @@
                 }
             },
             error: function(xhr){
+                $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+
         alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
     }
         });

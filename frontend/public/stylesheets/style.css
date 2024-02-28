@@ -56,6 +56,14 @@ body{
   font-size: 14vw;
 }
 
+.topTitle{
+  display: inline-block;
+  width: 76vw;
+  margin-top: 3vw;
+  margin-left: 2vw;
+  font-size: 15vw;
+}
+
 .title{
   font-weight: 900;
 }
@@ -67,7 +75,7 @@ body{
 }
 .foregroundTop{
   background-color: var(--mainBackground);
-  height: 5vh;
+  height: 2.5vh;
   overflow:hidden;
 }
 
@@ -78,6 +86,8 @@ body{
     background-color: var(--mainForeground);
     border-radius: 50%;
 }
+
+
 
 input, select{
   width: 80%;
@@ -136,6 +146,57 @@ select{
     color: var(--mainButtonAndLogo);
   }
 }
+
+
+.message{
+  display: none;
+  font-weight: bold;
+  width: 80%;
+  padding: 3%;
+  margin-left: 7%;
+  background-color: var(--mainForeground);
+  border-radius: 20px;
+  margin-bottom: 5%;
+}
+.orangeShadowNoOffset{
+  box-shadow: 0px 0px 10px #ffa6006d;
+}
+
+.buttonLoading .buttonText{
+  color: transparent !important;
+
+}
+.buttonLoading::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  border: 4px solid transparent;
+  border-top-color: var(--mainBackground);
+  border-radius: 50%;
+  animation: button-loading-spinner 1s ease infinite;
+}
+
+.lightButton.buttonLoading::after {
+  border-top-color: var(--mainButtonAndLogo);
+}
+
+
+@keyframes button-loading-spinner {
+  from {
+      transform: rotate(0turn);
+  }
+
+  to {
+      transform: rotate(1turn);
+  }
+}
+
 .spacing3{
   padding: 1.5%;
   width: 80%;
@@ -218,6 +279,31 @@ border-radius: 20px;
 }
 
 
+/*nav*/
+
+.innerNav{
+  width: 50%;
+  margin-left: 25%;
+  display: flex;
+  align-content: space-between;
+  justify-content: space-around;
+}
+
+.navElement{
+  display: inline-flex;
+  width: 10vw;
+}
+.navElement p{
+  margin-top: 2%;
+  margin-bottom: 2.5%;
+}
+
+.bottomNav{
+  position: fixed;
+  bottom: 0px;
+}
+
+
 @media (min-width: 800px) {
 
   body {
@@ -238,52 +324,3 @@ border-radius: 20px;
 }
 }
 
-
-.message{
-  display: none;
-  font-weight: bold;
-  width: 80%;
-  padding: 3%;
-  margin-left: 7%;
-  background-color: var(--mainForeground);
-  border-radius: 20px;
-  margin-bottom: 5%;
-}
-.orangeShadowNoOffset{
-  box-shadow: 0px 0px 10px #ffa6006d;
-}
-
-.buttonLoading .buttonText{
-  color: transparent !important;
-
-}
-.buttonLoading::after {
-  content: "";
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  border: 4px solid transparent;
-  border-top-color: var(--mainBackground);
-  border-radius: 50%;
-  animation: button-loading-spinner 1s ease infinite;
-}
-
-.lightButton.buttonLoading::after {
-  border-top-color: var(--mainButtonAndLogo);
-}
-
-
-@keyframes button-loading-spinner {
-  from {
-      transform: rotate(0turn);
-  }
-
-  to {
-      transform: rotate(1turn);
-  }
-}
