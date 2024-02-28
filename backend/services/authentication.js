@@ -27,6 +27,7 @@ exports.login = async (request, response, User) =>{
         email: email
     }
   })
+  console.log(user)
   if(user) validateUser(user.dataValues.password, password)
   
   function validateUser(hash, password) {
@@ -46,7 +47,7 @@ exports.login = async (request, response, User) =>{
       })
       .catch(err => console.error(err.message))        
 }
-return response.json({
+if(!user) return response.json({
   success: false,
   error: 2,
   message: "Kein Account wurde gefunden.",
