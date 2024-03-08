@@ -40,7 +40,7 @@
                 <div class="spacing5"></div>
                 <div class="spacing3"></div>
 
-                <div class="buttonDiv button lightButton">
+                <div class="buttonDiv button lightButton" onclick="window.location = '/signup'"> 
                     <div class="buttonText">Sign up</div>
                     </div>
                 <div class="spacing10"></div>
@@ -76,9 +76,7 @@
                 }
                 if (data.success == false) {
                     $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
-
                     $(".submitButton").removeClass('buttonLoading');
-
                     $(".button").show();
                     $('.message').show()
                     $('.message').html(data.message)
