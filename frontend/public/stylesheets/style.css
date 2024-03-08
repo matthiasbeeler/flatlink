@@ -81,8 +81,8 @@ body{
 }
 .foreground{
   width: 100%;
-  position: absolute;
-  bottom: 0%;
+  position: relative;
+  top: 40%;
   background: var(--mainForeground);
 }
 .foregroundTop{
