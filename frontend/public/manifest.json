@@ -1,0 +1,20 @@
+{
+    "background_color": "#ecf0f1",
+    "dir": "ltr",
+    "display": "standalone",
+    "name": "flatlink",
+    "orientation": "any",
+    "scope": "/",
+    "short_name": "flatlink",
+    "start_url": "/",
+    "theme_color": "#ECF0F1",
+    "icons": [
+      {
+        "src": "/assets/images/favicon.png",
+        "type": "image/png",
+        "purpose": "any",
+        "sizes": "507x507"
+      }
+    ],
+    "lang": "de"
+  }
