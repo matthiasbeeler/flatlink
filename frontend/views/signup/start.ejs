@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<%- include('../modules/head', {title:"Signup"}) %>
+
+    <body>
+        <div class="content">
+            <img src="/assets/svg/flatLinkLogo.svg" alt="" class="topCenterLogo">
+            <p class="bigCenterTitle title">
+                Du und flatlink 🤝
+            </p>
+
+            <div class="foreground">
+                <div class="foregroundTop">
+                    <div class="oval"></div>
+                </div>
+                <div class="spacing5"></div>
+
+                <form>
+                    <div class="message orangeShadowNoOffset">
+                    </div>
+                    <input type="text" name="firstName" required placeholder="Dein Vorname"
+                        onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                        oninvalid=" $(this).css('border', '1px solid red');" id="firstName" autocomplete="given-name">
+                    <div class="spacing8">
+
+                    </div>
+                    <input type="email" name="email" required placeholder="Deine eMail"
+                        onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                        oninvalid=" $(this).css('border', '1px solid red');" id="eMail" autocomplete="email">
+                    <div class="spacing5"></div>
+                    <div class="info">
+                        <img src="/assets/svg/info.svg" alt="">
+                        <div class="infoText">
+                            Deine Daten werden während der Registration Dienem Gerät gespeichert und danach gelöscht.
+                        </div>
+                    </div>
+                    <div class="spacing8"></div>
+
+                    <div class="buttonDiv button submitButton" data-onclick="$('form').submit()" onclick="$('form').submit()">
+                        <div class="buttonText">Signup beginnen</div>
+                        </div>
+                    
+                </form>
+               
+                <div class="spacing5"></div>
+                <div class="spacing3"></div>
+
+                <div class="seperator"></div>
+                <div class="spacing5"></div>
+                <div class="spacing3"></div>
+
+                <div class="buttonDiv button lightButton" onclick="window.location = '/'">
+                    <div class="buttonText">Login</div>
+                    </div>
+                <div class="spacing10"></div>
+                <div class="spacing10"></div>
+                <div class="spacing10"></div>
+
+
+            </div>
+        </div>
+        <%- include('../modules/footer') %>
+
+    </body>
+
+    </html>
+
+    <script>
+    $("form").submit(function(e) {
+        e.preventDefault();
+        console.log($('form').serializeArray())
+        $(".submitButton").addClass('buttonLoading');
+        $('.submitButton').attr('onclick', '');
+        setTimeout(() => {
+            localStorage.setItem("signupData", JSON.stringify({
+                firstName: $('#firstName').val(),
+                eMail: $('#eMail').val()
+            }));
+            window.location = '/signup/data'
+        }, 500)
+    })
+    </script>

@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'inter';
+  src: url('/assets/fonts/Inter-VariableFont_slnt,wght.ttf') format('truetype')
+}  
+
 :root{
   --mainButtonAndLogo: #356077;
   --mainText: #444444;
@@ -18,7 +23,7 @@ body{
 }
 
 *{
-  font-family: sans-serif;
+  font-family: inter,sans-serif;
   color: var(--mainText);
   -webkit-transition: all 0.2s ease-out;
   -moz-transition: all 0.2s ease-out;
@@ -67,6 +72,13 @@ body{
 .title{
   font-weight: 900;
 }
+
+.stepTitle{
+  width: 73%;
+  font-size: x-large;
+  text-align: right;
+  font-weight: normal;
+}
 .foreground{
   width: 100%;
   position: absolute;
@@ -87,9 +99,12 @@ body{
     border-radius: 50%;
 }
 
+.selectLabel{
+  font-size: x-large;
+  margin: 0% 0% 1% 7%;
+}
 
-
-input, select{
+input, select, .selectInput{
   width: 80%;
   padding: 3%;
   margin-left: 7%;
@@ -97,6 +112,49 @@ input, select{
   background: var(--inputBackground);
   border-radius: 20px;
   font-size: 140%;
+}
+
+
+.selectInput{
+  overflow: hidden;
+  width: 86%;
+  padding: 0%;
+}
+.selectInput .selectElement{
+  border: 2px solid transparent;
+  width: calc(10% - 4px);
+  padding: 2.5% 0px 2.5% 0px;
+  display: inline-block;
+  text-align: center;
+  margin: 0px;
+  float: left;
+}
+
+.selectInput2 .selectElement{
+  border: 2px solid transparent;
+  width: calc(50% - 4px);
+  padding: 2.5% 0px 2.5% 0px;
+  display: inline-block;
+  text-align: center;
+  margin: 0px;
+  float: left;
+}
+
+.selectInput .selectElement{
+  border-left: 2px solid var(--inputBorder);
+}
+
+.selectInput .selectElement:last-of-type{
+  border-radius: 0px 20px 20px 0px;
+}
+.selectInput .selectElement:first-of-type{
+  border-radius: 20px 0px 0px 20px;
+  border: 2px solid transparent;
+}
+
+.selectElement.selected{
+  border: 2px solid #00BD13 !important;
+  background-color: #EAFFF1 !important;
 }
 
 select{
@@ -163,7 +221,6 @@ select{
 
 .buttonLoading .buttonText{
   color: transparent !important;
-
 }
 .buttonLoading::after {
   content: "";
@@ -196,6 +253,10 @@ select{
   }
 }
 
+.spacing1{
+  padding: 0.5%;
+  width: 80%;
+}
 .spacing3{
   padding: 1.5%;
   width: 80%;
@@ -302,6 +363,38 @@ border-radius: 20px;
   bottom: 0px;
   max-width: 100%;
 }
+
+
+.info{
+  width: 90%;
+  margin-left: 5%;
+}
+
+.info img{
+  vertical-align: middle;
+  width: 10%;
+  display: inline-block;
+}
+.info .infoText{
+  vertical-align: middle;
+  width: 87%;
+  display: inline-block;
+}
+
+.passwordInfo{
+  display: none;
+}
+.passwordInfo p{
+  margin: 5px 0px;
+}
+
+.valid {
+  color: green;
+}
+.invalid {
+  color: red;
+}
+
 
 
 @media (min-width: 800px) {

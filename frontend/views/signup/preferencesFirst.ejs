@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<%- include('../modules/head', {title:"Deine präfernzen"}) %>
+
+    <body>
+        <div class="content">
+          <img src="/assets/svg/flatLinkLogo.svg" alt="" class="topLeftLogo">
+
+          <div class="topTitle title stepTitle">
+              Schritt 3/6
+          </div>
+          <br>
+          <br>
+            <p class="bigCenterTitle title">
+              Wie können wir Dir helfen?
+            </p>
+
+            <div class="foreground">
+                <div class="foregroundTop">
+                    <div class="oval"></div>
+                </div>
+                <div class="spacing5"></div>
+                <form>
+                    <div class="message orangeShadowNoOffset">
+                    </div>
+                    <div class="selectInput selectInput2" onclick="$(this).removeAttr('style');">
+                      <div class="selectElement one" onclick="select(this)">
+                        Ich suche ein Zimmer
+                      </div>
+                      <div class="selectElement two" onclick="select(this)">
+                        Ich habe ein Zimmer
+                      </div>
+                    
+                      <input required type="text" name="type" id="type" required style="display: none;" class="selectField">
+                    </div>
+                   
+                    <div class="spacing8"></div>
+                    <p class="selectLabel" for="selectInput">Wie wichtig ist Dir Sauberkeit?</p>
+                    <div class="spacing1"></div>
+                    <div class="selectInput"  onclick="$(this).removeAttr('style');">
+                      <div class="selectElement one" onclick="select(this)">
+                        1
+                      </div>
+                      <div class="selectElement two" onclick="select(this)">
+                        2
+                      </div>
+                      <div class="selectElement three" onclick="select(this)">
+                        3
+                      </div>
+                      <div class="selectElement four" onclick="select(this)">
+                        4
+                      </div>
+                      <div class="selectElement five" onclick="select(this)">
+                        5
+                      </div>
+                      <div class="selectElement six" onclick="select(this)">
+                        6
+                      </div>
+                      <div class="selectElement seven" onclick="select(this)">
+                        7
+                      </div>
+                      <div class="selectElement eight" onclick="select(this)">
+                        8
+                      </div>
+                      <div class="selectElement nine" onclick="select(this)">
+                        9
+                      </div>
+                      <div class="selectElement ten" onclick="select(this)">
+                        10
+                      </div>
+                      <input required type="text" name="cleanliness" id="cleanliness" style="display: none;" class="selectField">
+                    </div>
+                    <div class="spacing8"></div>
+                    <p class="selectLabel" for="selectInput">Wie wichtig ist Dir eine Ruhige Atmosphäre?</p>
+                    <div class="spacing1"></div>
+                    <div class="selectInput" onclick="$(this).removeAttr('style');">
+                      <div class="selectElement one" onclick="select(this)">
+                        1
+                      </div>
+                      <div class="selectElement two" onclick="select(this)">
+                        2
+                      </div>
+                      <div class="selectElement three" onclick="select(this)">
+                        3
+                      </div>
+                      <div class="selectElement four" onclick="select(this)">
+                        4
+                      </div>
+                      <div class="selectElement five" onclick="select(this)">
+                        5
+                      </div>
+                      <div class="selectElement six" onclick="select(this)">
+                        6
+                      </div>
+                      <div class="selectElement seven" onclick="select(this)">
+                        7
+                      </div>
+                      <div class="selectElement eight" onclick="select(this)">
+                        8
+                      </div>
+                      <div class="selectElement nine" onclick="select(this)">
+                        9
+                      </div>
+                      <div class="selectElement ten" onclick="select(this)">
+                        10
+                      </div>
+                      <input required type="text" name="cleanliness" id="cleanliness" style="display: none;" class="selectField">
+                    </div>
+
+                    
+
+               
+                  <div class="spacing5"></div>
+                  <div class="buttonDiv button submitButton" data-onclick="$('form').submit()" onclick="$('form').submit()">
+                        <div class="buttonText">Weiter</div>
+                        </div>
+                    
+                </form>
+               
+                <div class="spacing10"></div>
+
+                <div class="spacing10"></div>
+                <div class="spacing10"></div>
+
+            </div>
+        </div>
+        <%- include('../modules/footer') %>
+
+    </body>
+
+    </html>
+
+    <script>
+      function select(element){
+        $(element).parents().children().toArray().forEach(el => {
+          $(el).removeClass('selected');
+        });
+        $(element).addClass('selected');
+        $(element).parents().children('.selectField').val( $(element).html())
+      }
+        function passwordWrong() {
+            if(!pattern.test($('#password').val()) | $('#password').val()) $('#message').show();
+            if($('#password').val() !== $('#passwordCheck').val()) $('#messageCheck').show()
+            $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+            $(".submitButton").removeClass('buttonLoading');
+        }
+
+        $("form").submit(function(e) {
+        e.preventDefault();
+        $(".submitButton").addClass('buttonLoading');
+        $('.submitButton').attr('onclick', '');
+        document.querySelectorAll('.selectInput').forEach(element => {
+          console.log($(element).children('input').val());
+          if($(element).children('input').val() =="") {
+            $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+            $(".submitButton").removeClass('buttonLoading');
+            $(element).css('border-color', 'red');
+            return
+          }
+        });
+
+        setTimeout(() => {
+            var data = JSON.parse(localStorage.getItem("signupData"));
+            console.log($('#type').val().replace(/\s+/g, ''), $('#type').val().replace(/\s+/g, '') == "IchhabeeinZimmer")
+            return
+            data.type = $('#type').val().replace(/\s+/g, '');
+            data.phoneCode = $('#phoneCode').val();
+            data.phonenumber = $('#phonenumber').val();
+            data.password = $('#password').val();
+
+            window.location = '/signup/preferences'
+        }, 500)
+    })
+
+    var passwordInput = document.getElementById("password");
+    var passwordCheckInput = document.getElementById("passwordCheck");
+
+var letter = document.getElementById("letter");
+var capital = document.getElementById("capital");
+var number = document.getElementById("number");
+var length = document.getElementById("length");
+
+// When the user clicks on the password field, show the message box
+passwordInput.onfocus = function() {
+  document.getElementById("message").style.display = "block";
+}
+
+// When the user clicks outside of the password field, hide the message box
+passwordInput.onblur = function() {
+  document.getElementById("message").style.display = "none";
+}
+
+// When the user starts to type something inside the password field
+passwordInput.onkeyup = function() {
+  // Validate lowercase letters
+  var lowerCaseLetters = /[a-z]/g;
+  if(passwordInput.value.match(lowerCaseLetters)) {
+    letter.classList.remove("invalid");
+    letter.classList.add("valid");
+  } else {
+    letter.classList.remove("valid");
+    letter.classList.add("invalid");
+}
+
+  // Validate capital letters
+  var upperCaseLetters = /[A-Z]/g;
+  if(passwordInput.value.match(upperCaseLetters)) {
+    capital.classList.remove("invalid");
+    capital.classList.add("valid");
+  } else {
+    capital.classList.remove("valid");
+    capital.classList.add("invalid");
+  }
+
+  // Validate numbers
+  var numbers = /[0-9]/g;
+  if(passwordInput.value.match(numbers)) {
+    number.classList.remove("invalid");
+    number.classList.add("valid");
+  } else {
+    number.classList.remove("valid");
+    number.classList.add("invalid");
+  }
+
+  // Validate length
+  if(passwordInput.value.length >= 8) {
+    length.classList.remove("invalid");
+    length.classList.add("valid");
+  } else {
+    length.classList.remove("valid");
+    length.classList.add("invalid");
+  }
+}
+
+passwordCheckInput.onkeyup = function() {
+    if(passwordCheckInput.value == passwordInput.value) return document.getElementById("messageCheck").style.display = "none";
+    document.getElementById("messageCheck").style.display = "block";
+}
+    </script>
