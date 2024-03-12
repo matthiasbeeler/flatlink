@@ -5,15 +5,9 @@ Get started
 
 File or Folder | Purpose
 ---------|----------
-`javascripts/` | main backend processes go here
-`public/` | your publicly available data goes here -> images, manifests and co.
-`views/` | your .ejs template files go here
-`routes/` | your app-routing go here
-`i18n/` | your translations go here
-`bin/` | main app file is here
-`bin/` | main app file is here
-`app.js` | secondary app file -> links for routing go here
-`package.json` | project metadata and configuration
+`backend/` | main backend processes go here
+`frontend/` | main frontend processes go here
+`package.json` | configuration for running API and frontend
 `readme.md` | this getting started guide
 
 ## Routes
@@ -29,9 +23,21 @@ File or Folder | Purpose
 
 ### Installation
 
-- In your project folder install all the dependecies with `npm install`
-- Open a new terminal and run `npm test`
-- The app should be running on http://localhost:3000/
+- In the main directory, `backend/` and `frontend/` directories install all the dependecies with `npm install` respectively
+- In `backend/` create a `development.env` file and add the following variables
+`dbUserDev=developemtPostgresUsername
+dbPassDev=developemtPostgresPassword
+dbDev=developemtPostgresDatabasename
+dbHostDev=developemtPostgresHostname
+jwtSecret=yourJWTSecret`
+
+- In `frontend/` also create a `development.env` file and add the following variables
+`apiUrl=http://localhost:4000
+appUrl=http://localhost:3000
+jwtSecret=theAboveSpecifiedSecret`
+
+- Open a new terminal and run `npm test` in the main directory
+- The app should be running on http://localhost:3000/ with the API running on http://localhost:4000/
 
 
 ## Learn More
