@@ -7,30 +7,33 @@
             <p class="bigCenterTitle title">
                 Willkommen zu flatlink
             </p>
-            <div class="spacing10"></div>
-            <div class="spacing10"></div>
             <div class="foreground">
                 <div class="foregroundTop">
                     <div class="oval"></div>
                 </div>
-                <form>
+                <form id="mainForm" method="post" action=""> 
                     <div class="message orangeShadowNoOffset">
                     </div>
-                    <input type="email" name="email" required placeholder="eMail"
+                    <input type="email" name="email" placeholder="eMail"
                         onchange="$(this).css('border', '1px solid var(--inputBorder)');"
-                        oninvalid=" $(this).css('border', '1px solid red');">
+                        oninvalid=" $(this).css('border', '1px solid red');" required>
                     <div class="spacing8">
 
                     </div>
                     <input type="password" name="password" required placeholder="Password"
-                        onchange="$(this).css('border', '1px solid var(--inputBorder)');"
-                        oninvalid=" $(this).css('border', '1px solid red');">
-                    <div class="spacing8"></div>
-                    <div class="buttonDiv button submitButton" data-onclick="$('form').submit()" onclick="$('form').submit()">
-                        <div class="buttonText">Log in</div>
-                        </div>
-                    
+                    onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                        oninvalid=" $(this).css('border', '1px solid red');"
+                       >
+                       <div class="spacing8"></div>
+                       <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
+                           <div class="buttonText">Log in</div>
+                           </div>
+                       <input type="submit" id="submitButton" value="submit" style="display: none;">
+
                 </form>
+
+           
+                    
                 <div class="spacing5"></div>
                 <center>
                     <a href="" class="centerLink">Passwort vergessen</a>
@@ -46,6 +49,8 @@
                     </div>
                 <div class="spacing10"></div>
                 <div class="spacing10"></div>
+                <div class="spacing10"></div>
+                <div class="spacing10"></div>
 
             </div>
         </div>
@@ -56,7 +61,7 @@
     </html>
 
     <script>
-    $("form").submit(function(e) {
+    $("#mainForm").submit(function(e) {
         e.preventDefault();
         console.log($('form').serializeArray())
         $(".submitButton").addClass('buttonLoading');
