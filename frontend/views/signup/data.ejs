@@ -15,7 +15,7 @@
             </p>
             <div class="spacing10"></div>
             <div class="spacing10"></div>
-            <div class="spacing10"></div>
+            
 
             <div class="foreground">
                 <div class="foregroundTop">
@@ -61,12 +61,14 @@
                     <h3 class="invalid">Passwörter müssen übereinstimmen</h3>
                   </div>
                   <div class="spacing5"></div>
-                  <div class="buttonDiv button submitButton" data-onclick="$('form').submit()" onclick="$('form').submit()">
-                        <div class="buttonText">Weiter</div>
-                        </div>
+                  <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
+                    <div class="buttonText">Weiter</div>
+                    </div>
+                <input type="submit" id="submitButton" value="submit" style="display: none;">
                     
                 </form>
-               
+                <div class="spacing10"></div>
+
                 <div class="spacing10"></div>
 
                 <div class="spacing10"></div>

@@ -112,9 +112,10 @@
 
                
                   <div class="spacing5"></div>
-                  <div class="buttonDiv button submitButton" data-onclick="$('form').submit()" onclick="$('form').submit()">
-                        <div class="buttonText">Weiter</div>
-                        </div>
+                  <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
+                    <div class="buttonText">Weiter</div>
+                    </div>
+                <input type="submit" id="submitButton" value="submit" style="display: none;">
                     
                 </form>
                
@@ -151,7 +152,6 @@
         $(".submitButton").addClass('buttonLoading');
         $('.submitButton').attr('onclick', '');
         document.querySelectorAll('.selectInput').forEach(element => {
-          console.log($(element).children('input').val());
           if($(element).children('input').val() =="") {
             $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
             $(".submitButton").removeClass('buttonLoading');
@@ -173,68 +173,4 @@
         }, 500)
     })
 
-    var passwordInput = document.getElementById("password");
-    var passwordCheckInput = document.getElementById("passwordCheck");
-
-var letter = document.getElementById("letter");
-var capital = document.getElementById("capital");
-var number = document.getElementById("number");
-var length = document.getElementById("length");
-
-// When the user clicks on the password field, show the message box
-passwordInput.onfocus = function() {
-  document.getElementById("message").style.display = "block";
-}
-
-// When the user clicks outside of the password field, hide the message box
-passwordInput.onblur = function() {
-  document.getElementById("message").style.display = "none";
-}
-
-// When the user starts to type something inside the password field
-passwordInput.onkeyup = function() {
-  // Validate lowercase letters
-  var lowerCaseLetters = /[a-z]/g;
-  if(passwordInput.value.match(lowerCaseLetters)) {
-    letter.classList.remove("invalid");
-    letter.classList.add("valid");
-  } else {
-    letter.classList.remove("valid");
-    letter.classList.add("invalid");
-}
-
-  // Validate capital letters
-  var upperCaseLetters = /[A-Z]/g;
-  if(passwordInput.value.match(upperCaseLetters)) {
-    capital.classList.remove("invalid");
-    capital.classList.add("valid");
-  } else {
-    capital.classList.remove("valid");
-    capital.classList.add("invalid");
-  }
-
-  // Validate numbers
-  var numbers = /[0-9]/g;
-  if(passwordInput.value.match(numbers)) {
-    number.classList.remove("invalid");
-    number.classList.add("valid");
-  } else {
-    number.classList.remove("valid");
-    number.classList.add("invalid");
-  }
-
-  // Validate length
-  if(passwordInput.value.length >= 8) {
-    length.classList.remove("invalid");
-    length.classList.add("valid");
-  } else {
-    length.classList.remove("valid");
-    length.classList.add("invalid");
-  }
-}
-
-passwordCheckInput.onkeyup = function() {
-    if(passwordCheckInput.value == passwordInput.value) return document.getElementById("messageCheck").style.display = "none";
-    document.getElementById("messageCheck").style.display = "block";
-}
     </script>
