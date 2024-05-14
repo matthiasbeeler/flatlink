@@ -1,7 +1,9 @@
-<div class="footer">
+<div class="footer" <%if(hide == true){%>style="display:none;"<%}%>>
     <div class="footerText"><a href="/privacy-policy" target="_blank">Datenschutzerklärung</a>
     </div>
     <div class="footerText"><a href="/impressum" target="_blank">Impressum</a>
+    </div>
+    <div class="footerText" onclick="window.location.reload();"><a href="" target="">Reload</a>
     </div>
     <center>
         <div class="footerText">&copy; <a href="https://nyv.ch" target="_blank">nyv</a> 2024
@@ -21,4 +23,16 @@
      // Hide the cookie notice
      document.querySelector('.cookieNoticeBackground').style.display = 'none';
    });
+  if(document.querySelector('.foreground')){
+var minHeight = <%=minHeight%>;
+if(document.querySelector('.foreground').clientHeight / window.innerHeight < 1-minHeight){
+document.querySelector('.foreground').style.height = window.innerHeight*(1-minHeight)+"px";
+}
+
+
+if(document.querySelector(".foreground").offsetTop / window.innerHeight*0.5 < minHeight){
+document.querySelector('.foreground').style.marginTop = window.innerHeight*minHeight-document.querySelector(".foreground").offsetTop+"px";
+}
+
+}
      </script>

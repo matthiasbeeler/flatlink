@@ -30,7 +30,16 @@
                     <div class="info">
                         <img src="/assets/svg/info.svg" alt="">
                         <div class="infoText">
+                            
                             Deine Daten werden während der Registration auf Deinem Gerät gespeichert und danach gelöscht.
+                        </div>
+                    </div>
+                    <div class="spacing5"></div>
+                    <div class="info">
+                        <img src="/assets/svg/time.svg" alt="">
+                        <div class="infoText">
+                            
+                            Die Registration dauert etwa 5 Minuten. Sie muss an einem Stück durchgeführt werden.
                         </div>
                     </div>
                     <div class="spacing8"></div>
@@ -51,14 +60,10 @@
                 <div class="buttonDiv button lightButton" onclick="window.location = '/'">
                     <div class="buttonText">Login</div>
                     </div>
-                <div class="spacing10"></div>
-                <div class="spacing10"></div>
-                <div class="spacing10"></div>
-
-
+                    <div class="spacing8"></div>
             </div>
         </div>
-        <%- include('../modules/footer') %>
+        <%- include('../modules/footer',{ minHeight: 0.45, hide: false}) %>
 
     </body>
 

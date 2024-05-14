@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<%- include('../../modules/head', {title:"Das Profil"}) %>
+
+  <body>
+    <div class="content">
+      <img src="/assets/svg/flatLinkLogo.svg" alt="" class="topLeftLogo">
+
+      <div class="topTitle title stepTitle">
+        Schritt 8/8
+      </div>
+      <br>
+      <br>
+      <p class="bigCenterTitle title">
+        Das Profil
+      </p>
+
+      <div class="foreground">
+        <div class="foregroundTop">
+          <div class="oval"></div>
+        </div>
+        <div class="spacing5 hideError"></div>
+        <div class="loadingScreen" style="display: none;">
+          <div class="spacing5 hideError"></div>
+          <div class="lds-ripple hideSuccess hideError">
+            <div></div>
+            <div></div>
+          </div>
+          <div class="spacing10 hideError"></div>
+          <div class="spacing10 hideError"></div>
+
+          <div class="spacing5"></div>
+          <div class="infoTextFree hideSuccess hideError">
+            Wir sind in der Aufbauphase. Gerne erhalten wir Feedback zu Präferenzen, die Dir wichtig sind.
+          </div>
+          <div class="spacing5"></div>
+          <img src="/assets/svg/feedbackForm.svg" alt="" class="hideError hideSuccess feedbackForm">
+          <div class=" message errorMessage redShadowNoOffset">
+          </div>
+          <div class="spacing10"></div>
+
+          <div class="buttonDiv showSuccess button" style="display: none;" onclick="window.location = '/user'">
+            <div class="buttonText">Entdecke flatlink</div>
+          </div>
+
+          <div class="spacing10 hideError"></div>
+          <div class="spacing10 hideError"></div>
+          <div class="spacing10 hideError"></div>
+          <div class="spacing10 hideError"></div>
+
+        </div>
+        <form>
+          <p class="selectLabel" for="imageUploadSingle">Fotos</p>
+
+          <div class="imageUploadSingle" id="imageUploadSingle" onclick="$('#file').click()">
+            <p>Drücke hier um Fotos der WG hochzuladen</p><img style="display: none;" id="fileDisplay" src="" alt="">
+          </div>
+          <div class="spacing8"></div>
+          <div class="output"></div>
+          <input required type="file" multiple accept="image/jpeg, image/png, image/jpg" name="file"
+            style="display: none;" id="file">
+
+          <style>
+            .output {
+              display: none;
+              padding-top: 5%;
+              width: 90%;
+              max-width: 90%;
+              height: 30vh;
+              position: relative;
+              border-radius: 5px;
+              margin-left: 5%;
+              overflow-x: scroll;
+              overflow-y: hidden;
+              white-space: nowrap;
+            }
+
+            .output .image {
+              white-space: nowrap;
+              display: inline-block;
+              height: 100%;
+              width: max-content;
+              border-radius: 10px;
+              position: relative;
+              margin-right: 15px;
+            }
+
+            .output .image img {
+              height: 100%;
+              width: 100%;
+              border-radius: 10px;
+            }
+
+            .output .image span {
+              position: absolute;
+              top: -10px;
+              right: -10px;
+              cursor: pointer;
+              font-size: 40px;
+              color: white;
+              border-radius: 10px;
+              aspect-ratio: 1/1;
+              width: 9vw;
+            }
+
+            .output .image span img {
+              width: 100%;
+            }
+
+            .output .image span:hover {
+              opacity: 0.8;
+            }
+
+            .output .span--hidden {
+              visibility: hidden;
+            }
+          </style>
+
+          <div class="spacing8"></div>
+          <p class="selectLabel" for="selectInput">Was sind euere Geschlechter?</p>
+          <div class="spacing1"></div>
+          <div style="border-radius: 20px 20px 0px 0px;" class="selectInput selectInput3 selectInput3Gender">
+            <div class="selectElement one"
+              onclick="if(Number($('.noneCounter').html())<=0)return; $('.noneCounter').html(Number($('.noneCounter').html())-1)"
+              data-val="">
+              -1
+            </div>
+            <div id="noneGender" class="selectElement two noneCounter" data-val="">
+              0
+            </div>
+            <div class="selectElement three" onclick="$('.noneCounter').html(Number($('.noneCounter').html())+1)"
+              data-val="">
+              <img class="imgSize" src="/assets/svg/none.svg" alt="">
+            </div>
+          </div>
+          <div style="border-radius: 0px;" class="selectInput selectInput3 selectInput3Gender">
+            <div class="selectElement one"
+              onclick="if(Number($('.maleCounter').html())<=0)return; $('.maleCounter').html(Number($('.maleCounter').html())-1)"
+              data-val="">
+              -1
+            </div>
+            <div id="maleGender" class="selectElement two maleCounter" data-val="">
+              0
+            </div>
+            <div class="selectElement three" onclick="$('.maleCounter').html(Number($('.maleCounter').html())+1)"
+              data-val="">
+              <img class="imgSize" src="/assets/svg/male.svg" alt="">
+            </div>
+          </div>
+          <div style="border-radius: 0px;" class="selectInput selectInput3 selectInput3Gender">
+            <div class="selectElement one"
+              onclick="if(Number($('.femaleCounter').html())<=0)return; $('.femaleCounter').html(Number($('.femaleCounter').html())-1)"
+              data-val="">
+              -1
+            </div>
+            <div id="femaleGender" class="selectElement two femaleCounter" data-val="">
+              0
+            </div>
+            <div class="selectElement three" onclick="$('.femaleCounter').html(Number($('.femaleCounter').html())+1)"
+              data-val="">
+              <img class="imgSize" src="/assets/svg/femaleSmall.svg" alt="">
+            </div>
+          </div>
+          <div style="border-radius: 0px 0px 20px 20px;" class="selectInput selectInput3 selectInput3Gender">
+            <div class="selectElement one"
+              onclick="if(Number($('.intersexCounter').html())<=0)return; $('.intersexCounter').html(Number($('.intersexCounter').html())-1)"
+              data-val="">
+              -1
+            </div>
+            <div id="intersexGender" class="selectElement two intersexCounter" data-val="">
+              0
+            </div>
+            <div class="selectElement three"
+              onclick="$('.intersexCounter').html(Number($('.intersexCounter').html())+1)" data-val="">
+              <img class="imgSize" src="/assets/svg/intersex.svg" alt="">
+            </div>
+          </div>
+          <div class="spacing8"></div>
+
+
+
+
+          <p class="selectLabel" for="selectInput">Habt ihr Essensgewohnheiten?</p>
+          <div class="spacing1"></div>
+          <div class="selectInput selectInput3" onclick="$(this).removeAttr('style');">
+            <div class="selectElement one" onclick="select(this)" data-val="none">
+              <img src="/assets/svg/none.svg" class="maxImgSize" alt="">
+            </div>
+            <div class="selectElement two" onclick="select(this)" data-val="vegan">
+              <img class="imgSize" src="/assets/images/vegan.png" alt="">
+            </div>
+            <div class="selectElement three" onclick="select(this)" data-val="vegetarian">
+              <img class="imgSize" src="/assets/images/vegetarisch.png" alt="">
+            </div>
+
+
+            <input required type="text" name="food" id="food" required style="display: none;" class="selectField">
+          </div>
+          <div class="spacing8"></div>
+
+          <p class="selectLabel" for="selectInput">Erzähle etwas über euch</p>
+          <div class="spacing1"></div>
+          <textarea required name="description" placeholder="Hobbies, Vorlieben usw." id="description" cols="30"
+            rows="8"></textarea>
+
+
+
+
+          <div class="spacing5"></div>
+          <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()"
+            onclick="$('#submitButton').click();">
+            <div class="buttonText">Weiter</div>
+          </div>
+          <input type="submit" id="submitButton" value="submit" style="display: none;">
+          <div class="spacing5"></div>
+        </form>
+
+
+      </div>
+    </div>
+    <%- include('../../modules/footer',{ minHeight: 0.3, hide: true}) %>
+
+  </body>
+
+  </html>
+
+  <script>
+
+
+
+    document.querySelectorAll('.selectInput3Gender .imgSize').forEach(element => {
+      element.height = document.querySelector('.selectInput3Gender .imgSize').clientHeight;
+    });
+
+    const output = document.querySelector(".output")
+    const input = document.querySelector("#file")
+    let imagesArray = []
+    function displayImages() {
+      output.style.display = "block"
+
+      let images = ""
+      imagesArray.forEach((image, index) => {
+        images += `<div class="image">
+    <img src="${URL.createObjectURL(image)}" alt="image">
+    <span onclick="deleteImage(${index})"><img src="/assets/svg/close.svg"></span>
+  </div>`
+        output.innerHTML = images
+
+      })
+    }
+    function deleteImage(index) {
+      imagesArray.splice(index, 1)
+      displayImages()
+    }
+    input.addEventListener("change", () => {
+      const files = input.files
+      for (let i = 0; i < files.length; i++) {
+        imagesArray.push(files[i])
+      }
+      displayImages()
+
+    })
+
+
+
+
+
+    function select(element) {
+      $(element).parents().children().toArray().forEach(el => {
+        $(el).removeClass('selected');
+      });
+      $(element).addClass('selected');
+      if ($(element).parents().hasClass('selectInput3')) return $(element).parents().children('.selectField').val($(element).data('val'))
+      if ($(element).parents().hasClass('selectInput4')) return $(element).parents().children('.selectField').val($(element).data('val'))
+
+      $(element).parents().children('.selectField').val($(element).html())
+    }
+    function passwordWrong() {
+      if (!pattern.test($('#password').val()) | $('#password').val()) $('#message').show();
+      if ($('#password').val() !== $('#passwordCheck').val()) $('#messageCheck').show()
+      $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+      $(".submitButton").removeClass('buttonLoading');
+    }
+
+    $("form").submit(function (e) {
+      e.preventDefault();
+      $(".submitButton").addClass('buttonLoading');
+      $('.submitButton').attr('onclick', '');
+      document.querySelectorAll('.selectInput').forEach(element => {
+        if ($(element).children('input').val() == "") {
+          $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+          $(".submitButton").removeClass('buttonLoading');
+          $(element).css('border-color', 'red');
+          return
+        }
+      });
+      $('form, .errorMessage').hide()
+      $('.bigCenterTitle').html("s'isch am lade")
+      $('.loadingScreen, .hideError').show()
+
+      setTimeout(() => {
+        var data = JSON.parse(localStorage.getItem("signupData"));
+        data.gender = $('#gender').val();
+        data.food = $('#food').val();
+        data.intersexFlatmates = Number($('.intersexCounter').val());
+        data.maleFlatmates = Number($('.maleCounter').val())
+        data.femaleFlatmates = Number($('.femaleCounter').val())
+        data.noneFlatmates = Number($('.noneCounter').val())
+        data.description = $('#description').val();
+        localStorage.setItem("signupData", JSON.stringify(data));
+
+
+        try {
+          let formData = new FormData();
+
+ var imageCount = 0;
+          formData.append('data', localStorage.getItem("signupData"));
+          $('input[type="file"]').each(function(index, input) {
+    // Check if the input has files selected and image count is less than five
+    if (input.files.length > 0 && imageCount < 10) {
+      // Iterate over selected files and append them to FormData
+      for (let i = 0; i < input.files.length; i++) {
+        formData.append('images[]', input.files[i]);
+        imageCount++;
+      }
+    }
+  });
+          console.log(formData.get("images[]"))
+          $.ajax({
+            url: '<%=process.env.apiUrl%>/accountService/signup/',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            async: true,
+            cache: false,
+            data: formData,
+            crossDomain: true,
+            success: function (data, status, xhr) {
+              console.log(data)
+              if (data) {
+
+                setTimeout(() => {
+                  if (data.success == true) {
+                    setCookie("flatlinkAuth", data.token)
+                    if (data.message == "trueFalse") {
+                      //success with validation errors
+                      errors = [];
+                      var submitData = JSON.parse(localStorage.getItem("signupData"));
+                      var errorTable = {
+                        "cleanliness": "Sauberkeit",
+                        "gender": "Geschlechterpräferenz",
+                        "quietness": "Ruhige Atmosphäre",
+                        "accessibility": "Barrierefreiheit",
+                        "flatmates": "Mitbewohner",
+                        "roomSize": "Zimmergrösse",
+                        "flatSize": "Wohnungsgrösse",
+                        "balcony": "Balkon",
+                        "internet": "Internet",
+                        "washer": "Waschmaschine",
+                        "location": "Standort",
+                        "connections": "Anbindungen",
+                        "budget": "Budget",
+                        "food": "Essensgewohnheiten"
+                      }
+                      var errorList = ""
+                      data.errors.forEach(element => {
+                        errorList = errorList + `<li><strong>${errorTable[element]} (Deine Angabe: ${submitData[element]})</strong></li>`
+                      });
+                      $('.errorMessage').show()
+                      $('.message').html(`
+                  <div class="messageTitle title">
+                  Fehler
+                  </div>
+                  Bei der Registration gab es leider folgende Validierungsfehler:<br><br>
+                  ${errorList}<br><br>
+                  Es wurden Mittelwerte eingetragen und wir bitten Dich diese in Deinen Präferenzen anzupassen.`
+                      );
+                      $('.hideError').hide()
+                    }
+                    localStorage.removeItem("signupData")
+                    $('.hideSuccess').hide()
+                    $('.bigCenterTitle').html("Willkommen!")
+                    $('.showSuccess').show()
+                  }
+
+                  if (data.success == false) {
+                    $('.bigCenterTitle').html('Hoppla')
+                    $('.errorMessage').show()
+                    $('.message').html(`
+                  <div class="messageTitle title">
+                  Fehler
+                  </div>
+                  Folgender Fehler kam vom Server zurück:<br><br>
+                  <strong>${data.error}</strong><br><br>
+                  Bitte versuch's später nochmals.`
+                    );
+                    $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+                    $(".submitButton").removeClass('buttonLoading');
+                    $(".submitButton").show();
+                    $('.message').show()
+                    $('.message').html(data.message)
+                    $('.hideError').hide()
+                    $('form').show()
+                  }
+
+
+                }, 3000);
+              }
+
+
+            },
+            error: function (jqXHR, textStatus, err) {
+              $(".content").css("opacity", "1");
+
+
+
+
+              $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+              $(".submitButton").removeClass('buttonLoading');
+              $(".submitButton").show();
+              $('.message').show()
+              $('.message').html(data.message)
+            }
+
+          });
+
+
+        } catch (error) {
+          $(".content").css("opacity", "1");
+          console.log(error)
+          $('.errorMessage').show()
+          $('.fileInput').show()
+          $('.errorMessage .messageText').html("An error occerd whilst communication with our server.")
+          $(".submit").val("Submit")
+          $('.submit').prop('disabled', false);
+        }
+
+      }, 500)
+    })
+
+
+  </script>

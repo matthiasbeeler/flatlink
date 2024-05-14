@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<%- include('../modules/head', {title:"Deine Präfernzen"}) %>
+
+    <body>
+        <div class="content">
+          <img src="/assets/svg/flatLinkLogo.svg" alt="" class="topLeftLogo">
+
+          <div class="topTitle title stepTitle">
+              Schritt 3/-
+          </div>
+          <br>
+          <br>
+            <p class="bigCenterTitle title">
+              Was suchst Du?🧐
+            </p>
+
+
+            <div class="foreground">
+                <div class="foregroundTop">
+                    <div class="oval"></div>
+                </div>
+                <div class="spacing5"></div>
+                <form>
+                    <div class="message orangeShadowNoOffset">
+                    </div>
+                    <div class="selectInput selectInput2" onclick="$(this).removeAttr('style');">
+                      <div class="selectElement one" onclick="select(this)">
+                        Ich suche ein Zimmer
+                      </div>
+                      <div class="selectElement two" onclick="select(this)">
+                        Ich habe ein Zimmer
+                      </div>
+                    
+                      <input required type="text" name="type" id="type" required style="display: none;" class="selectField">
+                    </div>
+                   
+                    <div class="spacing10"></div>
+                    
+                    <div class="info">
+                      <img src="/assets/svg/info.svg" alt="">
+                      <div class="infoText">
+                        Du kannst Deine Präferenzen jederzeit in Deinem Profil Verwalten.
+                      </div>
+                  </div>
+
+               
+                  <div class="spacing10"></div>
+                  <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
+                    <div class="buttonText">Weiter</div>
+                    </div>
+                <input type="submit" id="submitButton" value="submit" style="display: none;">
+                    
+                </form>
+               
+
+            </div>
+        </div>
+        <%- include('../modules/footer',{ minHeight: 0.45, hide: true}) %>
+
+    </body>
+
+    </html>
+
+    <script>
+      function select(element){
+        $(element).parents().children().toArray().forEach(el => {
+          $(el).removeClass('selected');
+        });
+        $(element).addClass('selected');
+        $(element).parents().children('.selectField').val( $(element).html())
+      }
+        function passwordWrong() {
+            if(!pattern.test($('#password').val()) | $('#password').val()) $('#message').show();
+            if($('#password').val() !== $('#passwordCheck').val()) $('#messageCheck').show()
+            $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+            $(".submitButton").removeClass('buttonLoading');
+        }
+
+        $("form").submit(function(e) {
+        e.preventDefault();
+        $(".submitButton").addClass('buttonLoading');
+        $('.submitButton').attr('onclick', '');
+        document.querySelectorAll('.selectInput').forEach(element => {
+          if($(element).children('input').val() =="") {
+            $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+            $(".submitButton").removeClass('buttonLoading');
+            $(element).css('border-color', 'red');
+            return
+          }
+        });
+
+        setTimeout(() => {
+            var data = JSON.parse(localStorage.getItem("signupData"));
+            data.type = $('#type').val().replace(/\s+/g, '');
+            localStorage.setItem("signupData", JSON.stringify(data));
+            if(data.type == "IchhabeeinZimmer") return window.location = "/signup/preferences/provider/"
+            if(data.type == "IchsucheeinZimmer") return window.location = "/signup/preferences/person/"
+        }, 500)
+    })
+
+    </script>

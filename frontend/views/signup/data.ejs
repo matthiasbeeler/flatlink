@@ -6,13 +6,15 @@
             <img src="/assets/svg/flatLinkLogo.svg" alt="" class="topLeftLogo">
 
             <div class="topTitle title stepTitle">
-                Schritt 2/6
+                Schritt 2/-
             </div>  
             <br>
             <br>
-            <p class="bigCenterTitle title">
-                Deine Daten
+            <p id="nameTitle" class="bigCenterTitle title">
             </p>
+            <script defer>
+              $('#nameTitle').html("Hallo " + JSON.parse(localStorage.getItem("signupData")).firstName)
+            </script>
             <div class="spacing10"></div>
             <div class="spacing10"></div>
             
@@ -30,12 +32,11 @@
                         oninvalid=" $(this).css('border', '1px solid red');" id="lastName" autocomplete="family-name">
                     <div class="spacing8"></div>
                     <select id="phoneCode" class="phoneSelect" name="select" id="" onchange="$(this).css('border', '1px solid var(--inputBorder)');"
-                    oninvalid=" $(this).css('border', '1px solid red');" autocomplete="tel-country-code">
-                        <option value="Select"  selected>+41 Switzerland</option>
-                        <option value="option1">+41 Switzerland</option>
+                    oninvalid=" $(this).css('border', '1px solid red');" disabled autocomplete="tel-country-code">
+                        <option value="+41">+41 </option>
                     </select>
                     <input type="tel" class="phoneInput" required placeholder="Deine Telefonnummer"
-                    onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                    onchange="$(this).css('border', '1px solid var(--inputBorder)');" onkeyup="this.value = this.value.replace(/[^0-9-]/g, '');"
                     oninvalid=" $(this).css('border', '1px solid red');" id="phonenumber" autocomplete="tel">
                     <div class="spacing8"></div>
 
@@ -61,28 +62,34 @@
                     <h3 class="invalid">Passwörter müssen übereinstimmen</h3>
                   </div>
                   <div class="spacing5"></div>
+                  
                   <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
                     <div class="buttonText">Weiter</div>
                     </div>
                 <input type="submit" id="submitButton" value="submit" style="display: none;">
                     
                 </form>
-                <div class="spacing10"></div>
-
-                <div class="spacing10"></div>
-
-                <div class="spacing10"></div>
-                <div class="spacing10"></div>
 
             </div>
         </div>
-        <%- include('../modules/footer') %>
+        <%- include('../modules/footer',{ minHeight: 0.3, hide: true}) %>
 
     </body>
 
     </html>
 
     <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      if(urlParams.get('error')) {
+        var data = JSON.parse(localStorage.getItem("signupData"));
+        console.log(data.lastName)
+        $('#lastName').val(data.lastName)
+        $('#phoneCode').val(data.phoneCode);
+        $('#phonenumber').val(data.phonenumber);
+        $('#phonenumber').val(data.phonenumber);
+        $('.message').show()
+        $('.message').html('Es ist ein Fehler aufgetreten. Bitte überprüfe Deine Eingaben.')
+      }
         function passwordWrong() {
             if(!pattern.test($('#password').val()) | $('#password').val()) $('#message').show();
             if($('#password').val() !== $('#passwordCheck').val()) $('#messageCheck').show()
@@ -103,8 +110,10 @@
             data.phoneCode = $('#phoneCode').val();
             data.phonenumber = $('#phonenumber').val();
             data.password = $('#password').val();
-
-            window.location = '/signup/preferences/first'
+            localStorage.setItem("signupData", JSON.stringify(data));
+            
+            if(urlParams.get('error')) return window.location = '/signup/preferences/person/profile'
+            return window.location = '/signup/preferences/typeOption'
         }, 500)
     })
 

@@ -47,14 +47,10 @@
                 <div class="buttonDiv button lightButton" onclick="window.location = '/signup'"> 
                     <div class="buttonText">Sign up</div>
                     </div>
-                <div class="spacing10"></div>
-                <div class="spacing10"></div>
-                <div class="spacing10"></div>
-                <div class="spacing10"></div>
 
             </div>
         </div>
-        <%- include('./modules/footer') %>
+        <%- include('./modules/footer', { minHeight: 0.5, hide: false}) %>
 
     </body>
 
@@ -63,13 +59,12 @@
     <script>
     $("#mainForm").submit(function(e) {
         e.preventDefault();
-        console.log($('form').serializeArray())
         $(".submitButton").addClass('buttonLoading');
         $('.submitButton').attr('onclick', '');
         setTimeout(() => {
             
         $.ajax({
-            url: '<%=process.env.apiUrl%>/login',
+            url: '<%=process.env.apiUrl%>/accountService/login',
             type: 'POST',
             cache: false,
             crossDomain: true,

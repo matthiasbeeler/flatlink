@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<%- include('../../modules/head', {title:"Deine WG"}) %>
+
+    <body>
+        <div class="content">
+          <img src="/assets/svg/flatLinkLogo.svg" alt="" class="topLeftLogo">
+
+          <div class="topTitle title stepTitle">
+              Schritt 7/8
+          </div>
+          <br>
+          <br>
+            <p class="bigCenterTitle title">
+             Deine WG
+            </p>
+
+            <div class="foreground">
+                <div class="foregroundTop">
+                    <div class="oval"></div>
+                </div>
+                <div class="spacing5"></div>
+                <form>
+                    <div class="message orangeShadowNoOffset">
+                    </div>
+                    <p class="selectLabel" for="selectInput">Was ist eure Adresse?</p>
+                    <div class="spacing1"></div>
+                    <input type="text" name="street" required placeholder="Strasse und Nr."
+                    onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                    oninvalid=" $(this).css('border', '1px solid red');" id="street" autocomplete="">
+                    <div class="spacing5"></div>
+                    <input type="number" name="zip" required placeholder="Postleitzahl"
+                    onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                    oninvalid=" $(this).css('border', '1px solid red');" id="plz" autocomplete="" class="zip">
+                    <input type="text" name="place" required placeholder="Ort"
+                    onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                    oninvalid=" $(this).css('border', '1px solid red');" id="place" autocomplete="" class="place">
+                    <div class="spacing8"></div>
+                    <p class="selectLabel" for="selectInput">Wie viel kostet das Zimmer pro Monat (CHF)?</p>
+                    <div class="spacing1"></div>
+                    <input type="number" name="price" required placeholder="Preis"
+                    onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                    oninvalid=" $(this).css('border', '1px solid red');" id="price" autocomplete="">
+                   
+
+                    <div class="spacing8"></div>
+                    
+               
+                  <div class="spacing5"></div>
+                  <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
+                    <div class="buttonText">Weiter</div>
+                    </div>
+                <input type="submit" id="submitButton" value="submit" style="display: none;">
+                    <div class="spacing5"></div>
+                </form>
+               
+
+            </div>
+        </div>
+        <%- include('../../modules/footer',{ minHeight: 0.35, hide: true}) %>
+
+    </body>
+
+    </html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+
+    <script>
+
+
+
+      function select(element){
+        $(element).parents().children().toArray().forEach(el => {
+          $(el).removeClass('selected');
+        });
+        $(element).addClass('selected');
+        if($(element).parents().hasClass('selectInput3')) return $(element).parents().children('.selectField').val( $(element).data('val'))
+        if($(element).parents().hasClass('selectInput4')) return $(element).parents().children('.selectField').val( $(element).data('val'))
+
+        $(element).parents().children('.selectField').val( $(element).html())
+      }
+        function passwordWrong() {
+            if(!pattern.test($('#password').val()) | $('#password').val()) $('#message').show();
+            if($('#password').val() !== $('#passwordCheck').val()) $('#messageCheck').show()
+            $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+            $(".submitButton").removeClass('buttonLoading');
+        }
+
+        $("form").submit(function(e) {
+        e.preventDefault();
+        console.log($('#location').val())
+        $(".submitButton").addClass('buttonLoading');
+        $('.submitButton').attr('onclick', '');
+        document.querySelectorAll('.selectInput').forEach(element => {
+          if($(element).children('input').val() =="") {
+            $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+            $(".submitButton").removeClass('buttonLoading');
+            $(element).css('border-color', 'red');
+            return
+          }
+        });
+
+        setTimeout(() => {
+            var data = JSON.parse(localStorage.getItem("signupData"));
+            data.plz = $('#plz').val();
+            data.street = $('#street').val();
+            data.price = $('#price').val();
+            data.place = $('#place').val();
+            localStorage.setItem("signupData", JSON.stringify(data));
+            window.location = '/signup/preferences/provider/profile'
+        }, 500)
+    })
+
+    </script>

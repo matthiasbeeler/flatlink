@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<%- include('../../modules/head', {title:"Deine WG"}) %>
+
+    <body>
+        <div class="content">
+          <img src="/assets/svg/flatLinkLogo.svg" alt="" class="topLeftLogo">
+
+          <div class="topTitle title stepTitle">
+              Schritt 5/8
+          </div>
+          <br>
+          <br>
+            <p class="bigCenterTitle title">
+             Deine WG
+            </p>
+
+            <div class="foreground">
+                <div class="foregroundTop">
+                    <div class="oval"></div>
+                </div>
+                <div class="spacing5"></div>
+                <form>
+                    <div class="message orangeShadowNoOffset">
+                    </div>
+                    <p class="selectLabel" for="selectInput">Wie Barrierefrei ist euere WG?</p>
+                    <div class="spacing1"></div>
+                    <div class="selectInput"  onclick="$(this).removeAttr('style');">
+                      <div class="selectElement one" onclick="select(this)">
+                        1
+                      </div>
+                      <div class="selectElement two" onclick="select(this)">
+                        2
+                      </div>
+                      <div class="selectElement three" onclick="select(this)">
+                        3
+                      </div>
+                      <div class="selectElement four" onclick="select(this)">
+                        4
+                      </div>
+                      <div class="selectElement five" onclick="select(this)">
+                        5
+                      </div>
+                      <div class="selectElement six" onclick="select(this)">
+                        6
+                      </div>
+                      <div class="selectElement seven" onclick="select(this)">
+                        7
+                      </div>
+                      <div class="selectElement eight" onclick="select(this)">
+                        8
+                      </div>
+                      <div class="selectElement nine" onclick="select(this)">
+                        9
+                      </div>
+                      <div class="selectElement ten" onclick="select(this)">
+                        10
+                      </div>
+                      <input required type="text" name="accessibility" id="accessibility" style="display: none;" class="selectField">
+                    </div>
+                    <label for="cleanliness"><div class="left">Gar nicht</div><div class="right">Sehr</div></label>
+                    <div class="spacing5"></div>
+                    <div class="spacing8"></div>
+
+                    <p class="selectLabel" for="selectInput">Wie viele Mitbewohner:innen habt ihr?</p>
+                    <div class="spacing1"></div>
+                    <div class="selectInput"  onclick="$(this).removeAttr('style');">
+                      <div class="selectElement one" onclick="select(this)">
+                        1
+                      </div>
+                      <div class="selectElement two" onclick="select(this)">
+                        2
+                      </div>
+                      <div class="selectElement three" onclick="select(this)">
+                        3
+                      </div>
+                      <div class="selectElement four" onclick="select(this)">
+                        4
+                      </div>
+                      <div class="selectElement five" onclick="select(this)">
+                        5
+                      </div>
+                      <div class="selectElement six" onclick="select(this)">
+                        6
+                      </div>
+                      <div class="selectElement seven" onclick="select(this)">
+                        7
+                      </div>
+                      <div class="selectElement eight" onclick="select(this)">
+                        8
+                      </div>
+                      <div class="selectElement nine" onclick="select(this)">
+                        9
+                      </div>
+                      <div class="selectElement ten" onclick="select(this)">
+                        10
+                      </div>
+                      <input required type="text" name="flatmates" id="flatmates" style="display: none;" class="selectField">
+                    </div>
+                    <div class="spacing8"></div>
+                    <p class="selectLabel" for="selectInput">Wie gross ist das angebotene Zimmer (Quadratmeter)?</p>
+                    <div class="spacing1"></div>
+                    <input type="number" name="roomSize" required placeholder="z.B. 15"
+                    onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                    oninvalid=" $(this).css('border', '1px solid red');" id="roomSize" autocomplete="">
+                   
+
+                    <div class="spacing8"></div>
+                    <p class="selectLabel" for="selectInput">Wie gross ist euere Wohnung (Quadratmeter)?</p>
+                    <div class="spacing1"></div>
+                    <input type="number" name="flatSize" required placeholder="z.B. 95"
+                    onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                    oninvalid=" $(this).css('border', '1px solid red');" id="flatSize" autocomplete="">
+
+               
+                  <div class="spacing5"></div>
+                  <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
+                    <div class="buttonText">Weiter</div>
+                    </div>
+                <input type="submit" id="submitButton" value="submit" style="display: none;">
+                    <div class="spacing5"></div>
+                </form>
+               
+
+            </div>
+        </div>
+        <%- include('../../modules/footer',{ minHeight: 0.35, hide: true}) %>
+
+    </body>
+
+    </html>
+
+    <script>
+
+const urlParams = new URLSearchParams(window.location.search);
+      const myParam = urlParams.get('myParam');
+      if(urlParams.get('error')) {
+        const numSelect = {
+          1: "one",
+          2: "tow",
+          3: "three",
+          4: "four",
+          5: "five",
+          6: "six",
+          7: "seven",
+          8: "eight",
+          9: "nine",
+          10: "ten"
+        }
+        var data = JSON.parse(localStorage.getItem("signupData"));
+        console.log(data.lastName)
+        $('#accessibility').parent().children("."+data.accessibility).click()
+        $('#accessibility').parent().children("."+numSelect[data.accessibility]).click()
+        $('#flatmates').parent().children("."+numSelect[data.flatmates]).click()
+        $('#flatmates').parent().children("."+numSelect[data.flatmates]).click()
+        $('.message').show()
+        $('.message').html('Es ist ein Fehler aufgetreten. Bitte überprüfe Deine Eingaben.')
+      }
+
+
+
+      function select(element){
+        $(element).parents().children().toArray().forEach(el => {
+          $(el).removeClass('selected');
+        });
+        $(element).addClass('selected');
+        if($(element).parents().hasClass('selectInput3')) return $(element).parents().children('.selectField').val( $(element).data('val'))
+        $(element).parents().children('.selectField').val( $(element).html())
+      }
+        function passwordWrong() {
+            if(!pattern.test($('#password').val()) | $('#password').val()) $('#message').show();
+            if($('#password').val() !== $('#passwordCheck').val()) $('#messageCheck').show()
+            $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+            $(".submitButton").removeClass('buttonLoading');
+        }
+
+        $("form").submit(function(e) {
+        e.preventDefault();
+        $(".submitButton").addClass('buttonLoading');
+        $('.submitButton').attr('onclick', '');
+        document.querySelectorAll('.selectInput').forEach(element => {
+          if($(element).children('input').val() =="") {
+            $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+            $(".submitButton").removeClass('buttonLoading');
+            $(element).css('border-color', 'red');
+            return
+          }
+        });
+
+        setTimeout(() => {
+            var data = JSON.parse(localStorage.getItem("signupData"));
+            data.accessibility = $('#accessibility').val().replace(/\s+/g, '');
+            data.flatmates = $('#flatmates').val().replace(/\s+/g, '');
+            data.roomSize = $('#roomSize').val().replace(/\s+/g, '');
+            data.flatSize = $('#flatSize').val().replace(/\s+/g, '');
+            localStorage.setItem("signupData", JSON.stringify(data));
+            if(urlParams.get('error')) return window.location = '/signup/preferences/provider/profile'
+
+            window.location = '/signup/preferences/provider/third'
+        }, 500)
+    })
+
+    </script>
