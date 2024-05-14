@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<%- include('../../modules/head', {title:"Dein Profil"}) %>
+
+  <body>
+    <div class="content">
+      <img src="/assets/svg/flatLinkLogo.svg" alt="" class="topLeftLogo">
+
+      <div class="topTitle title stepTitle">
+        Schritt 8/8
+      </div>
+      <br>
+      <br>
+      <p class="bigCenterTitle title">
+        Dein Profil
+      </p>
+
+      <div class="foreground">
+        <div class="foregroundTop">
+          <div class="oval"></div>
+        </div>
+        <div class="spacing5"></div>
+        <div class="loadingScreen" style="display: none;">
+          <div class="spacing5 hideError"></div>
+          <div class="lds-ripple hideSuccess hideError">
+            <div></div>
+            <div></div>
+          </div>
+          <div class="spacing10 hideError"></div>
+          <div class="spacing10 hideError"></div>
+
+          <div class="spacing5"></div>
+          <div class="infoTextFree hideSuccess hideError">
+            Wir sind in der Aufbauphase. Gerne erhalten wir Feedback zu Präferenzen, die Dir wichtig sind.
+          </div>
+          <div class="spacing5"></div>
+          <img src="/assets/svg/feedbackForm.svg" alt="" class="hideError hideSuccess feedbackForm">
+          <div class=" message errorMessage redShadowNoOffset">
+          </div>
+          <div class="spacing10"></div>
+
+          <div class="buttonDiv showSuccess button" style="display: none;" onclick="window.location = '/user'">
+            <div class="buttonText">Entdecke flatlink</div>
+          </div>
+         
+          <div class="spacing10 hideError"></div>
+          <div class="spacing10 hideError"></div>
+          <div class="spacing10 hideError"></div>
+          <div class="spacing10 hideError"></div>
+
+        </div>
+        <form>
+          <p class="selectLabel" for="imageUploadSingle">Dein Profilbild</p>
+
+          <div class="imageUploadSingle" id="imageUploadSingle" onclick="$('#file').click()">
+            <p>Drücke hier um Dein Profilbild festzusetzen</p><img style="display: none;" id="fileDisplay" src=""
+              alt="">
+          </div>
+          <input required type="file" accept="image/*" name="file" style="display: none;" id="file">
+          <script>
+            var imgInp = document.getElementById('file')
+            var fileDisplay = document.getElementById('fileDisplay');
+            imgInp.onchange = evt => {
+              const [file] = imgInp.files
+              if (file) {
+                fileDisplay.src = URL.createObjectURL(file)
+                fileDisplay.style.display = "block";
+                document.querySelector('.imageUploadSingle p').style.display = "none";
+              }
+            }
+          </script>
+          <div class="spacing8"></div>
+          <p class="selectLabel" for="selectInput">Was ist Dein Geschlecht?</p>
+          <div class="spacing1"></div>
+          <div class="selectInput selectInput4" onclick="$(this).removeAttr('style');">
+            <div class="selectElement one" onclick="select(this)" data-val="none">
+              <img src="/assets/svg/none.svg" alt="">
+            </div>
+            <div class="selectElement two" onclick="select(this)" data-val="male">
+              <img src="/assets/svg/male.svg" alt="">
+            </div>
+            <div class="selectElement three" onclick="select(this)" data-val="intersex">
+              <img src="/assets/svg/intersex.svg" alt="">
+            </div>
+            <div class="selectElement four" onclick="select(this)" data-val="female">
+              <img src="/assets/svg/female.svg" alt="">
+            </div>
+
+            <input required type="text" name="gender" id="gender" required style="display: none;" class="selectField">
+          </div>
+          <div class="spacing8"></div>
+
+          <p class="selectLabel" for="selectInput">Was machst du Beruflich / Schulisch?</p>
+          <div class="spacing1"></div>
+          <input type="text" name="job" required placeholder="z.B. Med. Stud. @ UZH"
+            onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+            oninvalid=" $(this).css('border', '1px solid red');" id="job" autocomplete="family-name">
+
+
+          <div class="spacing8"></div>
+
+
+          <p class="selectLabel" for="selectInput">Hast Du Essensgewohnheiten?</p>
+          <div class="spacing1"></div>
+          <div class="selectInput selectInput3" onclick="$(this).removeAttr('style');">
+            <div class="selectElement one" onclick="select(this)" data-val="none">
+              <img src="/assets/svg/none.svg" class="maxImgSize" alt="">
+            </div>
+            <div class="selectElement two" onclick="select(this)" data-val="vegan">
+              <img class="imgSize" src="/assets/images/vegan.png" alt="">
+            </div>
+            <div class="selectElement three" onclick="select(this)" data-val="vegetarian">
+              <img class="imgSize" src="/assets/images/vegetarisch.png" alt="">
+            </div>
+
+
+            <input required type="text" name="food" id="food" required style="display: none;" class="selectField">
+          </div>
+          <div class="spacing8"></div>
+
+          <p class="selectLabel" for="selectInput">Erzähle etwas über Dich</p>
+          <div class="spacing1"></div>
+          <textarea required name="description" placeholder="Hobbies, Vorlieben usw." id="description" cols="30"
+            rows="8"></textarea>
+
+
+
+
+          <div class="spacing5"></div>
+          <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()"
+            onclick="$('#submitButton').click();">
+            <div class="buttonText">Weiter</div>
+          </div>
+          <input type="submit" id="submitButton" value="submit" style="display: none;">
+          <div class="spacing5"></div>
+        </form>
+
+
+      </div>
+    </div>
+    <%- include('../../modules/footer',{ minHeight: 0.3, hide: true}) %>
+
+  </body>
+
+  </html>
+
+  <script>
+
+
+
+
+
+
+
+    function select(element) {
+      $(element).parents().children().toArray().forEach(el => {
+        $(el).removeClass('selected');
+      });
+      $(element).addClass('selected');
+      if ($(element).parents().hasClass('selectInput3')) return $(element).parents().children('.selectField').val($(element).data('val'))
+      if ($(element).parents().hasClass('selectInput4')) return $(element).parents().children('.selectField').val($(element).data('val'))
+
+      $(element).parents().children('.selectField').val($(element).html())
+    }
+    function passwordWrong() {
+      if (!pattern.test($('#password').val()) | $('#password').val()) $('#message').show();
+      if ($('#password').val() !== $('#passwordCheck').val()) $('#messageCheck').show()
+      $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+      $(".submitButton").removeClass('buttonLoading');
+    }
+
+    $("form").submit(function (e) {
+      e.preventDefault();
+      $(".submitButton").addClass('buttonLoading');
+      $('.submitButton').attr('onclick', '');
+      document.querySelectorAll('.selectInput').forEach(element => {
+        if ($(element).children('input').val() == "") {
+          $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+          $(".submitButton").removeClass('buttonLoading');
+          $(element).css('border-color', 'red');
+          return
+        }
+      });
+      $('form, .errorMessage').hide()
+      $('.bigCenterTitle').html("s'isch am lade")
+      $('.loadingScreen, .hideError').show()
+
+      setTimeout(() => {
+        var data = JSON.parse(localStorage.getItem("signupData"));
+        data.gender = $('#gender').val();
+        data.job = $('#job').val();
+        data.food = $('#food').val();
+        data.description = $('#description').val();
+        localStorage.setItem("signupData", JSON.stringify(data));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        try {
+          let formData = new FormData();
+
+
+          formData.append('data', localStorage.getItem("signupData"));
+          formData.append('image', $('#file')[0].files[0]);
+          $.ajax({
+            url: '<%=process.env.apiUrl%>/accountService/signup/',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            async: true,
+            cache: false,
+            data: formData,
+            crossDomain: true,
+            success: function (data, status, xhr) {
+              console.log(data)
+              if (data) {
+
+                setTimeout(() => {
+                if (data.success == true) {
+                  setCookie("flatlinkAuth", data.token)
+                  if (data.message == "trueFalse") {
+                    //success with validation errors
+                    errors = [];
+                    var submitData = JSON.parse(localStorage.getItem("signupData"));
+                    var errorTable = {
+                      "cleanliness": "Sauberkeit",
+                      "gender": "Geschlechterpräferenz",
+                      "quietness": "Ruhige Atmosphäre",
+                      "accessibility": "Barrierefreiheit",
+                      "flatmates": "Mitbewohner",
+                      "roomSize": "Zimmergrösse",
+                      "flatSize": "Wohnungsgrösse",
+                      "balcony": "Balkon",
+                      "internet": "Internet",
+                      "washer": "Waschmaschine",
+                      "location": "Standort",
+                      "connections": "Anbindungen",
+                      "budget": "Budget",
+                      "food": "Essensgewohnheiten"
+                    }
+                    var errorList = ""
+                    data.errors.forEach(element => {
+                      errorList = errorList + `<li><strong>${errorTable[element]} (Deine Angabe: ${submitData[element]})</strong></li>`
+                    });
+                    $('.errorMessage').show()
+                    $('.message').html(`
+                      <div class="messageTitle title">
+                      Fehler
+                      </div>
+                      Bei der Registration gab es leider folgende Validierungsfehler:<br><br>
+                      ${errorList}<br><br>
+                      Es wurden Mittelwerte eingetragen und wir bitten Dich diese in Deinen Präferenzen anzupassen.`
+                    );
+                  }
+                  localStorage.removeItem("signupData")
+                  $('.hideSuccess').hide()
+                  $('.bigCenterTitle').html("Willkommen!")
+                  $('.showSuccess').show()
+                }
+
+                if (data.success == false) {
+                  $('.bigCenterTitle').html('Hoppla')
+                  $('.errorMessage').show()
+                    $('.message').html(`
+                      <div class="messageTitle title">
+                      Fehler
+                      </div>
+                      Folgender Fehler kam vom Server zurück:<br><br>
+                      <strong>${data.error}</strong><br><br>
+                      Bitte versuch's später nochmals.`
+                    );
+                  $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+                  $(".submitButton").removeClass('buttonLoading');
+                  $(".submitButton").show();
+                  $('.message').show()
+                  $('.message').html(data.message)
+                  $('.hideError').hide()
+                  $('form').show()
+                }
+
+                  
+              }, 3000);
+              }
+
+                  
+            },
+            error: function (jqXHR, textStatus, err) {
+              $(".content").css("opacity", "1");
+
+
+
+              $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+              $(".submitButton").removeClass('buttonLoading');
+              $(".submitButton").show();
+              $('.message').show()
+              $('.message').html(data.message)
+            }
+            
+          });
+
+
+        } catch (error) {
+          $(".content").css("opacity", "1");
+
+          $('.errorMessage').show()
+          $('.fileInput').show()
+          $('.errorMessage .messageText').html("An error occerd whilst communication with our server.")
+          $(".submit").val("Submit")
+          $('.submit').prop('disabled', false);
+        }
+
+      }, 500)
+    })
+
+
+  </script>

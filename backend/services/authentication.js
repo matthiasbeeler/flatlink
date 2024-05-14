@@ -1,11 +1,9 @@
 const validator = require('validator')
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
+const { generateAccessToken } = require('./global');
 
 //generates JWT with expiartion of 365 days - returns JWT token containing user-ID
-function generateAccessToken(id) {
-  return jwt.sign({data: id}, process.env.jwtSecret, {expiresIn: '365d'});
-}
+
 
 exports.login = async (request, response, User) =>{
     if (!request.body.email || !request.body.password) return response.json({ success: false, error: 1 });
@@ -34,7 +32,7 @@ exports.login = async (request, response, User) =>{
     bcrypt
       .compare(password, hash)
       .then(res => {
-        if(res === true){
+        if(res === true){ 
           return response.json({success: true, token:generateAccessToken(user.dataValues.id)})
         }else{
           return response.json({

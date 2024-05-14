@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<%- include('../../modules/head', {title:"Deine Präfernzen"}) %>
+
+    <body>
+        <div class="content">
+          <img src="/assets/svg/flatLinkLogo.svg" alt="" class="topLeftLogo">
+
+          <div class="topTitle title stepTitle">
+              Schritt 4/8
+          </div>
+          <br>
+          <br>
+            <p class="bigCenterTitle title">
+             Deine Präferenzen
+            </p>
+
+            <div class="foreground">
+                <div class="foregroundTop">
+                    <div class="oval"></div>
+                </div>
+                <div class="spacing5"></div>
+                <form>
+                    <div class="message orangeShadowNoOffset">
+                    </div>
+                    <p class="selectLabel" for="selectInput">Hast Du Geschlechterpräferenezen?</p>
+                    <div class="spacing1"></div>
+                    <div class="selectInput selectInput4 none" onclick="$(this).removeAttr('style');">
+                      <div class="selectElement one" onclick="select(this)" data-val="none">
+                       <img src="/assets/svg/none.svg"  alt="">
+                      </div>
+                      <div class="selectElement two male" onclick="select(this)" data-val="male">
+                        <img src="/assets/svg/male.svg" alt="">
+                      </div>
+                      <div class="selectElement three intersex" onclick="select(this)" data-val="intersex">
+                        <img src="/assets/svg/intersex.svg" alt="">
+                      </div>
+                      <div class="selectElement four female" onclick="select(this)" data-val="female">
+                        <img src="/assets/svg/female.svg" alt="">
+                      </div>
+                    
+                      <input required type="text" name="gender" id="gender" required style="display: none;" class="selectField">
+                    </div>
+                    <div class="spacing8"></div>
+
+                    <p class="selectLabel" for="selectInput">Wie wichtig ist Dir Sauberkeit?</p>
+                    <div class="spacing1"></div>
+                    <div class="selectInput"  onclick="$(this).removeAttr('style');">
+                      <div class="selectElement one" onclick="select(this)">
+                        1
+                      </div>
+                      <div class="selectElement two" onclick="select(this)">
+                        2
+                      </div>
+                      <div class="selectElement three" onclick="select(this)">
+                        3
+                      </div>
+                      <div class="selectElement four" onclick="select(this)">
+                        4
+                      </div>
+                      <div class="selectElement five" onclick="select(this)">
+                        5
+                      </div>
+                      <div class="selectElement six" onclick="select(this)">
+                        6
+                      </div>
+                      <div class="selectElement seven" onclick="select(this)">
+                        7
+                      </div>
+                      <div class="selectElement eight" onclick="select(this)">
+                        8
+                      </div>
+                      <div class="selectElement nine" onclick="select(this)">
+                        9
+                      </div>
+                      <div class="selectElement ten" onclick="select(this)">
+                        10
+                      </div>
+                      <input required type="text" name="cleanliness" id="cleanliness" style="display: none;" class="selectField">
+                    </div>
+                    <label for="cleanliness"><div class="left">Gar nicht</div><div class="right">Sehr</div></label>
+                    <div class="spacing5"></div>
+                    <div class="spacing8"></div>
+                    <p class="selectLabel" for="selectInput">Wie wichtig ist Dir eine Ruhige Atmosphäre?</p>
+                    <div class="spacing1"></div>
+                    <div class="selectInput" onclick="$(this).removeAttr('style');">
+                      <div class="selectElement one" onclick="select(this)">
+                        1
+                      </div>
+                      <div class="selectElement two" onclick="select(this)">
+                        2
+                      </div>
+                      <div class="selectElement three" onclick="select(this)">
+                        3
+                      </div>
+                      <div class="selectElement four" onclick="select(this)">
+                        4
+                      </div>
+                      <div class="selectElement five" onclick="select(this)">
+                        5
+                      </div>
+                      <div class="selectElement six" onclick="select(this)">
+                        6
+                      </div>
+                      <div class="selectElement seven" onclick="select(this)">
+                        7
+                      </div>
+                      <div class="selectElement eight" onclick="select(this)">
+                        8
+                      </div>
+                      <div class="selectElement nine" onclick="select(this)">
+                        9
+                      </div>
+                      <div class="selectElement ten" onclick="select(this)">
+                        10
+                      </div>
+                      <input required type="text" name="quietness" id="quietness" style="display: none;" class="selectField">
+                    </div>
+                    <label for="cleanliness"><div class="left">Gar nicht</div><div class="right">Sehr</div></label>
+                    <div class="spacing5"></div>
+                    
+
+               
+                  <div class="spacing5"></div>
+                  <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
+                    <div class="buttonText">Weiter</div>
+                    </div>
+                <input type="submit" id="submitButton" value="submit" style="display: none;">
+                    <div class="spacing5"></div>
+                </form>
+               
+
+            </div>
+        </div>
+        <%- include('../../modules/footer',{ minHeight: 0.4, hide: true}) %>
+
+    </body>
+
+    </html>
+
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      if(urlParams.get('error')) {
+        const numSelect = {
+          1: "one",
+          2: "tow",
+          3: "three",
+          4: "four",
+          5: "five",
+          6: "six",
+          7: "seven",
+          8: "eight",
+          9: "nine",
+          10: "ten"
+        }
+        var data = JSON.parse(localStorage.getItem("signupData"));
+        console.log(data.lastName)
+        $('#gender').parent().children("."+data.genderPreference).click()
+        $('#cleanliness').parent().children("."+numSelect[data.cleanliness]).click()
+        $('#quietness').parent().children("."+numSelect[data.quietness]).click()
+        $('.message').show()
+        $('.message').html('Es ist ein Fehler aufgetreten. Bitte überprüfe Deine Eingaben.')
+      }
+      function select(element){
+        $(element).parents().children().toArray().forEach(el => {
+          $(el).removeClass('selected');
+        });
+        $(element).addClass('selected');
+        if($(element).parents().hasClass('selectInput4')) return $(element).parents().children('.selectField').val( $(element).data('val'))
+        $(element).parents().children('.selectField').val( $(element).html())
+      }
+        function passwordWrong() {
+            if(!pattern.test($('#password').val()) | $('#password').val()) $('#message').show();
+            if($('#password').val() !== $('#passwordCheck').val()) $('#messageCheck').show()
+            $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+            $(".submitButton").removeClass('buttonLoading');
+        }
+
+        $("form").submit(function(e) {
+        e.preventDefault();
+        $(".submitButton").addClass('buttonLoading');
+        $('.submitButton').attr('onclick', '');
+        document.querySelectorAll('.selectInput').forEach(element => {
+          if($(element).children('input').val() =="") {
+            $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+            $(".submitButton").removeClass('buttonLoading');
+            $(element).css('border-color', 'red');
+            return
+          }
+        });
+
+        setTimeout(() => {
+            var data = JSON.parse(localStorage.getItem("signupData"));
+            data.cleanliness = $('#cleanliness').val().replace(/\s+/g, '');
+            data.quietness = $('#quietness').val().replace(/\s+/g, '');
+            data.genderPreference = $('#gender').val().replace(/\s+/g, '');
+            localStorage.setItem("signupData", JSON.stringify(data));
+            if(urlParams.get('error')) return window.location = '/signup/preferences/person/profile'
+
+            return window.location = '/signup/preferences/person/second'
+        }, 500)
+    })
+
+    </script>

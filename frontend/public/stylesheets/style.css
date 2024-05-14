@@ -24,6 +24,8 @@ body{
 }
 
 *{
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: none;
   font-family: inter,sans-serif;
   color: var(--mainText);
   -webkit-transition: all 0.2s ease-out;
@@ -32,6 +34,12 @@ body{
   transition: all 0.2s ease-out;
   -webkit-appearance: none;
   outline: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .content {
@@ -74,6 +82,12 @@ body{
   font-weight: 900;
 }
 
+.whitespaceImage{
+  width: 70%;
+  opacity: 0.5;
+  margin-left: 15%;
+}
+
 .stepTitle{
   width: 73%;
   font-size: x-large;
@@ -105,8 +119,8 @@ body{
   margin: 0% 0% 1% 7%;
 }
 
-input, select, .selectInput{
-  width: 80%;
+input, select, .selectInput, textarea{
+  width: calc(80% - 2px);
   padding: 3%;
   margin-left: 7%;
   border: 1px solid var(--inputBorder);
@@ -118,10 +132,14 @@ input, select, .selectInput{
 
 .selectInput{
   overflow: hidden;
-  width: 86%;
+  width: calc(86% - 2px);
   padding: 0%;
 }
 .selectInput .selectElement{
+  font-size: 5cqw;
+  min-height: 100%;
+  overflow: hidden;
+  position: relative;
   border: 2px solid transparent;
   width: calc(10% - 4px);
   padding: 2.5% 0px 2.5% 0px;
@@ -139,6 +157,87 @@ input, select, .selectInput{
   text-align: center;
   margin: 0px;
   float: left;
+}
+
+.selectInput3{
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  vertical-align: middle;
+  
+}
+
+.selectInput4 .selectElement{
+  border: 2px solid transparent;
+  width: calc(25% - 4px);
+  padding: 2.5% 0px 2.5% 0px;
+  display: inline-block;
+  text-align: center;
+  margin: 0px;
+  float: left;
+  
+}
+.selectInput3 .selectElement{
+  border: 2px solid transparent;
+  width: calc(100%/3 - 4px);
+  padding: 2.5% 0px 2.5% 0px;
+  display: inline-block;
+  text-align: center;
+  margin: 0px;
+  float: left;
+}
+
+.selectInput3 .selectElement{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: xx-large;
+}
+
+.imageUploadSingle{
+  overflow: hidden;
+  width: 86%;
+  height: max-content;
+  background: var(--inputBackground);
+  border: 1px solid var(--inputBorder);
+  border-radius: 20px;
+  margin-left: 7%;
+  text-align: center;
+}
+
+.imageUploadSingle p{
+  font-size: 5cqw;
+  white-space: initial;
+}
+
+.imageUploadSingle img{
+  width: 100%;
+}
+
+
+#map {
+  width: 86%;
+  aspect-ratio: 2/1.2;
+  border-radius: 20px;
+  margin-left: 7%;
+  overflow: hidden;
+}
+
+.selectInput .selectElement .imgSize{
+  width: 40%;
+  min-height: 100%;
+}
+
+.selectInput .selectElement .maxImgSize{
+  height: 100%;
+}
+
+.selectInput .selectElement img, .selectInput .selectElement{
+  vertical-align: middle;
+  justify-content: center;
+  line-height: normal;
+align-items: center;
 }
 
 .selectInput .selectElement{
@@ -173,6 +272,17 @@ select{
   display: inline-block;
 }
 
+.zip{
+  width: 29%;
+  display: inline-block;
+}
+
+.place{
+  margin-left: 4%;
+  width: 39%;
+  display: inline-block;
+}
+
 .button{
   width: 86%;
   padding: 2% 3% 2% 3%;
@@ -182,7 +292,7 @@ select{
   border-radius: 20px;
   text-align: center;
   border: none;
-  font-weight: 900;
+  font-weight: 800;
   font-size: 170%;
   position: relative;
   .buttonText{
@@ -216,8 +326,19 @@ select{
   border-radius: 20px;
   margin-bottom: 5%;
 }
+.errorMessage{
+  background-color: var(--mainInput);
+  font-weight: normal;
+  font-size: large;
+}
+.errorMessage .title{
+  font-size: x-large;
+}
 .orangeShadowNoOffset{
   box-shadow: 0px 0px 10px #ffa6006d;
+}
+.redShadowNoOffset{
+  box-shadow: 0px 0px 10px #ff00006d;
 }
 
 .buttonLoading .buttonText{
@@ -376,11 +497,20 @@ border-radius: 20px;
   width: 10%;
   display: inline-block;
 }
-.info .infoText{
+.info .infoText, .infoText{
   vertical-align: middle;
   width: 87%;
   display: inline-block;
 }
+.infoTextFree{
+  vertical-align: middle;
+  width: 87%;
+  margin-left: 6.5%;
+  display: inline-block;
+  text-align: center;
+  font-size: larger;
+}
+
 
 .passwordInfo{
   display: none;
@@ -395,6 +525,88 @@ border-radius: 20px;
 .invalid {
   color: red;
 }
+
+.feedbackForm{
+  width: 90%;
+  margin-left: 5%;
+}
+
+label .right{
+  text-align: right;
+  float: right;
+  margin-right: 7%;
+
+}
+label .left{
+  float: left;
+  text-align: left;
+  margin-left: 7%;
+}
+
+
+label *{
+  font-size: large;
+  width: fit-content;
+  display: inline-block;
+}
+
+
+/*loader*/
+
+.lds-ripple,
+.lds-ripple div {
+  box-sizing: border-box;
+}
+.lds-ripple {
+  display: inline-block;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 80px;
+}
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid currentColor;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 8px;
+    height: 8px;
+    opacity: 0;
+  }
+  4.9% {
+    top: 36px;
+    left: 36px;
+    width: 8px;
+    height: 8px;
+    opacity: 0;
+  }
+  5% {
+    top: 36px;
+    left: 36px;
+    width: 8px;
+    height: 8px;
+    opacity: 1;
+  }
+  100% {
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 80px;
+    opacity: 0;
+  }
+}
+
+
 
 
 

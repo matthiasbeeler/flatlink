@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<%- include('../modules/head', {title:"Deine präfernzen"}) %>
+<%- include('../../modules/head', {title:"Deine Präfernzen"}) %>
 
     <body>
         <div class="content">
           <img src="/assets/svg/flatLinkLogo.svg" alt="" class="topLeftLogo">
 
           <div class="topTitle title stepTitle">
-              Schritt 3/6
+              Schritt 5/8
           </div>
           <br>
           <br>
             <p class="bigCenterTitle title">
-              Wie können wir Dir helfen?
+             Deine Präferenzen
             </p>
-            <div class="spacing10"></div>
-            <div class="spacing8"></div>
 
             <div class="foreground">
                 <div class="foregroundTop">
@@ -24,19 +22,7 @@
                 <form>
                     <div class="message orangeShadowNoOffset">
                     </div>
-                    <div class="selectInput selectInput2" onclick="$(this).removeAttr('style');">
-                      <div class="selectElement one" onclick="select(this)">
-                        Ich suche ein Zimmer
-                      </div>
-                      <div class="selectElement two" onclick="select(this)">
-                        Ich habe ein Zimmer
-                      </div>
-                    
-                      <input required type="text" name="type" id="type" required style="display: none;" class="selectField">
-                    </div>
-                   
-                    <div class="spacing8"></div>
-                    <p class="selectLabel" for="selectInput">Wie wichtig ist Dir Sauberkeit?</p>
+                    <p class="selectLabel" for="selectInput">Wie wichtig ist Dir Barrierefreiheit?</p>
                     <div class="spacing1"></div>
                     <div class="selectInput"  onclick="$(this).removeAttr('style');">
                       <div class="selectElement one" onclick="select(this)">
@@ -69,12 +55,15 @@
                       <div class="selectElement ten" onclick="select(this)">
                         10
                       </div>
-                      <input required type="text" name="cleanliness" id="cleanliness" style="display: none;" class="selectField">
+                      <input required type="text" name="accessibility" id="accessibility" style="display: none;" class="selectField">
                     </div>
+                    <label for="cleanliness"><div class="left">Gar nicht</div><div class="right">Sehr</div></label>
+                    <div class="spacing5"></div>
                     <div class="spacing8"></div>
-                    <p class="selectLabel" for="selectInput">Wie wichtig ist Dir eine Ruhige Atmosphäre?</p>
+
+                    <p class="selectLabel" for="selectInput">Wie viele Mitbewohner:innen wären optimal?</p>
                     <div class="spacing1"></div>
-                    <div class="selectInput" onclick="$(this).removeAttr('style');">
+                    <div class="selectInput"  onclick="$(this).removeAttr('style');">
                       <div class="selectElement one" onclick="select(this)">
                         1
                       </div>
@@ -105,10 +94,45 @@
                       <div class="selectElement ten" onclick="select(this)">
                         10
                       </div>
-                      <input required type="text" name="cleanliness" id="cleanliness" style="display: none;" class="selectField">
+                      <input required type="text" name="flatmates" id="flatmates" style="display: none;" class="selectField">
+                    </div>
+                    <div class="spacing8"></div>
+                    <p class="selectLabel" for="selectInput">Wie gross soll Dein ideales Zimmer sein (Quadratmeter)?</p>
+                    <div class="spacing4"></div>
+                    <div class="selectInput4 selectInput" onclick="$(this).removeAttr('style');">
+                      <div class="selectElement one" onclick="select(this)">
+                        1-8
+                      </div>
+                      <div class="selectElement two" onclick="select(this)">
+                        9-14
+                      </div>
+                      <div class="selectElement three" onclick="select(this)">
+                        15-20
+                      </div>
+                      <div class="selectElement four" onclick="select(this)">
+                        21+
+                      </div>
+                      <input required type="text" name="roomSize" id="roomSize" style="display: none;" class="selectField">
                     </div>
 
-                    
+                    <div class="spacing8"></div>
+                    <p class="selectLabel" for="selectInput">Wie gross soll Deine ideale WG sein (Quadratmeter)?</p>
+                    <div class="spacing4"></div>
+                    <div class="selectInput4 selectInput" onclick="$(this).removeAttr('style');">
+                      <div class="selectElement one" onclick="select(this)">
+                        1-40
+                      </div>
+                      <div class="selectElement two" onclick="select(this)">
+                        41-90
+                      </div>
+                      <div class="selectElement three" onclick="select(this)">
+                        91-140
+                      </div>
+                      <div class="selectElement four" onclick="select(this)">
+                        141+
+                      </div>
+                      <input required type="text" name="flatSize" id="flatSize" style="display: none;" class="selectField">
+                    </div>
 
                
                   <div class="spacing5"></div>
@@ -116,28 +140,53 @@
                     <div class="buttonText">Weiter</div>
                     </div>
                 <input type="submit" id="submitButton" value="submit" style="display: none;">
-                    
+                    <div class="spacing5"></div>
                 </form>
                
-                <div class="spacing10"></div>
-
-                <div class="spacing10"></div>
-                <div class="spacing10"></div>
 
             </div>
         </div>
-        <%- include('../modules/footer') %>
+        <%- include('../../modules/footer',{ minHeight: 0.35, hide: true}) %>
 
     </body>
 
     </html>
 
     <script>
+
+const urlParams = new URLSearchParams(window.location.search);
+      const myParam = urlParams.get('myParam');
+      if(urlParams.get('error')) {
+        const numSelect = {
+          1: "one",
+          2: "tow",
+          3: "three",
+          4: "four",
+          5: "five",
+          6: "six",
+          7: "seven",
+          8: "eight",
+          9: "nine",
+          10: "ten"
+        }
+        var data = JSON.parse(localStorage.getItem("signupData"));
+        console.log(data.lastName)
+        $('#accessibility').parent().children("."+data.accessibility).click()
+        $('#accessibility').parent().children("."+numSelect[data.accessibility]).click()
+        $('#flatmates').parent().children("."+numSelect[data.flatmates]).click()
+        $('#flatmates').parent().children("."+numSelect[data.flatmates]).click()
+        $('.message').show()
+        $('.message').html('Es ist ein Fehler aufgetreten. Bitte überprüfe Deine Eingaben.')
+      }
+
+
+
       function select(element){
         $(element).parents().children().toArray().forEach(el => {
           $(el).removeClass('selected');
         });
         $(element).addClass('selected');
+        if($(element).parents().hasClass('selectInput3')) return $(element).parents().children('.selectField').val( $(element).data('val'))
         $(element).parents().children('.selectField').val( $(element).html())
       }
         function passwordWrong() {
@@ -162,14 +211,14 @@
 
         setTimeout(() => {
             var data = JSON.parse(localStorage.getItem("signupData"));
-            console.log($('#type').val().replace(/\s+/g, ''), $('#type').val().replace(/\s+/g, '') == "IchhabeeinZimmer")
-            return
-            data.type = $('#type').val().replace(/\s+/g, '');
-            data.phoneCode = $('#phoneCode').val();
-            data.phonenumber = $('#phonenumber').val();
-            data.password = $('#password').val();
+            data.accessibility = $('#accessibility').val().replace(/\s+/g, '');
+            data.flatmates = $('#flatmates').val().replace(/\s+/g, '');
+            data.roomSize = $('#roomSize').val().replace(/\s+/g, '');
+            data.flatSize = $('#flatSize').val().replace(/\s+/g, '');
+            localStorage.setItem("signupData", JSON.stringify(data));
+            if(urlParams.get('error')) return window.location = '/signup/preferences/person/profile'
 
-            window.location = '/signup/preferences'
+            window.location = '/signup/preferences/person/third'
         }, 500)
     })
 
