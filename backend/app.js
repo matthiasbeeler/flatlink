@@ -23,8 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
   const allowedOrigins = [
-    "https://flatlink.pavet.ch",
-    "https://flatlink.ch",
+    "https://app.flatlink.ch",
     "http://localhost:4000",
     "http://localhost:3000",
     "http://192.168.80.176:3000"
