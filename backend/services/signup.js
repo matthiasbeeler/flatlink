@@ -60,10 +60,10 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
     const newPreferenceEntry = await searcherPreferences
       .create(data)
       .catch((err) => {
-        // catch error if anything goes wrong
-        console.log(err);
         //on error newly created user gets deleted
         newUser.destroy();
+        // catch error if anything goes wrong
+        console.log(err);
         return response.json({ success: false, error: "signupErr#2" });
       });
   } else if (data.type == "IchhabeeinZimmer") {
