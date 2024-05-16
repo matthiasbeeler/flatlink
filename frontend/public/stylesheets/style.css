@@ -54,6 +54,18 @@ body{
   float: left;
 }
 
+.topLeftLogoText{
+  width: 45%;
+  margin: 6% 0% 0% 7%;
+  float: left;
+}
+
+.topRightButton{
+  width: 9%;
+  margin: 7.5% 9% 0% 0%;
+  float: right;
+}
+
 .topCenterLogo{
   height: 14vh;
   aspect-ratio: 1/1;
@@ -464,8 +476,8 @@ border-radius: 20px;
 /*nav*/
 
 .innerNav{
-  width: 50%;
-  margin-left: 25%;
+  width: 65%;
+  margin-left: 17.5%;
   display: flex;
   align-content: space-between;
   justify-content: space-around;
@@ -473,12 +485,14 @@ border-radius: 20px;
 
 .navElement{
   display: inline-flex;
-  width: 10vw;
+  width: min-content;
+  height: auto;
 }
 .navElement p{
   margin-top: 2%;
   margin-bottom: 2.5%;
 }
+
 
 .bottomNav{
   position: fixed;
