@@ -397,7 +397,6 @@
                     $(".submitButton").removeClass('buttonLoading');
                     $(".submitButton").show();
                     $('.message').show()
-                    $('.message').html(data.message)
                     $('.hideError').hide()
                     $('form').show()
                   }
@@ -409,29 +408,44 @@
 
             },
             error: function (jqXHR, textStatus, err) {
-              $(".content").css("opacity", "1");
-
-
-
-
-              $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
-              $(".submitButton").removeClass('buttonLoading');
-              $(".submitButton").show();
-              $('.message').show()
-              $('.message').html(data.message)
+             $('.bigCenterTitle').html('Hoppla')
+                    $('.errorMessage').show()
+                    $('.message').html(`
+                  <div class="messageTitle title">
+                  Fehler
+                  </div>
+                  Folgender Fehler kam vom Server zurück:<br><br>
+                  <strong>${error}</strong><br><br>
+                  Bitte versuch's später nochmals.`
+                    );
+                    $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+                    $(".submitButton").removeClass('buttonLoading');
+                    $(".submitButton").show();
+                    $('.message').show()
+                    $('.hideError').hide()
+                    $('form').show()
             }
 
           });
 
 
         } catch (error) {
-          $(".content").css("opacity", "1");
-          console.log(error)
-          $('.errorMessage').show()
-          $('.fileInput').show()
-          $('.errorMessage .messageText').html("An error occerd whilst communication with our server.")
-          $(".submit").val("Submit")
-          $('.submit').prop('disabled', false);
+         $('.bigCenterTitle').html('Hoppla')
+                    $('.errorMessage').show()
+                    $('.message').html(`
+                  <div class="messageTitle title">
+                  Fehler
+                  </div>
+                  Folgender Fehler kam vom Server zurück:<br><br>
+                  <strong>${error}</strong><br><br>
+                  Bitte versuch's später nochmals.`
+                    );
+                    $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+                    $(".submitButton").removeClass('buttonLoading');
+                    $(".submitButton").show();
+                    $('.message').show()
+                    $('.hideError').hide()
+                    $('form').show()
         }
 
       }, 500)
