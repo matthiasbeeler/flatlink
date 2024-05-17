@@ -6,4 +6,8 @@ router.get('/', function(req, res, next) {
   res.render('loggedin/home');
 });
 
+router.get('/account', function(req, res, next) {
+  res.render('loggedin/account');
+});
+
 module.exports = router;
