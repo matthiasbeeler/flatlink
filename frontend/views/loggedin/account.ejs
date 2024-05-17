@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<%- include('../modules/head', {title:"Account"}) %>
+
+    <body>
+        <div class="content">
+            <img src="/assets/svg/flatlinkTextLogo.svg" alt="" class="topLeftLogoText">
+
+            
+            <div class="foreground bottomNav">
+                <div class="foregroundTop">
+                    <div class="oval"></div>
+                </div>
+
+                <div class="innerNav">
+                    <a href="/user/">
+
+                    <div class="navElement">
+                        <center>
+                            <img src="/assets/svg/exploreEmpty.svg" alt="">
+                            <p>Explore</p>
+                        </center>
+                    </div>
+                    </a>
+                    <a href="/user/likes">
+                        <div class="navElement">
+                            <center>
+    
+                                <img src="/assets/svg/heartEmpty.svg" alt="">
+                                <p>Likes</p>
+                            </center>
+                        </div>
+                    </a>
+                    <div class="navElement">
+                        <center>
+
+                            <img src="/assets/svg/accountFull.svg" alt="">
+                            <p>Account</p>
+                        </center>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <%- include('../modules/footer', { minHeight: 0.89, hide: true}) %>
+
+    </body>
+
+    </html>
