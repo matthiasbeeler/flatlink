@@ -20,7 +20,9 @@ const { v4: uuidv4 } = require('uuid');
 
 exports.signup = async (request, response, User, searcherPreferences, providerPreferences) => {
   let errors = [];
+  console.log(request.body)
   var data = JSON.parse(request.body.data);
+
 
   if (data.type == "IchsucheeinZimmer") {
     //validating user inputs
@@ -77,10 +79,8 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
         newUser.destroy();
         return response.json({ success: false, error: "signupErr#3" });
       });
-  }
-
-  if(data.type == "IchhabeeinZimmer"){
-    await amentitieProximity(data.street+" ,"+data.plz+ " "+data.place);
+      var amenitieData = await amentitieProximity(data.street+", "+data.plz+ " "+data.place, newPreferenceEntry);
+      newPreferenceEntry.save()
   }
 
   //image upload
@@ -90,8 +90,8 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
     uploadImage(image, process.cwd() + "/uploads/searcherImages/" + userId + ".webp", errors)
    
   } else if (data.type == "IchhabeeinZimmer") {
-    const images = request.files.images;
-    //console.log(images)
+    const images = request.files["files[]"];
+    console.log(request.files["files[]"])
     var imageIds = []
     //multi image upload
     uploadedImages = await Promise.all(images.map(async (image) => {
@@ -99,6 +99,7 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
       imageIds.push(uuid)
       return await uploadImage(image, process.cwd() + "/uploads/providerImages/" + uuid + ".webp", errors);
     }));
+    console.log(imageIds)
 
     //console.log(uploadedImages)
   }
@@ -205,9 +206,9 @@ async function validateProvider(data, errors) {
   }
 }
 
-amentitieProximity('Bahnhofstrasse 93, 8001 Zürich')
+//console.log(amentitieProximity('Sunnmatt 32, 6410 Goldau'))
 
-async function amentitieProximity(address, pref) {
+async function amentitieProximity(address, newPreferenceEntry) {
   var latitude = 0;
   var longitude = 0;
   //get coordinates
@@ -216,13 +217,14 @@ async function amentitieProximity(address, pref) {
   )
     .then((response) => response.json())
     .then((data) => {
-     // console.log(address)
-     // console.log(data)
+      //console.log(address)
+      //console.log(data)
       latitude = data[0].lat;
       longitude = data[0].lon;
     });
   const radius = 4000; // Search radius for amenities in meters
-
+  newPreferenceEntry.longitude = longitude;
+  newPreferenceEntry.latitude = latitude;
   // Fetch data for public transport stops and supermarkets from OSM using Overpass API
   const overpassUrl = `https://overpass-api.de/api/interpreter?data=[out:json];(node["highway"="bus_stop"](around:${radius},${latitude},${longitude});node["railway"="station"](around:${radius},${latitude},${longitude});node["shop"](around:${radius},${latitude},${longitude}););out;`;
 
@@ -278,15 +280,20 @@ async function amentitieProximity(address, pref) {
           });
       });
 
+      var closestPublicTransport;
       // Find the closest public transport stop
       Promise.all(publicTransportDistances)
         .then((distances) => {
-          const closestPublicTransport = distances.reduce(
+          closestPublicTransport = distances.reduce(
             (closest, current) => {
               return closest.distance < current.distance ? closest : current;
             }
           );
-          //console.log("Closest public transport stop:", closestPublicTransport);
+
+          newPreferenceEntry.transportData = closestPublicTransport;
+          newPreferenceEntry.transportDistance = closestPublicTransport.distance;
+          newPreferenceEntry.save();
+
         })
         .catch((error) => {
           console.error(
@@ -294,14 +301,16 @@ async function amentitieProximity(address, pref) {
             error
           );
         });
-
+        var closestSupermarket;
       // Find the closest supermarket
       Promise.all(supermarketDistances)
         .then((distances) => {
-          const closestSupermarket = distances.reduce((closest, current) => {
+          closestSupermarket = distances.reduce((closest, current) => {
             return closest.distance < current.distance ? closest : current;
           });
-          //console.log("Closest supermarket:", closestSupermarket);
+          newPreferenceEntry.supermarketData = closestSupermarket;
+         newPreferenceEntry.supermarketDistance = closestSupermarket.distance;
+         newPreferenceEntry.save();
         })
         .catch((error) => {
           console.error(
@@ -313,6 +322,7 @@ async function amentitieProximity(address, pref) {
     .catch((error) => {
       console.error("Error fetching or processing data:", error);
     });
+    
 };
 
 //process and save image

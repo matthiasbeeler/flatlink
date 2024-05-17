@@ -193,11 +193,11 @@ module.exports = (sequelize, DataTypes) => {
           unique: false
         },
         transportDistance: {
-          type: DataTypes.STRING,
+          type: DataTypes.FLOAT,
           allowNull: true,
         },
         supermarketDistance: {
-          type: DataTypes.STRING,
+          type: DataTypes.FLOAT,
           allowNull: true
         },
         transportData: {
@@ -209,11 +209,15 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: true
         },
         latitude: {
-          type: DataTypes.INTEGER,
+          type: DataTypes.FLOAT,
           allowNull: true
         },
         longitude: {
-          type: DataTypes.INTEGER,
+          type: DataTypes.FLOAT,
+          allowNull: true
+        },
+        images: {
+          type: DataTypes.JSON,
           allowNull: true
         },
   })
