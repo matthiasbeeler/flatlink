@@ -25,15 +25,14 @@
             <div></div>
             <div></div>
           </div>
-          <div class="spacing10 hideError"></div>
-          <div class="spacing10 hideError"></div>
-
+          <div class="spacing10 hideError hideSuccess"></div>
+          <div class="spacing10 hideError hideSuccess"></div>
+          <img src="/assets/svg/greenLogo.svg" style="display: none;" class="showSuccess middleSuccessLogo" alt="">
           <div class="spacing5"></div>
-          <div class="infoTextFree hideSuccess hideError">
-            Wir sind in der Aufbauphase. Gerne erhalten wir Feedback zu Präferenzen, die Dir wichtig sind.
+          <div class="infoTextFree hideError">
+            Wir sind in der Aufbauphase. Gerne erhalten wir auf unserer Homepage Feedback zu Präferenzen, die Dir wichtig sind.
           </div>
           <div class="spacing5"></div>
-          <img src="/assets/svg/feedbackForm.svg" alt="" class="hideError hideSuccess feedbackForm">
           <div class=" message errorMessage redShadowNoOffset">
           </div>
           <div class="spacing10"></div>
@@ -235,6 +234,7 @@
     const input = document.querySelector("#file")
     let imagesArray = []
     function displayImages() {
+        console.log(imagesArray)
       output.style.display = "block"
 
       let images = ""
@@ -251,6 +251,7 @@
       imagesArray.splice(index, 1)
       displayImages()
     }
+
     input.addEventListener("change", () => {
       const files = input.files
       for (let i = 0; i < files.length; i++) {
@@ -298,6 +299,8 @@
       $('.loadingScreen, .hideError').show()
 
       setTimeout(() => {
+    const formData = new FormData();
+
         var data = JSON.parse(localStorage.getItem("signupData"));
         data.gender = $('#gender').val();
         data.food = $('#food').val();
@@ -307,24 +310,17 @@
         data.noneFlatmates = Number($('.noneCounter').val())
         data.description = $('#description').val();
         localStorage.setItem("signupData", JSON.stringify(data));
-
-
         try {
-          let formData = new FormData();
 
+    for (let i = 0; i < imagesArray.length; i++) {
+    formData.append("files[]", imagesArray[i]);
+    console.log([...formData])
+
+  }
  var imageCount = 0;
+ formData.delete('data')
           formData.append('data', localStorage.getItem("signupData"));
-          $('input[type="file"]').each(function(index, input) {
-    // Check if the input has files selected and image count is less than five
-    if (input.files.length > 0 && imageCount < 10) {
-      // Iterate over selected files and append them to FormData
-      for (let i = 0; i < input.files.length; i++) {
-        formData.append('images[]', input.files[i]);
-        imageCount++;
-      }
-    }
-  });
-          console.log(formData.get("images[]"))
+         
           $.ajax({
             url: '<%=process.env.apiUrl%>/accountService/signup/',
             type: 'POST',

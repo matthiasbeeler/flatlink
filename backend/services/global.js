@@ -15,7 +15,7 @@ exports.findUserWithEmail = async function(User, email){
   }
 
 //global preference variables
-exports.arrayTen = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+exports.arrayTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 exports.arrayGender = ["male", "female", "intersex", "none"];
 exports.arrayRoomSize = ["1-8", "9-14", "15-20", "21+"];
 exports.arrayFlatSize = ["1-40", "41-90", "91-140", "141+"];
