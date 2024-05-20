@@ -503,8 +503,10 @@ border-radius: 20px;
 
 .bottomNav{
   position: fixed;
-  bottom: 0px;
+  top: 90vh;
   max-width: 100%;
+  height: 10vh !important;
+  margin-top: unset !important;
 }
 
 
