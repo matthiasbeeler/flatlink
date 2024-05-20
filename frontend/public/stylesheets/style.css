@@ -507,6 +507,7 @@ border-radius: 20px;
   top: unset !important;
   max-width: 100%;
   padding-bottom: 2%;
+  margin-top: unset !important;
 }
 
 
