@@ -1,3 +1,5 @@
+const { type } = require("express/lib/response");
+
 module.exports = (sequelize, DataTypes) => {
     const searcherPreferences = sequelize.define("searcherPreferences", {
         id:{
@@ -73,6 +75,22 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             unique: false
+          },
+          preferredLat: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+            unique: false
+          },
+          preferredLon: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+            unique: false
+          },
+          seenProviders: {
+            type: DataTypes.JSON,
+            allowNull: false,
+            unique: false,
+            defaultValue: []
           },
           description: {
             type: DataTypes.TEXT,
