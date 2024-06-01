@@ -155,10 +155,15 @@ async function validateSearcher(data, errors) {
     data.description = "No description found.";
     errors.push("description");
   }
-  if (!validator.isLatLong(data.location)) {
+  if (!(isFinite(data.preferredLat) && Math.abs(data.preferredLat) <= 90)) {
     // Zurich trainstation as medium value
-    data.location = "47.378099,8.539352";
-    errors.push("location");
+    data.preferredLat = "47.378099";
+    errors.push("preferredLat");
+  }
+  if (!(isFinite(data.preferredLon) && Math.abs(data.preferredLon) <= 90)) {
+    // Zurich trainstation as medium value
+    data.preferredLon = "8.539352";
+    errors.push("preferredLon");
   }
   if (isNaN(data.budget)) {
     data.budget = "500";
