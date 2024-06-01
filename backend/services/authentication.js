@@ -26,14 +26,15 @@ exports.login = async (request, response, User) =>{
     }
   })
   console.log(user)
-  if(user) validateUser(user.dataValues.password, password)
+  if(user) await validateUser(user.dataValues.password, password)
   
-  function validateUser(hash, password) {
+  async function validateUser(hash, password) {
+    const accessToken = await generateAccessToken(user.dataValues.id);
     bcrypt
       .compare(password, hash)
       .then(res => {
         if(res === true){ 
-          return response.json({success: true, token:generateAccessToken(user.dataValues.id)})
+          return response.json({success: true, token: accessToken})
         }else{
           return response.json({
             success: false,
