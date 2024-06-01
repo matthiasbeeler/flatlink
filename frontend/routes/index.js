@@ -9,24 +9,18 @@ const jwt = require('jsonwebtoken')
 
 router.get("/logout", (req, res) => {
   res.clearCookie("flatlinkAuth");
-  console.log()
   res.redirect("/");
 });
 
 router.all("*", function (req, res, next) {
-  console.log(req.cookies)
-
   try {
   if(req.cookies.flatlinkAuth){
     if(uuid.validate(jwt.verify(req.cookies.flatlinkAuth, process.env.jwtSecret).data.id)) return res.redirect('/user')
     return next()
-
   }
   if(!req.cookies.flatlinkAuth){
     return next()
   }
-  
-    
 } catch (error) {
     next()
     console.log(error)
