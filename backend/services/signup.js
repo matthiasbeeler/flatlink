@@ -99,7 +99,6 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
       imageIds.push(uuid)
       return await uploadImage(image, process.cwd() + "/uploads/providerImages/" + uuid + ".webp", errors);
     }));
-    console.log(imageIds)
 
     //console.log(uploadedImages)
   }

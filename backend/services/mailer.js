@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
 exports.singupSuccessEmail = function(email, firstName, userId, type){
     try {
       var templateName = "signupSuccessSearcher"
-      if(type = "IchhabeeinZimmer") templateName = "signupSuccessProvider"
+      if(type == "IchhabeeinZimmer") templateName = "signupSuccessProvider";
         const verificationToken = jwt.sign({data:{id: userId, email: email}}, process.env.jwtSecret, {expiresIn: '1h'});
       const filename = process.cwd() + "/emailTemplates/"+templateName+".ejs";
     ejs.renderFile(filename,{firstName: firstName, verificationUrl: process.env.appUrl+"/verifyEmail?token="+verificationToken}, (error, mailHTML) => {
