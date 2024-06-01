@@ -28,7 +28,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: false
-          }
+          },
+          emailVerified: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            unique: false,
+            defaultValue: false,
+          },
+
     })
     return User;
 }
