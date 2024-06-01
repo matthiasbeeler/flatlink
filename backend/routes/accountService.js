@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const { User, searcherPreferences, providerPreferences }= require('../database/models');const { login } = require('../services/authentication');
+const { User, searcherPreferences, providerPreferences }= require('../database/models');
+const { login } = require('../services/authentication');
 const { loginBouncer, signupBouncer } = require('../services/bouncer');
 const { signup } = require('../services/signup');
 
