@@ -31,15 +31,14 @@ app.use(fileUpload({
 app.use((req, res, next) => {
   const allowedOrigins = [
     "https://app.flatlink.ch",
-    "http://localhost:4000",
     "http://localhost:3000",
     "http://192.168.80.176:3000"
   ];
   const origin = req.headers.origin;
-  console.log(origin)
-  res.setHeader("Access-Control-Allow-Origin", "*");
 
   if (allowedOrigins.includes(origin)) {
+  res.setHeader("Access-Control-Allow-Origin", origin);
+
   }
   res.header("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
