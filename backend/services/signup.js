@@ -1,6 +1,7 @@
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const sharp = require("sharp");
+const { parsePhoneNumberFromString } = require('libphonenumber-js');
 const {
   findUserWithEmail,
   ten,
@@ -41,11 +42,17 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
 
   var type = "searcher";
   if (data.type == "IchhabeeinZimmer") type = "provider";
+
+  //formatting phonenumber
+
+  const formattedPhonenumber = await formatPhonenumber(data.phoneCode+data.phonenumber)
+
   //creating the new user account
   const newUser = await User.create({
     firstName: data.firstName,
     lastName: data.lastName,
     email: data.eMail,
+    phonenumber: formattedPhonenumber,
     password: bcrypt.hashSync(data.password, 10),
     userType: type,
   }).catch((err) => {
@@ -118,6 +125,17 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
     token: await generateAccessToken(userId),
   });
 };
+
+//formatphonenumber
+async function formatPhonenumber(fullNumber) {
+  const parsedNumber = parsePhoneNumberFromString(fullNumber);
+
+  if (!parsedNumber) {
+      throw new Error('Invalid phone number');
+  }
+
+  return parsedNumber.formatInternational();
+}
 
 //validate user inputs from searchers (on error setting medium values)
 async function validateSearcher(data, errors) {
