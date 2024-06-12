@@ -44,6 +44,13 @@ body{
   -webkit-user-drag: none;
 }
 
+.noAnimation{
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+}
+
 .content {
   position: relative;
   min-height: 100vh;
@@ -360,6 +367,10 @@ select{
   box-shadow: 0px 0px 10px #ff00006d;
 }
 
+.grayShadowNoOffset {
+  box-shadow: 0px 0px 40px #00000010;
+}
+
 .buttonLoading .buttonText{
   color: transparent !important;
 }
@@ -573,6 +584,92 @@ label *{
   width: fit-content;
   display: inline-block;
 }
+
+
+.accountTopSection{
+  width: 85%;
+  margin-left: 7.5%;
+}
+
+.accountTopSection .profileImage{
+  display: inline-block;
+  width: 38%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  aspect-ratio: 1/1;
+  vertical-align: middle;
+  background-image: url('/assets/svg/accountPlaceholder.svg');
+}
+
+.accountTopSection .accountDetails{
+  width: 56%;
+  margin-left: 3%;
+  vertical-align: middle;
+  display: inline-block;
+}
+.accountTopSection .accountDetails .nameDetail{
+  font-weight: bolder;
+}
+
+.accountTopSection .accountDetails *{
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden;
+  width: 100%;
+
+}
+
+.accountTopSection .genderDetail {
+  width: 20%;
+  img{
+    width: 100%;
+  }
+}
+
+
+.groupButtonDiv{
+  width: 80%;
+  padding: 3% 3% 3% 3%;
+  margin-left: 7%;
+  background: var(--mainInput);
+  color: var(--mainText);
+  border-radius: 20px;
+  text-align: center;
+  border: none;
+  font-weight: 800;
+  font-size: 170%;
+  position: relative;
+  *{
+    color:var(--mainText);
+    text-decoration: none;
+  }
+}
+
+.groupButtonDiv .textContent{
+  width: 84%;
+  text-align: left;
+  display: inline-block;
+  vertical-align: middle;
+  .buttonTitle{
+    font-size: large;
+  }
+  .buttonContent{
+    font-size: large;
+    font-weight: normal;
+  }
+}
+
+.groupButtonDiv .buttonIcon{
+  vertical-align: middle;
+
+  width:10%;
+  display: inline-block;
+  img{
+    vertical-align: middle;
+
+    width: 100%;
+  }
+}
+
 
 
 /*loader*/
