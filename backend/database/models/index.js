@@ -8,10 +8,12 @@ const { amentitieProximity } = require('../../services/signup');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(process.cwd()+"/database/config/config.js")[env];
-const db = {};
+const db = {};  
 
 let sequelize;
   sequelize = new Sequelize(config.database, config.username, config.password, config);
+
+ sequelize.sync({ alter: true });
 
 fs
   .readdirSync(__dirname)
