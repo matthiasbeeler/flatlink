@@ -221,6 +221,7 @@ $.ajax({
          }
          if(data.userType == "provider"){
             $('.occupation.buttonContent').parent().parent().hide()
+            $('.profileImage').css('background-image', 'url(/assets/svg/providerPlaceholder.svg)')
             $('.occupationDetail').html("@"+data.personalData.place)
             $('.genderDetail').html(`<span class="noAnimation" id="flatmates">${data.personalData.flatmates}</span>  <img src="/assets/svg/people.svg" alt="">`);
             $('.genderDetail').addClass('flatmates noAnimation')
