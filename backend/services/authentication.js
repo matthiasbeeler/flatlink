@@ -2,7 +2,6 @@ const validator = require('validator')
 const bcrypt = require('bcrypt');
 const { generateAccessToken } = require('./global');
 
-//generates JWT with expiartion of 365 days - returns JWT token containing user-ID
 
 
 exports.login = async (request, response, User) =>{
@@ -25,7 +24,6 @@ exports.login = async (request, response, User) =>{
         email: email
     }
   })
-  console.log(user)
   if(user) await validateUser(user.dataValues.password, password)
   
   async function validateUser(hash, password) {
