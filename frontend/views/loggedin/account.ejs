@@ -14,15 +14,10 @@
                     <img src="" alt="">
                 </div>
                 <div class="accountDetails">
-                    <div id="nameDetail" class="nameDetail noAnimation">
-                        Matthias
-                    </div>
-                    <div id="occupationDetail" class="occupationDetail noAnimation">
-                        Student @ ETHz 
-                    </div>
-                    <div class="genderDetail">
-                        <img src="/assets/svg/male.svg" alt="">
-                    </div>
+                    <div id="nameDetail" class="firstName nameDetail noAnimation emptyLoading"></div>
+                    <div class="spacing1"></div>
+                    <div id="occupationDetail" class="occupation occupationDetail noAnimation emptyLoading"></div>
+                    <div class="genderDetail emptyLoading"></div>
                     
                 </div>
             </div>
@@ -36,9 +31,7 @@
                         <div class="buttonTitle">
                             Vorname
                         </div>
-                        <div class="buttonContent">
-                            Matthias
-                        </div>  
+                        <div class="buttonContent firstName emptyLoading"></div>  
                     </div>
                     <div class="buttonIcon">
                         <img src="/assets/svg/chevronRight.svg" alt="">
@@ -56,10 +49,7 @@
                     <div class="textContent">
                         <div class="buttonTitle">
                             Nachname
-                        </div>
-                        <div class="buttonContent">
-                            Beeler
-                        </div>  
+                        </div><div class="buttonContent lastName emptyLoading"></div>  
                     </div>
                     <div class="buttonIcon">
                         <img src="/assets/svg/chevronRight.svg" alt="">
@@ -77,9 +67,7 @@
                         <div class="buttonTitle">
                             Telefonnummer
                         </div>
-                        <div class="buttonContent">
-                            +41 78 732 88 62
-                        </div>  
+                        <div class="buttonContent phonenumber emptyLoading"></div>  
                     </div>
                     <div class="buttonIcon">
                         <img src="/assets/svg/chevronRight.svg" alt="">
@@ -97,9 +85,7 @@
                         <div class="buttonTitle">
                             eMail Adresse
                         </div>
-                        <div class="buttonContent">
-                            matthias@beeler.cc
-                        </div>  
+                        <div class="buttonContent emailAddress emptyLoading"></div>  
                     </div>
                     <div class="buttonIcon">
                         <img src="/assets/svg/chevronRight.svg" alt="">
@@ -117,9 +103,19 @@
                         <div class="buttonTitle">
                             Beruf
                         </div>
-                        <div class="buttonContent">
-                            Student @ ETHz
-                        </div>  
+                        <div class="buttonContent occupation emptyLoading"></div>  
+                    </div>
+                    <div class="buttonIcon">
+                        <img src="/assets/svg/chevronRight.svg" alt="">
+                    </div>
+                </div>
+                
+                <div class="buttonElement">
+                    <div class="textContent">
+                        <div class="buttonTitle">
+                            Adresse
+                        </div>
+                        <div class="buttonContent address emptyLoading"></div>  
                     </div>
                     <div class="buttonIcon">
                         <img src="/assets/svg/chevronRight.svg" alt="">
@@ -189,7 +185,6 @@
     </body>
 
     </html>
-
     <script>
 
 
@@ -198,6 +193,59 @@
 window.onload =  function() {
    adjustFontSize('nameDetail', 12, 80, 2);
    adjustFontSize('occupationDetail', 12, 80, 2);
-
 };
+
+$.ajax({
+    url: '<%=process.env.apiUrl%>/accountService/accountData',
+    type: 'POST',
+    async: true,
+    cache: false,
+    crossDomain: true,
+    data: {
+        "flatlinkAuth": getCookie('flatlinkAuth')
+    },
+    success: function (data, status, xhr) {
+        if (data) {
+            console.log(data)
+       if (data.success == true) {
+         $('.firstName').html(data.userData.firstName)
+         $('.phonenumber').html(data.userData.phonenumber)
+         $('.lastName').html(data.userData.lastName)
+         $('.emailAddress').html(data.userData.email)
+         if(data.userType == "searcher"){
+            $('.occupation').html(data.personalData.occupation)
+            $('.genderDetail').html(`<img src="/assets/svg/${data.personalData.gender}.svg" alt="">`)
+            $('.address').parent().parent().hide()
+         }
+         if(data.userType == "provider"){
+            $('.occupation.buttonContent').parent().parent().hide()
+            $('.occupationDetail').html("@"+data.personalData.place)
+            $('.genderDetail').html(`<span class="noAnimation" id="flatmates">${data.personalData.flatmates}</span>  <img src="/assets/svg/people.svg" alt="">`);
+            $('.genderDetail').addClass('flatmates noAnimation')
+            $('.address').html(`${data.personalData.street}, ${data.personalData.place} ${data.personalData.plz}`)
+
+         }
+         adjustFontSize('nameDetail', 12, 80, 2);
+   adjustFontSize('occupationDetail', 12, 80, 2);
+   adjustFontSize('flatmates', 12, 80, 2);
+
+            $('.accountPageProfileImage').css('background-image',
+                            `url(<%=process.env.apiUrl%>/uploads/profileImages/${data.userData.profileImage}?v=${data.userData.profileImageUpdate})`
+                            )
+        
+        }
+        if (data.success == false) {
+            $('.errorMessage').show()
+            $('.errorMessage .messageText').html(errorMessages[data.error])
+        }
+    }
+
+    },
+    error: function (jqXHR, textStatus, err) {
+        $('.errorMessage').show()
+        $('.errorMessage .messageText').html("")
+}
+});
+
+
     </script>
