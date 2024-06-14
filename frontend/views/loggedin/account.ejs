@@ -208,6 +208,8 @@ $.ajax({
         if (data) {
             console.log(data)
        if (data.success == true) {
+        $(".emptyLoading").removeClass("emptyLoading");
+
          $('.firstName').html(data.userData.firstName)
          $('.phonenumber').html(data.userData.phonenumber)
          $('.lastName').html(data.userData.lastName)
