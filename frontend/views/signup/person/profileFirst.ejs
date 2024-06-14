@@ -186,7 +186,7 @@
       setTimeout(() => {
         var data = JSON.parse(localStorage.getItem("signupData"));
         data.gender = $('#gender').val();
-        data.job = $('#job').val();
+        data.occupation = $('#job').val();
         data.food = $('#food').val();
         data.description = $('#description').val();
         localStorage.setItem("signupData", JSON.stringify(data));
