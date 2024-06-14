@@ -96,6 +96,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TEXT,
             allowNull: false,
             unique: false
+          },
+          occupation: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: false
           }
     })
     return searcherPreferences;
