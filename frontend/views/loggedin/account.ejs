@@ -100,27 +100,17 @@
                 <div class="spacing1"></div>
                 <div class="buttonElement">
                     <div class="textContent">
-                        <div class="buttonTitle">
+                        <div class="buttonTitle customTitle">
                             Beruf
                         </div>
-                        <div class="buttonContent occupation emptyLoading"></div>  
+                        <div class="buttonContent customContent occupation emptyLoading"></div>  
                     </div>
                     <div class="buttonIcon">
                         <img src="/assets/svg/chevronRight.svg" alt="">
                     </div>
                 </div>
                 
-                <div class="buttonElement">
-                    <div class="textContent">
-                        <div class="buttonTitle">
-                            Adresse
-                        </div>
-                        <div class="buttonContent address emptyLoading"></div>  
-                    </div>
-                    <div class="buttonIcon">
-                        <img src="/assets/svg/chevronRight.svg" alt="">
-                    </div>
-                </div>
+              
             </div>
 
             <div class="spacing5">
@@ -206,7 +196,6 @@ $.ajax({
     },
     success: function (data, status, xhr) {
         if (data) {
-            console.log(data)
        if (data.success == true) {
         $(".emptyLoading").removeClass("emptyLoading");
 
@@ -217,15 +206,14 @@ $.ajax({
          if(data.userType == "searcher"){
             $('.occupation').html(data.personalData.occupation)
             $('.genderDetail').html(`<img src="/assets/svg/${data.personalData.gender}.svg" alt="">`)
-            $('.address').parent().parent().hide()
          }
          if(data.userType == "provider"){
-            $('.occupation.buttonContent').parent().parent().hide()
             $('.profileImage').css('background-image', 'url(/assets/svg/providerPlaceholder.svg)')
             $('.occupationDetail').html("@"+data.personalData.place)
             $('.genderDetail').html(`<span class="noAnimation" id="flatmates">${data.personalData.flatmates}</span>  <img src="/assets/svg/people.svg" alt="">`);
             $('.genderDetail').addClass('flatmates noAnimation')
-            $('.address').html(`${data.personalData.street}, ${data.personalData.place} ${data.personalData.plz}`)
+            $('.customTitle').html("Adresse")
+            $('.customContent').html(`${data.personalData.street}, ${data.personalData.place} ${data.personalData.plz}`)
 
          }
          adjustFontSize('nameDetail', 12, 80, 2);
