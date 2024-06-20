@@ -10,7 +10,7 @@
             <div class="spacing5"></div>
 
             <div class="accountTopSection">
-                <div class="profileImage">
+                <div class="profileImage notEmpty emptyLoading" >
                     <img src="" alt="">
                 </div>
                 <div class="accountDetails">
@@ -212,7 +212,8 @@ $.ajax({
 
          }
          if(data.userType == "provider"){
-            $('.profileImage').css('background-image', 'url(/assets/svg/providerPlaceholder.svg)')
+            $('.profileImage img').attr(`src`, `/assets/svg/providerPlaceholder.svg`)
+
             $('.occupationDetail').html("@"+data.personalData.place)
             $('.genderDetail').html(`<span class="noAnimation" id="flatmates">${data.personalData.flatmates}</span>  <img src="/assets/svg/people.svg" alt="">`);
             $('.genderDetail').addClass('flatmates noAnimation')
