@@ -196,7 +196,9 @@ $.ajax({
     },
     success: function (data, status, xhr) {
         if (data) {
+            console.log(data)
        if (data.success == true) {
+        setCookie("flatlinkAuth", data.token)
         $(".emptyLoading").removeClass("emptyLoading");
 
          $('.firstName').html(data.userData.firstName)
@@ -206,7 +208,7 @@ $.ajax({
          if(data.userType == "searcher"){
             $('.occupation').html(data.personalData.occupation)
             $('.genderDetail').html(`<img src="/assets/svg/${data.personalData.gender}.svg" alt="">`);
-            $('.profileImage img').attr(`src`, `<%=process.env.apiUrl%>/accountService/uploads/searcherImages/${data.userId}`)
+            $('.profileImage img').attr(`src`, `<%=process.env.apiUrl%>/accountService/uploads/searcherImages/${data.userId}?flatlinkAuth=${data.token}`)
 
          }
          if(data.userType == "provider"){
