@@ -37,6 +37,7 @@ router.post("*", function (req, res, next) {
 })
 
 router.get("*", function (req, res, next) {
+  try {
     if(req.cookies.flatlinkAuth){
       if(uuid.validate(jwt.verify(req.cookies.flatlinkAuth, process.env.jwtSecret).data.id)) return next();
       return res.redirect('/')
