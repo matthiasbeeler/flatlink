@@ -47,10 +47,12 @@ app.use((req, res, next) => {
   return next();
 });
 
-app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/accountService", accountServiceRouter);
 app.use("/matchingService", matchingServiceRouter);
+
+//leave as the last!
+app.use("/", indexRouter);
 
 module.exports = app;
 
