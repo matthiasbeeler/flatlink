@@ -6,7 +6,9 @@ const { loginBouncer, signupBouncer } = require('../services/bouncer');
 const { signup } = require('../services/signup');
 const { accountData } = require('../services/userData');
 const uuid = require('uuid');
+const { validate } = require("uuid");
 const jwt = require('jsonwebtoken');
+const fs = require('fs')
 
 router.post('/login', loginBouncer.block, async(req, res, next) =>{
   await login(req, res, User)
@@ -18,7 +20,8 @@ router.post('/signup', signupBouncer.block, async (req, res) => {
 })
 
 
-router.all("*", function (req, res, next) {
+router.post("*", function (req, res, next) {
+
   try {
 
   if(req.body.flatlinkAuth){
@@ -33,8 +36,53 @@ router.all("*", function (req, res, next) {
 }
 })
 
+router.get("*", function (req, res, next) {
+    if(req.cookies.flatlinkAuth){
+      if(uuid.validate(jwt.verify(req.cookies.flatlinkAuth, process.env.jwtSecret).data.id)) return next();
+      return res.redirect('/')
+    }
+    if(!req.cookies.flatlinkAuth){
+      return res.redirect('/')
+    }
+  } catch (error) {
+    console.log(error)
+    return res.redirect('/')
+  }
+})
+
 router.post('/accountData', async (req, res) => {
   await accountData(req,res,User,searcherPreferences,providerPreferences)
 })
+
+
+router.get("/uploads/searcherImages/:id", function (req, res, next) {
+  try {
+    var imagePath;
+    if (
+      validate(req.params.id)
+    ) {
+      imagePath = req.params.id+".webp";
+    } else {
+      imagePath = "0";
+    }
+    fs.readFile(
+      process.cwd() + "/uploads/searcherImages/" + imagePath,
+      (err, data) => {
+        if (!err && data) {
+          return res.sendFile(
+            process.cwd() + "/uploads/searcherImages/" + imagePath
+          );
+        } else {
+          return res.sendFile(process.cwd() + "/assets/accountPlaceholder.svg");
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
+
 
 module.exports = router;

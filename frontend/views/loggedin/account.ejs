@@ -205,7 +205,9 @@ $.ajax({
          $('.emailAddress').html(data.userData.email)
          if(data.userType == "searcher"){
             $('.occupation').html(data.personalData.occupation)
-            $('.genderDetail').html(`<img src="/assets/svg/${data.personalData.gender}.svg" alt="">`)
+            $('.genderDetail').html(`<img src="/assets/svg/${data.personalData.gender}.svg" alt="">`);
+            $('.profileImage img').attr(`src`, `<%=process.env.apiUrl%>/accountService/uploads/searcherImages/${data.userId}`)
+
          }
          if(data.userType == "provider"){
             $('.profileImage').css('background-image', 'url(/assets/svg/providerPlaceholder.svg)')
