@@ -8,6 +8,7 @@ require("dotenv").config({
 var bodyParser = require('body-parser')
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+var matchingServiceRouter = require("./routes/matchingService");
 var accountServiceRouter = require("./routes/accountService");
 const fileUpload = require("express-fileupload");
 
@@ -49,6 +50,7 @@ app.use((req, res, next) => {
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/accountService", accountServiceRouter);
+app.use("/matchingService", matchingServiceRouter);
 
 module.exports = app;
 
