@@ -31,6 +31,6 @@ exports.accountData = async (request, response, User,searcherPreferences,provide
       }
      
     if(!user) return response.json({success: false, message: "User not found"});
-    const accessToken = await generateAccessToken(user.dataValues.id);
+    const accessToken = await generateAccessToken(userId);
     response.json({userId, token: accessToken, userData: user, userType: user.userType, success: true, personalData: personalData})
 }

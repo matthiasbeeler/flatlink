@@ -38,11 +38,11 @@ router.post("*", function (req, res, next) {
 
 router.get("*", function (req, res, next) {
   try {
-    if(req.cookies.flatlinkAuth){
-      if(uuid.validate(jwt.verify(req.cookies.flatlinkAuth, process.env.jwtSecret).data.id)) return next();
+    if(req.query.flatlinkAuth){
+      if(uuid.validate(jwt.verify(req.query.flatlinkAuth, process.env.jwtSecret).data.id)) return next();
       return res.redirect('/')
     }
-    if(!req.cookies.flatlinkAuth){
+    if(!req.query.flatlinkAuth){
       return res.redirect('/')
     }
   } catch (error) {
