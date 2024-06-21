@@ -127,14 +127,13 @@ body{
   top: 40%;
 }
 .foregroundTop{
-  background-color: var(--mainBackground);
   height: 2.5vh;
   overflow:hidden;
 }
 
 .innerForeground{
   height: 100%;
-  padding-bottom: 3%;
+  padding-bottom: 34px;
   background-color: var(--mainForeground);
 }
 
