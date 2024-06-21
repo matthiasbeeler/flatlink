@@ -134,6 +134,7 @@ body{
 
 .innerForeground{
   height: 100%;
+  padding-bottom: 3%;
   background-color: var(--mainForeground);
 }
 
@@ -564,10 +565,7 @@ border-radius: 20px;
   bottom: 0px;
   top: unset !important;
   max-width: 100%;
-  padding-bottom: 2%;
   margin-top: unset !important;
-  padding-bottom: calc(1rem + env(safe-area-inset-bottom))
-
 }
 
 
