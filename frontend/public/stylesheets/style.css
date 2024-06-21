@@ -125,12 +125,16 @@ body{
   width: 100%;
   position: relative;
   top: 40%;
-  background: var(--mainForeground);
 }
 .foregroundTop{
   background-color: var(--mainBackground);
   height: 2.5vh;
   overflow:hidden;
+}
+
+.innerForeground{
+  height: 100%;
+  background-color: var(--mainForeground);
 }
 
 .foregroundTop .oval{
