@@ -68,6 +68,7 @@ body{
   margin: 6% 0% 0% 7%;
   float: left;
   position: fixed;
+  z-index: 2;
 }
 
 .topRightButton{
