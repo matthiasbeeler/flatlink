@@ -50,12 +50,12 @@
         <form>
           <p class="selectLabel" for="imageUploadSingle">Fotos</p>
 
-          <div class="imageUploadSingle" id="imageUploadSingle" onclick="$('#file').click()">
+          <div class="imageUploadSingle" id="imageUploadSingle" onclick="$('#file').click();$(this).removeClass('invalidInput')">
             <p>Drücke hier um Fotos der WG hochzuladen</p><img style="display: none;" id="fileDisplay" src="" alt="">
           </div>
           <div class="spacing8"></div>
           <div class="output"></div>
-          <input required type="file" multiple accept="image/jpeg, image/png, image/jpg" name="file"
+          <input oninvalid="$(this).parent().children('.imageUploadSingle').addClass('invalidInput')" required type="file" multiple accept="image/jpeg, image/png, image/jpg" name="file"
             style="display: none;" id="file">
 
           <style>
@@ -180,7 +180,7 @@
 
           <p class="selectLabel" for="selectInput">Habt ihr Essensgewohnheiten?</p>
           <div class="spacing1"></div>
-          <div class="selectInput selectInput3" onclick="$(this).removeAttr('style');">
+          <div class="selectInput selectInput3" onclick="$(this).removeAttr('style');$(this).removeClass('invalidInput')">
             <div class="selectElement one" onclick="select(this)" data-val="none">
               <img src="/assets/svg/none.svg" class="maxImgSize" alt="">
             </div>
@@ -192,13 +192,13 @@
             </div>
 
 
-            <input required type="text" name="food" id="food" required style="display: none;" class="selectField">
+            <input oninvalid="$(this).parent().addClass('invalidInput')"  required type="text" name="food" id="food" required style="display: none;" class="selectField">
           </div>
           <div class="spacing8"></div>
 
           <p class="selectLabel" for="selectInput">Erzähle etwas über euch</p>
           <div class="spacing1"></div>
-          <textarea required name="description" placeholder="Hobbies, Vorlieben usw." id="description" cols="30"
+          <textarea oninvalid="$(this).addClass('invalidInput')" onclick="$(this).removeClass('invalidInput')"  required name="description" placeholder="Hobbies, Vorlieben usw." id="description" cols="30"
             rows="8"></textarea>
 
 
@@ -206,7 +206,7 @@
 
           <div class="spacing5"></div>
           <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()"
-            onclick="$('#submitButton').click();">
+            onclick="$('#submitButton').click();window.scrollTo({ top: 0, behavior: 'smooth' });">
             <div class="buttonText">Weiter</div>
           </div>
           <input type="submit" id="submitButton" value="submit" style="display: none;">

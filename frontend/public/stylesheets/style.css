@@ -603,6 +603,10 @@ border-radius: 20px;
   color: red;
 }
 
+.invalidInput{
+  border: 1px solid red;
+}
+
 .feedbackForm{
   width: 90%;
   margin-left: 5%;

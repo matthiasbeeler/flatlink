@@ -50,11 +50,12 @@
         <form>
           <p class="selectLabel" for="imageUploadSingle">Dein Profilbild</p>
 
-          <div class="imageUploadSingle" id="imageUploadSingle" onclick="$('#file').click()">
+          <div class="imageUploadSingle" id="imageUploadSingle" onclick="$('#file').click();$(this).removeClass('invalidInput')">
             <p>Drücke hier um Dein Profilbild festzusetzen</p><img style="display: none;" id="fileDisplay" src=""
               alt="">
           </div>
-          <input required type="file" accept="image/*" name="file" style="display: none;" id="file">
+                  
+          <input oninvalid="$(this).parent().children('.imageUploadSingle').addClass('invalidInput')" required type="file" accept="image/*" name="file" style="display: none;" id="file">
           <script>
             var imgInp = document.getElementById('file')
             var fileDisplay = document.getElementById('fileDisplay');
@@ -70,7 +71,7 @@
           <div class="spacing8"></div>
           <p class="selectLabel" for="selectInput">Was ist Dein Geschlecht?</p>
           <div class="spacing1"></div>
-          <div class="selectInput selectInput4" onclick="$(this).removeAttr('style');">
+          <div class="selectInput selectInput4" onclick="$(this).removeAttr('style');$(this).removeClass('invalidInput')">
             <div class="selectElement one" onclick="select(this)" data-val="none">
               <img src="/assets/svg/none.svg" alt="">
             </div>
@@ -84,7 +85,7 @@
               <img src="/assets/svg/female.svg" alt="">
             </div>
 
-            <input required type="text" name="gender" id="gender" required style="display: none;" class="selectField">
+            <input oninvalid="$(this).parent().addClass('invalidInput')" required type="text" name="gender" id="gender" required style="display: none;" class="selectField">
           </div>
           <div class="spacing8"></div>
 
@@ -100,7 +101,7 @@
 
           <p class="selectLabel" for="selectInput">Hast Du Essensgewohnheiten?</p>
           <div class="spacing1"></div>
-          <div class="selectInput selectInput3" onclick="$(this).removeAttr('style');">
+          <div class="selectInput selectInput3" onclick="$(this).removeAttr('style');$(this).removeClass('invalidInput')";">
             <div class="selectElement one" onclick="select(this)" data-val="none">
               <img src="/assets/svg/none.svg" class="maxImgSize" alt="">
             </div>
@@ -112,13 +113,13 @@
             </div>
 
 
-            <input required type="text" name="food" id="food" required style="display: none;" class="selectField">
+            <input oninvalid="$(this).parent().addClass('invalidInput')"  required type="text" name="food" id="food" required style="display: none;" class="selectField">
           </div>
           <div class="spacing8"></div>
 
           <p class="selectLabel" for="selectInput">Erzähle etwas über Dich</p>
           <div class="spacing1"></div>
-          <textarea required name="description" placeholder="Hobbies, Vorlieben usw." id="description" cols="30"
+          <textarea onclick="$(this).removeClass('invalidInput')" oninvalid="$(this).addClass('invalidInput')"  required name="description" placeholder="Hobbies, Vorlieben usw." id="description" cols="30"
             rows="8"></textarea>
 
 
@@ -126,7 +127,7 @@
 
           <div class="spacing5"></div>
           <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()"
-            onclick="$('#submitButton').click();">
+            onclick="$('#submitButton').click();window.scrollTo({ top: 0, behavior: 'smooth' });">
             <div class="buttonText">Weiter</div>
           </div>
           <input type="submit" id="submitButton" value="submit" style="display: none;">
@@ -168,6 +169,8 @@
     }
 
     $("form").submit(function (e) {
+      
+
       e.preventDefault();
       $(".submitButton").addClass('buttonLoading');
       $('.submitButton').attr('onclick', '');

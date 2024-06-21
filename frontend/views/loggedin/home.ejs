@@ -8,6 +8,9 @@
             <a href="">
                 <img src="/assets/svg/preferences.svg" class="topRightButton" alt="">
             </a>
+            <span>
+
+            </span>
             <div class="foreground bottomNav">
                 <div class="foregroundTop">
                     <div class="oval"></div>
@@ -48,3 +51,41 @@
     </body>
 
     </html>
+
+    <script>
+
+$.ajax({
+    url: '<%=process.env.apiUrl%>/matchingService/getMatch',
+    type: 'POST',
+    async: true,
+    cache: false,
+    crossDomain: true,
+    data: {
+        "flatlinkAuth": getCookie('flatlinkAuth'),
+        "currentId": "",
+        "matchAmount": 10
+    },
+    success: function (data, status, xhr) {
+        if (data) {
+            console.log(data)
+       if (data.success == true) {
+        var matchpercents = "<br><br><br>";
+        data.providers.forEach(element => {
+            matchpercents = matchpercents+" <br>"+element.score.matchPercent+"% - "+element.provider.id;
+        });
+        $('span').html(matchpercents)
+        }
+        if (data.success == false) {
+            $('.errorMessage').show()
+            $('.errorMessage .messageText').html(errorMessages[data.error])
+        }
+    }
+
+    },
+    error: function (jqXHR, textStatus, err) {
+        $('.errorMessage').show()
+        $('.errorMessage .messageText').html("")
+}
+});
+
+    </script>

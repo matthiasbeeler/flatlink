@@ -4,17 +4,33 @@ const { Op } = require('sequelize');
 const geolib = require('geolib');
 
 
-
+let weights = {
+    accessibility: 1,
+    balcony: 1,
+    cleanliness: 1,
+    flatmates: 1,
+    food: 1,
+    internet: 1,
+    quietness: 1,
+    washer: 1,
+    flatSize: 1,
+    roomSize: 1,
+    genderPreference: 1,
+    distance: 1,
+    budget: 1
+};
 
 exports.matching = async (request, response, User,searcherPreferences,providerPreferences) =>{
     const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret).data.id;
     const user = await User.findOne({ id: userId });
+    const matchAmount = request.body.matchAmount;
     const preferences = await searcherPreferences.findOne({ id: userId });
     const providers = await providerPreferences.findAll({
         where:{
             id: {[Op.notIn]: preferences.seenProviders}
         }
     })
+    console.log(preferences)
     if (!user || !preferences) {
         return res.status(404).send('User not found');
     }
@@ -47,7 +63,7 @@ exports.matching = async (request, response, User,searcherPreferences,providerPr
 
     // Return the provider with the highest score
     const bestProvider = scoredProviders;
-    response.json(bestProvider[0]);
+    response.json({success: true, providers: bestProvider.slice(0, matchAmount)});
 }
 
 const parseRange = (range) => {
@@ -66,79 +82,81 @@ const parseRange = (range) => {
   const calculateScore = (userPreferences, provider, minDistance, maxDistance) => {
     let score = 0;
     let maxScore = 0;
+    if(provider.id == "7b0a8dad-7ba6-4b94-adf5-a566f2d1565e") console.log(provider.id)
   
     // Function to calculate inverse difference score (higher score for closer values)
     const inverseDifference = (a, b) => 10 - Math.abs(a - b);
   
     // Accessibility score
     if ('accessibility' in userPreferences && 'accessibility' in provider) {
-        score += inverseDifference(userPreferences.accessibility, provider.accessibility);
-        maxScore += 10;
+        score += weights.accessibility* inverseDifference(userPreferences.accessibility, provider.accessibility);
+        maxScore += weights.accessibility*  10;
     }
   
   
     // Balcony
     if ('balcony' in userPreferences && 'balcony' in provider) {
-      score += provider.balcony ? userPreferences.balcony : 0;
-      maxScore += 10;
+      score += weights.balcony* (provider.balcony ? userPreferences.balcony : 0);
+      maxScore += weights.balcony* 10;
   }
   
     // Cleanliness score
     if ('cleanliness' in userPreferences && 'cleanliness' in provider) {
-        score += inverseDifference(userPreferences.cleanliness, provider.cleanliness);
-        maxScore += 10;
+        score += weights.cleanliness* inverseDifference(userPreferences.cleanliness, provider.cleanliness);
+        maxScore += weights.cleanliness* 10;
       }
   
     // Flatmates score
     if ('flatmates' in userPreferences && 'flatmates' in provider) {
-        score += inverseDifference(userPreferences.flatmates, provider.flatmates);
-        maxScore += 10;
+        score += weights.flatmates* inverseDifference(userPreferences.flatmates, provider.flatmates);
+        maxScore += weights.flatmates* 10;
     }
   
     // Food preference
     if ('food' in userPreferences && 'food' in provider) {
-        score += (userPreferences.food === provider.food) ? 10 : 0;
-        maxScore += 10;
+        score += weights.food* ((userPreferences.food === provider.food) ? 10 : 0);
+        maxScore += weights.food* 10;
     }
   
     // Internet preference (1-10 for searcher, true/false for provider)
     if ('internet' in userPreferences && 'internet' in provider) {
-        score += provider.internet ? userPreferences.internet : 0;
-        maxScore += 10;
+        score += weights.internet* (provider.internet ? userPreferences.internet : 0);
+        maxScore += weights.internet* 10;
       }
   
     // Quietness score
     if ('quietness' in userPreferences && 'quietness' in provider) {
-        score += inverseDifference(userPreferences.quietness, provider.quietness);
-        maxScore += 10;
+        score +=weights.quietness*  inverseDifference(userPreferences.quietness, provider.quietness);
+        maxScore += weights.quietness* 10;
       }
   
     // Washer preference (1-10 for searcher, true/false for provider)
     if ('washer' in userPreferences && 'washer' in provider) {
-        score += provider.washer ? userPreferences.washer : 0;
-        maxScore += 10;
+        score +=weights.washer* ( provider.washer ? userPreferences.washer : 0);
+        maxScore += weights.washer* 10;
       }
   
     // FlatSize preference
     if ('flatSize' in userPreferences && 'flatSize' in provider) {
         const { min, max } = parseRange(userPreferences.flatSize);
   
-        score += (provider.flatSize >= min && provider.flatSize <= max) ? 10 : 0;
-        maxScore += 10;
+        score += weights.flatSize* (provider.flatSize >= min && provider.flatSize <= max) ? 10 : 0;
+        maxScore += weights.flatSize* 10;
     }
   
     // RoomSize preference
     if ('roomSize' in userPreferences && 'roomSize' in provider) {
   
         const { min, max } = parseRange(userPreferences.roomSize);
-        score += (provider.roomSize >= min && provider.roomSize <= max) ? 10 : 0;
-        maxScore += 10;
+        score += weights.roomSize* ((provider.roomSize >= min && provider.roomSize <= max) ? 10 : 0);
+        maxScore += weights.roomSize* 10;
     }
   
     // Gender preference
     if ('genderPreference' in userPreferences && 'genderPreference' in provider) {
-        score += (userPreferences.genderPreference === provider.genderPreference) ? 10 : 0;
-        maxScore += 10;
+        score += weights.genderPreference* ((userPreferences.genderPreference === provider.genderPreference) ? 10 : 0);
+        maxScore += weights.genderPreference* 10;
+
     }
   
    // Calculate distance score if preferred latitude and longitude are available
@@ -148,8 +166,9 @@ const parseRange = (range) => {
           { latitude: provider.latitude, longitude: provider.longitude }
       );
       const distanceScore = normalizeDistanceScore(distance, minDistance, maxDistance);
-      score += distanceScore;
-      maxScore += 10;
+
+      score += weights.distance* distanceScore;
+      maxScore += weights.distance* 10;
   }
   
   
@@ -157,14 +176,15 @@ const parseRange = (range) => {
     // Budget check
     if ('budget' in userPreferences && 'price' in provider) {
         if (userPreferences.budget >= provider.price) {
-            score += 10; // Add points if within budget
-            maxScore += 10;
+            score += weights.budget* 10; // Add points if within budget
+            maxScore += weights.budget* 10;
         } else {
-            score -= (provider.price - userPreferences.budget) / 100;
-            maxScore += 10;
+            score -= weights.budget* ((provider.price - userPreferences.budget) / 100);
+            maxScore += weights.budget* 10;
         }
     }
-  
+
+
     return {
         score: Math.max(score, 0),  // Ensure the score is not negative
         maxScore: maxScore,
