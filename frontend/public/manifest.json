@@ -6,7 +6,7 @@
     "orientation": "any",
     "scope": "/",
     "short_name": "flatlink",
-    "start_url": "/",
+    "start_url": "/user",
     "theme_color": "#ECF0F1",
     "icons": [
       {
