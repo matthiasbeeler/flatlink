@@ -67,7 +67,7 @@ body{
   width: 45%;
   margin: 6% 0% 0% 7%;
   float: left;
-  position: fixed;
+  position: absolute;
   z-index: 2;
 }
 
@@ -376,6 +376,9 @@ select{
 .grayShadowNoOffset {
   box-shadow: 0px 0px 40px #00000010;
 }
+.grayShadowBoldNoOffset {
+  box-shadow: 0px 0px 20px #00000020;
+}
 
 .buttonLoading .buttonText{
   color: transparent !important;
@@ -403,7 +406,6 @@ select{
 .emptyLoading:empty {
   background: linear-gradient(0.25turn, transparent, #fff, transparent), linear-gradient(#e1e1e1, #e1e1e1), radial-gradient(38px circle at 19px 19px, #e1e1e1 50%, transparent 51%), linear-gradient(#e1e1e1, #e1e1e1);
   background-repeat: no-repeat;
-  background-size: 315px 250px, 315px 180px, 100px 100px, 225px 30px;
   background-position: -315px 0, 0 0, 0px 190px, 50px 195px;
   animation: loading 1.5s infinite;
   width: 100%;
@@ -413,7 +415,6 @@ select{
 .loading.notEmpty {
   background: linear-gradient(0.25turn, transparent, #fff, transparent), linear-gradient(#e1e1e1, #e1e1e1), radial-gradient(38px circle at 19px 19px, #e1e1e1 50%, transparent 51%), linear-gradient(#e1e1e1, #e1e1e1);
   background-repeat: no-repeat;
-  background-size: 315px 250px, 315px 180px, 100px 100px, 225px 30px;
   background-position: -315px 0, 0 0, 0px 190px, 50px 195px;
   animation: loading 1.5s infinite;
   width: 100%;
@@ -536,6 +537,10 @@ border-radius: 20px;
   background-color: var(--mainForeground);
 padding: 1.5vw;
 border-radius: 20px;
+}
+
+.errorOverlay{
+  background-color: #ececec6e;
 }
 
 
@@ -743,6 +748,131 @@ label *{
 }
 
 
+.matches{
+  position: relative;
+  width: 95%;
+  height: 60%;
+  margin-left: 3.5%;
+  aspect-ratio: 1 / 1.5;
+}
+
+.matchContainer{
+  position: absolute;
+  width: 85%;
+  aspect-ratio: 3/5;
+
+}
+
+.matchContainer .providerSection{
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 3/5.5;
+  border-radius: 30px;
+  margin-left: 7.5%;
+  background-size: cover;
+  overflow: hidden;
+  position: relative;
+  .flatImage{
+    width: 100%;
+    height: 100% !important;
+    object-fit: cover;
+  }
+}
+
+.matchContainer .providerSection .bottomDetails, .matchContainer .providerSection .topDetails{
+  filter: contrast(4);
+}
+
+.matchContainer .providerSection .bottomDetails{
+  position:  absolute;
+  top:  75%;
+  margin-left: 5%;
+  width: 95%;
+}
+
+.matchContainer .providerSection .bottomDetails .sideIcon{
+  width: 10%;
+  display: inline-block;
+  vertical-align: middle;
+}
+.matchContainer .providerSection .topDetails{
+  position:  absolute;
+  top:  3%;
+  margin-left: 5%;
+  width: 95%;
+}
+
+.matchContainer .providerSection .topDetails .sideIcon{
+  width: 10%;
+  display: inline-block;
+  vertical-align: middle;
+}
+.matchContainer .providerSection .descriptionText{
+  display: inline-block;
+  width: 88%;
+  vertical-align: middle;
+  font-size: x-large;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.matchContainer .providerSection .genderPreference .descriptionText{
+  font-size: larger;
+  font-weight:500;
+}
+
+
+.matchContainer .providerSection .bottomDetails .sideIcon img{
+  width: 100%;
+}
+.matchContainer .providerSection .imageOverlay{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  background: linear-gradient(to top, hsla(0, 0%, 72%, 0.62) 0%, hsla(0, 0%, 90%, 0.62) 20%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 100%, 0.42) 88%, hsla(0, 0%, 72%, 0.62) 100%);
+}
+.matches .buttonSection{
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  margin-top: -18%;
+}
+
+.matches .matchButton{
+  width: 21%;
+  background: var(--mainForeground);
+  aspect-ratio: 1/1;
+  border-radius: 300px;
+  display: inline-block;
+  margin: 1%;
+  vertical-align: middle;
+  position: relative;
+  img{
+    width: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+  }
+}
+
+.matches .matchButton.backButton{
+  width: 17%;
+  border: 3px solid var(--mainText);
+}
+
+.matches .matchButton.dislikeButton{
+  border: 3px solid #E56868;
+}
+
+.matches .matchButton.moreInfoButton{
+  border: 3px solid var(--mainText);
+}
+.matches .matchButton.likeButton{
+  border: 3px solid #00BD13;
+}
 
 /*loader*/
 

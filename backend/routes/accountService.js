@@ -83,6 +83,34 @@ router.get("/uploads/searcherImages/:id", function (req, res, next) {
   }
 });
 
+router.get("/uploads/providerImages/:id", function (req, res, next) {
+  try {
+    var imagePath;
+    if (
+      validate(req.params.id)
+    ) {
+      imagePath = req.params.id+".webp";
+    } else {
+      imagePath = "0";
+    }
+    fs.readFile(
+      process.cwd() + "/uploads/providerImages/" + imagePath,
+      (err, data) => {
+        if (!err && data) {
+          return res.sendFile(
+            process.cwd() + "/uploads/providerImages/" + imagePath
+          );
+        } else {
+          return res.sendFile(process.cwd() + "/assets/accountPlaceholder.svg");
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
 
 
 

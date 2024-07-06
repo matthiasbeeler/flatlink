@@ -278,8 +278,10 @@ $.ajax({
 
     },
     error: function (jqXHR, textStatus, err) {
-        $('.errorMessage').show()
-        $('.errorMessage .messageText').html("")
+        $('.errorOverlay').show()
+        setTimeout(() => {
+            window.location.reload();
+        }, 30000);
 }
 });
 
