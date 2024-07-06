@@ -4,7 +4,7 @@ const { User, searcherPreferences, providerPreferences }= require('../database/m
 const { accountData } = require('../services/userData');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
-const { matching } = require('../services/matching');
+const { matching, updatePreferences } = require('../services/matching');
 
 
 
@@ -138,5 +138,13 @@ var provider = [
 router.post('/getMatch', async (req, res) => {
   await matching(req,res,User,searcherPreferences,providerPreferences)
 })
+
+router.post('/Match', async (req, res) => {
+  await updatePreferences(req,res,User,searcherPreferences)
+})
+
+
+
+
 
 module.exports = router;
