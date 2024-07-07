@@ -751,16 +751,14 @@ label *{
 .matches{
   position: relative;
   width: 95%;
-  height: 60%;
+  height: 70dvh;
   margin-left: 3.5%;
-  aspect-ratio: 1 / 1.5;
 }
 
 .matchContainer{
   position: absolute;
   width: 85%;
-  aspect-ratio: 3/5;
-
+height: 88%;
 }
 
 .matchContainer .providerSection{
@@ -939,6 +937,11 @@ label *{
     width: 30%;
     margin-left: 35%;
   }
+  .foreground{
+    width: 30%;
+
+  }
+
 
 
 .bottomFixedButton{
