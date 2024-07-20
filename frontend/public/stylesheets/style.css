@@ -103,11 +103,15 @@ body{
   width: 76%;
   margin-top: 3%;
   margin-left: 2%;
-  font-size: 390%;
+  font-size: 370%;
 }
 
 .title{
   font-weight: 900;
+}
+
+.topTitleSettings{
+  margin-left: 3%
 }
 
 .whitespaceImage{
@@ -751,7 +755,7 @@ label *{
 .matches{
   position: relative;
   width: 95%;
-  height: 70dvh;
+  height: 73dvh;
   margin-left: 3.5%;
 }
 
@@ -930,6 +934,28 @@ height: 88%;
 
 
 
+.backButton{
+    display: flex;
+    padding: 4%;
+    justify-content: center;
+    background: var(--mainInput);
+    width: 6%;
+    aspect-ratio: 1 / 1;
+    border-radius: 20px;
+    margin-left: 3%;
+    margin-top: 2%;
+    cursor: pointer;
+}
+
+.backButton img{
+  width: 100%;
+  height: auto;
+}
+
+.backButtonLink{
+  width: min-content;
+  height: min-content;
+}
 
 @media (min-width: 800px) {
 
