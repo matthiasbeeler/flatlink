@@ -29,4 +29,11 @@ router.get('/account', function(req, res, next) {
   res.render('loggedin/account');
 });
 
+
+router.get('/account/update/:type', function(req, res, next) {
+  const updateType = req.params.type;
+  console.log(updateType)
+  res.render('loggedin/account/detailUpdateGeneral');
+});
+
 module.exports = router;
