@@ -8,6 +8,8 @@ const jwt= require('jsonwebtoken');
 
 router.all("*", function (req, res, next) {
   try {
+    console.log(req.cookies.flatlinkAuth)
+
   if(req.cookies.flatlinkAuth){
     if(uuid.validate(jwt.verify(req.cookies.flatlinkAuth, process.env.jwtSecret).data.id)) return next();
     return res.redirect('/')
@@ -30,10 +32,14 @@ router.get('/account', function(req, res, next) {
 });
 
 
+router.get('/likes', function(req, res, next) {
+  res.render('loggedin/likes');
+});
+
 router.get('/account/update/:type', function(req, res, next) {
   const updateType = req.params.type;
   console.log(updateType)
-  res.render('loggedin/account/detailUpdateGeneral');
+  res.render('loggedin/account/detailUpdateGeneral', {updateType});
 });
 
 module.exports = router;
