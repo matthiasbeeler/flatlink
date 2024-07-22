@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<%- include('../modules/head', {title:"Likes"}) %>
+
+    <body>
+        <div class="content">
+            <img src="/assets/svg/flatlinkTextLogo.svg" alt="" class="topLeftLogoText">
+
+            <div class="spacing10"></div>
+            <div class="spacing10"></div>
+            <div class="title">Deine Likes</div>
+
+           <div class="spacing10"></div>
+           <div class="spacing10"></div>
+           <div class="spacing10"></div>
+           <div class="spacing10"></div>
+
+            <div class="foreground bottomNav">
+                <div class="foregroundTop">
+                    <div class="oval"></div>
+                </div>
+                <div class="innerForeground">
+                <div class="innerNav">
+                    <a href="/user">
+
+                    <div class="navElement">
+                        <center>
+                            <img src="/assets/svg/exploreFull.svg" style="display: none;" alt="">
+                            <img src="/assets/svg/exploreEmpty.svg"  alt="">
+                            <p>Explore</p>
+                        </center>
+                    </div>
+                </a>
+
+                        <div class="navElement">
+                            <center>
+    
+                                <img src="/assets/svg/heartEmpty.svg" style="display: none;" alt="">
+                                <img src="/assets/svg/heartFull.svg" alt="">
+                                <p>Likes</p>
+                            </center>
+                        </div>
+                <a href="/user/account">
+                    <div class="navElement">
+                        <center>
+
+                            <img src="/assets/svg/accountEmpty.svg" alt="">
+                            <img src="/assets/svg/accountFull.svg" style="display: none;" alt="">
+                            <p>Account</p>
+                        </center>
+                    </div>
+                </a>
+
+                </div>
+            </div>
+
+            </div>
+
+        </div>
+        <%- include('../modules/footer', { minHeight: 0.89, hide: true}) %>
+
+    </body>
+
+    </html>
+
+    <script>
+
+$.ajax({
+    url: '<%=process.env.apiUrl%>/matchingService/getMatch',
+    type: 'POST',
+    async: true,
+    cache: false,
+    crossDomain: true,
+    data: {
+        "flatlinkAuth": getCookie('flatlinkAuth'),
+        "currentId": "",
+        "matchAmount": 1
+    },
+    success: function (data, status, xhr) {
+        if (data) {
+       if (data.success == true) {
+        var matchpercents = "<br><br><br>";
+        data.providers.forEach(element => {
+        console.log(element.provider.images)
+        $('.providerSection .flatImage').attr('src', `<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.provider.images[0]}?flatlinkAuth=${ getCookie('flatlinkAuth')}`)
+
+            var gendPreference = "";
+            if(element.provider.genderPreference == "female") gendPreference = "Nur Frauen";
+            if(element.provider.genderPreference == "male") gendPreference = "Nur Männer";
+            if(element.provider.genderPreference == "intersex") gendPreference = "Nur Intersex";
+            if(element.provider.genderPreference == "none") gendPreference = "";
+
+            
+        var obj = `
+
+                <div class="providerSection loading notEmpty grayShadowBoldNoOffset id${element.provider.id}">
+                    <img class="flatImage" src="<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.provider.images[0]}?flatlinkAuth=${getCookie('flatlinkAuth')}" alt=''>
+                    <div class="imageOverlay">
+                    </div>
+                    <div class="dislikeOverlay">
+                        <img src="/assets/svg/dislikeIcon.svg">
+                    </div>
+                    <div class="matchOverlay">
+                        <img src="/assets/svg/likeIcon.svg">
+                    </div>
+                    <div class="topDetails">
+                        <div class="location">
+                            <div class="sideIcon"><img src="/assets/svg/location.svg" alt="">
+                            </div>
+                            <div class="title descriptionText">${element.provider.plz}, ${element.provider.place}</div>
+
+                        </div>
+                        <div class="genderPreference">
+                            <div class="title descriptionText">${gendPreference}</div>
+                        </div>
+                    </div>
+                    <div class="bottomDetails">
+                        <div class="price">
+                            <div class="sideIcon"><img src="/assets/svg/moneyBank.svg" alt="">
+                            </div>
+                            <div class="title descriptionText">400 chf/monat</div>
+
+                        </div>
+                        <div class="flatmates">
+                            <div class="sideIcon"><img src="/assets/svg/people.svg" alt=""></div>
+                            <div class="title descriptionText">3 Mitbewohner:innen</div>
+
+                        </div>
+                    </div>
+                </div>
+               
+                
+            `
+            $('.providerSection.loading.notEmpty').replaceWith(obj)
+        });
+        }
+        if (data.success == false) {
+            $('.errorMessage').show()
+            $('.errorMessage .messageText').html(errorMessages[data.error])
+        }
+    }
+
+    },
+    error: function (jqXHR, textStatus, err) {
+        $('.errorOverlay').show()
+        setTimeout(() => {
+            window.location.reload();
+        }, 30000);
+
+}
+});
+
+    </script>
