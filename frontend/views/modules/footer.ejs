@@ -28,8 +28,6 @@ var minHeight = <%=minHeight%>;
 if(document.querySelector('.foreground').clientHeight / window.innerHeight < 1-minHeight){
 document.querySelector('.foreground').style.height = window.innerHeight*(1-minHeight)+"px";
 }
-
-
 if(document.querySelector(".foreground").offsetTop / window.innerHeight*0.5 < minHeight){
 document.querySelector('.foreground').style.marginTop = window.innerHeight*minHeight-document.querySelector(".foreground").offsetTop+"px";
 }

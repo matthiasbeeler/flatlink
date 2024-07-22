@@ -103,11 +103,21 @@ body{
   width: 76%;
   margin-top: 3%;
   margin-left: 2%;
-  font-size: 390%;
-}
+  font-size: 370%;
+  white-space:normal;
+  max-width: 95%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;}
 
 .title{
   font-weight: 900;
+}
+
+.topTitleSettings{
+  margin-left: 3%
 }
 
 .whitespaceImage{
@@ -735,6 +745,10 @@ label *{
   }
 }
 
+.textContent.noChevron{
+  width: 94%;
+}
+
 .groupButtonDiv .buttonIcon{
   vertical-align: middle;
 
@@ -751,16 +765,61 @@ label *{
 .matches{
   position: relative;
   width: 95%;
-  height: 60%;
+  height: 73dvh;
   margin-left: 3.5%;
-  aspect-ratio: 1 / 1.5;
 }
 
 .matchContainer{
   position: absolute;
   width: 85%;
-  aspect-ratio: 3/5;
+height: 94%;
+}
 
+.matchContainer .providerSection.animateLike{
+  animation: moveRightRotateAndFade 1.5s ease-out;
+}
+
+@keyframes moveRightRotateAndFade {
+  0% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  30% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  60% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%) rotate(30deg);
+    opacity: 0;
+  }
+}
+
+
+.matchContainer .providerSection.animateDislike{
+  animation: moveLeftRotateAndFade 1.5s ease-out;
+}
+
+@keyframes moveLeftRotateAndFade {
+  0% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  30% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  60% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%) rotate(-30deg);
+    opacity: 0;
+  }
 }
 
 .matchContainer .providerSection{
@@ -833,11 +892,41 @@ label *{
   top: 0px;
   background: linear-gradient(to top, hsla(0, 0%, 72%, 0.62) 0%, hsla(0, 0%, 90%, 0.62) 20%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 100%, 0.42) 88%, hsla(0, 0%, 72%, 0.62) 100%);
 }
+
+.matchContainer .providerSection .dislikeOverlay, .matchContainer .providerSection .matchOverlay{
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  background: #e78787af;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.matchContainer .providerSection .matchOverlay{
+  background: #87e791af;
+
+}
+
+.matchContainer .providerSection .dislikeOverlay img, .matchContainer .providerSection .matchOverlay img{
+  width: 50%;
+  aspect-ratio: 1/1;
+  height: auto;
+  left: 50%;
+  top: 50%;
+  position: relative;
+  transform: translate(-50%,-50%);
+}
+
+
 .matches .buttonSection{
   width: 100%;
   position: absolute;
   bottom: 0px;
   margin-top: -18%;
+  z-index: 11;
 }
 
 .matches .matchButton{
@@ -846,7 +935,7 @@ label *{
   aspect-ratio: 1/1;
   border-radius: 300px;
   display: inline-block;
-  margin: 1%;
+  margin: 2%;
   vertical-align: middle;
   position: relative;
   img{
@@ -860,19 +949,9 @@ label *{
 
 .matches .matchButton.backButton{
   width: 17%;
-  border: 3px solid var(--mainText);
+  padding: unset;
 }
 
-.matches .matchButton.dislikeButton{
-  border: 3px solid #E56868;
-}
-
-.matches .matchButton.moreInfoButton{
-  border: 3px solid var(--mainText);
-}
-.matches .matchButton.likeButton{
-  border: 3px solid #00BD13;
-}
 
 /*loader*/
 
@@ -932,6 +1011,28 @@ label *{
 
 
 
+.backButton{
+    display: flex;
+    padding: 4%;
+    justify-content: center;
+    background: var(--mainInput);
+    width: 6%;
+    aspect-ratio: 1 / 1;
+    border-radius: 20px;
+    margin-left: 3%;
+    margin-top: 2%;
+    cursor: pointer;
+}
+
+.backButton img{
+  width: 100%;
+  height: auto;
+}
+
+.backButtonLink{
+  width: min-content;
+  height: min-content;
+}
 
 @media (min-width: 800px) {
 
@@ -939,6 +1040,11 @@ label *{
     width: 30%;
     margin-left: 35%;
   }
+  .foreground{
+    width: 30%;
+
+  }
+
 
 
 .bottomFixedButton{

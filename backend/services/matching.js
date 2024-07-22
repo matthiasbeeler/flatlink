@@ -24,20 +24,30 @@ exports.matching = async (request, response, User,searcherPreferences,providerPr
     const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret).data.id;
     const user = await User.findOne({ id: userId });
     const matchAmount = request.body.matchAmount;
+    try {
+    var idsToFilter = JSON.parse(request.body.currentId);
+    } catch (error) {
+        var idsToFilter = [] 
+    }
     const preferences = await searcherPreferences.findOne({ id: userId });
+    console.log(idsToFilter)
+    if(idsToFilter && idsToFilter.length > 0){
+    idsToFilter.forEach(element => {
+        preferences.seenProviders.push(element)
+    });
+    }
     const providers = await providerPreferences.findAll({
         where:{
-            id: {[Op.notIn]: preferences.seenProviders}
+            id: {[Op.notIn]: preferences.seenProviders},
+
         }
     })
-    console.log(preferences)
     if (!user || !preferences) {
         return res.status(404).send('User not found');
     }
 
-    var idsToFilter = request.body.currentId;
 
-    const filteredProviders = providers.filter(provider => !idsToFilter.includes(provider.id));
+    const filteredProviders = providers;
 
     if (filteredProviders.length === 0) {
         //return res.status(404).send('No more providers');

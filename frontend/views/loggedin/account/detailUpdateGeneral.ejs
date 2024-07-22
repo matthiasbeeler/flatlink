@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<%- include('../../modules/head', {title:"Account"}) %>
+
+    <body>
+        <div class="content">
+            <a href="/user/account" class="backButtonLink">
+            <div class="backButton">
+                <img src="/assets/svg/backIcon.svg" alt="">
+            </div>
+        </a>
+<%if(updateType == "phonenumber"){%>
+        <div class="topTitle title topTitleSettings">Telefonnummer</div>
+
+
+            <div class="foreground">
+                <div class="foregroundTop">
+                    <div class="oval"></div>
+                </div>
+                <div class="innerForeground">
+                <form id="mainForm" method="post" action=""> 
+                    <div class="message orangeShadowNoOffset">
+                    </div>
+                    <select id="phoneCode" class="phoneSelect" name="select" id="" onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                    oninvalid=" $(this).css('border', '1px solid red');" disabled autocomplete="tel-country-code">
+                        <option value="+41">+41 </option>
+                    </select>
+                    <input type="tel" class="phoneInput" required placeholder="Deine Telefonnummer"
+                    onchange="$(this).css('border', '1px solid var(--inputBorder)');" onkeyup="this.value = this.value.replace(/[^0-9-]/g, '');"
+                    oninvalid=" $(this).css('border', '1px solid red');" id="phonenumber" autocomplete="tel">
+                    <div class="spacing5"></div>
+                       <div class="spacing5"></div>
+                       <div class="info">
+                        <img src="/assets/svg/info.svg" alt="">
+                        <div class="infoText">
+                            
+                            Deine Telefonnummer kannst Du ein Mal innert 24 Stunden ändern.
+                        </div>
+                    </div>
+                    <div class="spacing8"></div>
+
+                       <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
+                           <div class="buttonText">Ändern</div>
+                           </div>
+                       <input type="submit" id="submitButton" value="submit" style="display: none;">
+
+                </form>
+
+           
+                    
+                <div class="spacing5"></div>
+                <div class="spacing3"></div>
+
+            </div>
+        </div>
+        <%}%>
+
+
+
+        <%if(updateType == "email"){%>
+            <div class="topTitle title topTitleSettings">eMail Adresse</div>
+    
+    
+                <div class="foreground">
+                    <div class="foregroundTop">
+                        <div class="oval"></div>
+                    </div>
+                    <div class="innerForeground">
+                    <form id="mainForm" method="post" action=""> 
+                        <div class="message orangeShadowNoOffset">
+                        </div>
+                        <input type="email" name="email" required placeholder="Neue eMail"
+                        onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                        oninvalid=" $(this).css('border', '1px solid red');" id="eMail" autocomplete="email">
+                        <div class="spacing5"></div>
+                           <div class="spacing5"></div>
+                           <div class="info">
+                            <img src="/assets/svg/info.svg" alt="">
+                            <div class="infoText">
+                                
+                                Deine eMail Adresse kannst Du ein Mal innert 24 Stunden ändern.
+                            </div>
+                        </div>
+                        <div class="spacing8"></div>
+    
+                           <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
+                               <div class="buttonText">Ändern</div>
+                               </div>
+                           <input type="submit" id="submitButton" value="submit" style="display: none;">
+    
+                    </form>
+    
+               
+                        
+                    <div class="spacing5"></div>
+                    <div class="spacing3"></div>
+    
+                </div>
+            </div>
+            <%}%>
+
+            <%if(updateType == "job"){%>
+                <div class="topTitle title topTitleSettings">Dein Beruf</div>
+        
+        
+                    <div class="foreground">
+                        <div class="foregroundTop">
+                            <div class="oval"></div>
+                        </div>
+                        <div class="innerForeground">
+                        <form id="mainForm" method="post" action=""> 
+                            <div class="message orangeShadowNoOffset">
+                            </div>
+                            <input type="email" name="email" required placeholder="Neuer Beruf"
+                            onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                            oninvalid=" $(this).css('border', '1px solid red');" id="eMail" autocomplete="email">
+                            <div class="spacing5"></div>
+                               <div class="spacing5"></div>
+                               
+                            <div class="spacing8"></div>
+        
+                               <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
+                                   <div class="buttonText">Ändern</div>
+                                   </div>
+                               <input type="submit" id="submitButton" value="submit" style="display: none;">
+        
+                        </form>
+        
+                   
+                            
+                        <div class="spacing5"></div>
+                        <div class="spacing3"></div>
+        
+                    </div>
+                </div>
+                <%}%>
+
+
+                <%if(updateType == "password"){%>
+                    <div class="topTitle title topTitleSettings">Passwort</div>
+            
+            
+                        <div class="foreground">
+                            <div class="foregroundTop">
+                                <div class="oval"></div>
+                            </div>
+                            <div class="innerForeground">
+                            <form id="mainForm" method="post" action=""> 
+                                <div class="message orangeShadowNoOffset">
+                                </div>
+                                <input type="password" name="password" required placeholder="Passwort"
+                    onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                    oninvalid=" $(this).css('border', '1px solid red');" id="password" autocomplete="off" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+                    <div class="spacing3"></div>
+                    <div id="message" class="info passwordInfo">
+                        <h3>Passwort muss folgendes enthalten:</h3>
+                        <p id="letter" class="invalid">Ein <strong>Kleinbuchsten</strong></p>
+                        <p id="capital" class="invalid">Ein <strong>Grossbuchstaben</strong></p>
+                        <p id="number" class="invalid">Eine <strong>Nummer</strong></p>
+                        <p id="length" class="invalid">Mindestens <strong>8 Zeichen</strong></p>
+                      </div>
+                <div class="spacing5"></div>
+
+                <input type="password" name="passwordCheck" id="passwordCheck" required placeholder="Passwort wiederholen"
+                onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+                oninvalid=" $(this).css('border', '1px solid red');" autocomplete="off" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"> 
+                <div class="spacing3"></div>
+               
+                <div id="messageCheck" class="info passwordInfo">
+                    <h3 class="invalid">Passwörter müssen übereinstimmen</h3>
+                  </div>
+                  <div class="spacing5"></div>
+                                <div class="spacing5"></div>
+                                   <div class="spacing5"></div>
+            
+                                   <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
+                                       <div class="buttonText">Ändern</div>
+                                       </div>
+                                   <input type="submit" id="submitButton" value="submit" style="display: none;">
+            
+                            </form>
+            
+                       
+                                
+                            <div class="spacing5"></div>
+                            <div class="spacing3"></div>
+            
+                        </div>
+                    </div>
+                    <%}%>
+            
+
+
+    </div>
+
+        <%- include('../../modules/footer', { minHeight: 0.4, hide: true}) %>
+
+    </body>
+
+    </html>
+    <script>
+
+//password check
+var passwordInput = document.getElementById("password");
+var passwordCheckInput = document.getElementById("passwordCheck");
+var letter = document.getElementById("letter");
+var capital = document.getElementById("capital");
+var number = document.getElementById("number");
+var length = document.getElementById("length");
+
+// When the user clicks on the password field, show the message box
+passwordInput.onfocus = function() {
+  document.getElementById("message").style.display = "block";
+}
+
+// When the user clicks outside of the password field, hide the message box
+passwordInput.onblur = function() {
+  document.getElementById("message").style.display = "none";
+}
+
+// When the user starts to type something inside the password field
+passwordInput.onkeyup = function() {
+  // Validate lowercase letters
+  var lowerCaseLetters = /[a-z]/g;
+  if(passwordInput.value.match(lowerCaseLetters)) {
+    letter.classList.remove("invalid");
+    letter.classList.add("valid");
+  } else {
+    letter.classList.remove("valid");
+    letter.classList.add("invalid");
+}
+
+  // Validate capital letters
+  var upperCaseLetters = /[A-Z]/g;
+  if(passwordInput.value.match(upperCaseLetters)) {
+    capital.classList.remove("invalid");
+    capital.classList.add("valid");
+  } else {
+    capital.classList.remove("valid");
+    capital.classList.add("invalid");
+  }
+
+  // Validate numbers
+  var numbers = /[0-9]/g;
+  if(passwordInput.value.match(numbers)) {
+    number.classList.remove("invalid");
+    number.classList.add("valid");
+  } else {
+    number.classList.remove("valid");
+    number.classList.add("invalid");
+  }
+
+  // Validate length
+  if(passwordInput.value.length >= 8) {
+    length.classList.remove("invalid");
+    length.classList.add("valid");
+  } else {
+    length.classList.remove("valid");
+    length.classList.add("invalid");
+  }
+}
+
+passwordCheckInput.onkeyup = function() {
+    if(passwordCheckInput.value == passwordInput.value) return document.getElementById("messageCheck").style.display = "none";
+    document.getElementById("messageCheck").style.display = "block";
+}
+
+
+
+$.ajax({
+    url: '<%=process.env.apiUrl%>/accountService/accountData',
+    type: 'POST',
+    async: true,
+    cache: false,
+    crossDomain: true,
+    data: {
+        "flatlinkAuth": getCookie('flatlinkAuth')
+    },
+    success: function (data, status, xhr) {
+        if (data) {
+            console.log(data)
+       if (data.success == true) {
+        setCookie("flatlinkAuth", data.token)
+        $(".emptyLoading").removeClass("emptyLoading");
+
+         $('.firstName').html(data.userData.firstName)
+         $('.phonenumber').html(data.userData.phonenumber)
+         $('.lastName').html(data.userData.lastName)
+         $('.emailAddress').html(data.userData.email)
+         if(data.userType == "searcher"){
+            $('.occupation').html(data.personalData.occupation)
+            $('.genderDetail').html(`<img src="/assets/svg/${data.personalData.gender}.svg" alt="">`);
+            $('.profileImage img').attr(`src`, `<%=process.env.apiUrl%>/accountService/uploads/searcherImages/${data.userId}?flatlinkAuth=${data.token}`)
+
+         }
+         if(data.userType == "provider"){
+            $('.profileImage img').attr(`src`, `/assets/svg/providerPlaceholder.svg`)
+
+            $('.occupationDetail').html("@"+data.personalData.place)
+            $('.genderDetail').html(`<span class="noAnimation" id="flatmates">${data.personalData.flatmates}</span>  <img src="/assets/svg/people.svg" alt="">`);
+            $('.genderDetail').addClass('flatmates noAnimation')
+            $('.customTitle').html("Adresse")
+            $('.customContent').html(`${data.personalData.street}, ${data.personalData.place} ${data.personalData.plz}`)
+
+         }
+         adjustFontSize('nameDetail', 12, 80, 2);
+   adjustFontSize('occupationDetail', 12, 80, 2);
+   adjustFontSize('flatmates', 12, 80, 2);
+
+            $('.accountPageProfileImage').css('background-image',
+                            `url(<%=process.env.apiUrl%>/uploads/profileImages/${data.userData.profileImage}?v=${data.userData.profileImageUpdate})`
+                            )
+        
+        }
+        if (data.success == false) {
+            $('.errorMessage').show()
+            $('.errorMessage .messageText').html(errorMessages[data.error])
+        }
+    }
+
+    },
+    error: function (jqXHR, textStatus, err) {
+        $('.errorOverlay').show()
+        setTimeout(() => {
+            window.location.reload();
+        }, 30000);
+}
+});
+
+
+    </script>

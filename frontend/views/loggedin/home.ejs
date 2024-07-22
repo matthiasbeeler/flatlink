@@ -12,66 +12,68 @@
             <div class="spacing10"></div>
 
             <div class="matches">
-                <div class="matchContainer ">
-                    
+                <div class="matchContainer">
+                    <div class="providerSection loading notEmpty grayShadowBoldNoOffset id${element.provider.id}">
+
+                    </div>
                 </div>
                 <div class="buttonSection">
-                    <div class="backButton matchButton">
+                    <div class="backButton matchButton grayShadowBoldNoOffset">
                         <img src="/assets/svg/backIcon.svg" alt="">
                     </div>
-                    <div class="dislikeButton matchButton">
+                    <div onclick="dislike()" class="dislikeButton matchButton grayShadowBoldNoOffset">
                         <img src="/assets/svg/dislikeIcon.svg" alt="">
                     </div>
-                    <div class="moreInfoButton matchButton">
+                    <div class="moreInfoButton matchButton grayShadowBoldNoOffset">
                         <img src="/assets/svg/moreInfoIcon.svg" alt="">
 
                     </div>
-                    <div class="likeButton matchButton">
+                    <div onclick="like()" class="likeButton matchButton grayShadowBoldNoOffset">
                         <img src="/assets/svg/likeIcon.svg" alt="">
                     </div>
                 </div>
             </div>
-           <div class="spacing10"></div>
-           <div class="spacing10"></div>
-           <div class="spacing10"></div>
-           <div class="spacing10"></div>
+            <div class="spacing10"></div>
+            <div class="spacing10"></div>
+            <div class="spacing10"></div>
+            <div class="spacing10"></div>
 
             <div class="foreground bottomNav">
                 <div class="foregroundTop">
                     <div class="oval"></div>
                 </div>
                 <div class="innerForeground">
-                <div class="innerNav">
-                    <div class="navElement">
-                        <center>
-                            <img src="/assets/svg/exploreFull.svg" alt="">
-                            <img src="/assets/svg/exploreEmpty.svg" style="display: none;" alt="">
-                            <p>Explore</p>
-                        </center>
-                    </div>
-                    <a href="/user/likes">
+                    <div class="innerNav">
                         <div class="navElement">
                             <center>
-    
-                                <img src="/assets/svg/heartEmpty.svg" alt="">
-                                <img src="/assets/svg/heartFull.svg" style="display: none;" alt="">
-                                <p>Likes</p>
+                                <img src="/assets/svg/exploreFull.svg" alt="">
+                                <img src="/assets/svg/exploreEmpty.svg" style="display: none;" alt="">
+                                <p>Explore</p>
                             </center>
                         </div>
-                    </a>
-                <a href="/user/account">
-                    <div class="navElement">
-                        <center>
+                        <a href="/user/likes">
+                            <div class="navElement">
+                                <center>
 
-                            <img src="/assets/svg/accountEmpty.svg" alt="">
-                            <img src="/assets/svg/accountFull.svg" style="display: none;" alt="">
-                            <p>Account</p>
-                        </center>
+                                    <img src="/assets/svg/heartEmpty.svg" alt="">
+                                    <img src="/assets/svg/heartFull.svg" style="display: none;" alt="">
+                                    <p>Likes</p>
+                                </center>
+                            </div>
+                        </a>
+                        <a href="/user/account">
+                            <div class="navElement">
+                                <center>
+
+                                    <img src="/assets/svg/accountEmpty.svg" alt="">
+                                    <img src="/assets/svg/accountFull.svg" style="display: none;" alt="">
+                                    <p>Account</p>
+                                </center>
+                            </div>
+                        </a>
+
                     </div>
-                </a>
-
                 </div>
-            </div>
 
             </div>
 
@@ -84,37 +86,119 @@
 
     <script>
 
-$.ajax({
-    url: '<%=process.env.apiUrl%>/matchingService/getMatch',
-    type: 'POST',
-    async: true,
-    cache: false,
-    crossDomain: true,
-    data: {
-        "flatlinkAuth": getCookie('flatlinkAuth'),
-        "currentId": "",
-        "matchAmount": 1
-    },
-    success: function (data, status, xhr) {
-        if (data) {
-       if (data.success == true) {
-        var matchpercents = "<br><br><br>";
-        data.providers.forEach(element => {
-        console.log(element.provider.images)
-        $('.providerSection .flatImage').attr('src', `<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.provider.images[0]}?flatlinkAuth=${ getCookie('flatlinkAuth')}`)
 
-            var gendPreference = "";
-            if(element.provider.genderPreference == "female") gendPreference = "Nur Frauen";
-            if(element.provider.genderPreference == "male") gendPreference = "Nur Männer";
-            if(element.provider.genderPreference == "intersex") gendPreference = "Nur Intersex";
-            if(element.provider.genderPreference == "none") gendPreference = "";
 
-            
-        var obj = `
+        let potentialMatches;
+        let seenProviders = [];
+        function like() {
+            $('.id' + potentialMatches[0].provider.id + " .matchOverlay").css('opacity', '1');
+            function animateAndDelete(cardElement) {
+                cardElement.classList.add('animateLike');
+
+                cardElement.addEventListener('animationend', function () {
+                    cardElement.remove();
+                }, { once: true });
+            }
+            const card = document.querySelector('.id' + potentialMatches[0].provider.id);
+            animateAndDelete(card);
+            potentialMatches = potentialMatches.slice(1, potentialMatches.length);
+            getNewMatch(seenProviders);
+        }
+        function dislike() {
+            $('.id' + potentialMatches[0].provider.id + " .dislikeOverlay").css('opacity', '1');
+            function animateAndDelete(cardElement) {
+                cardElement.classList.add('animateDislike');
+
+                cardElement.addEventListener('animationend', function () {
+                    cardElement.remove();
+                }, { once: true });
+            }
+            const card = document.querySelector('.id' + potentialMatches[0].provider.id);
+            animateAndDelete(card);
+            potentialMatches = potentialMatches.slice(1, potentialMatches.length);
+            getNewMatch(seenProviders);
+        }
+
+        function getNewMatch() {
+            $.ajax({
+                url: '<%=process.env.apiUrl%>/matchingService/getMatch',
+                type: 'POST',
+                async: true,
+                cache: false,
+                crossDomain: true,
+                data: {
+                    "flatlinkAuth": getCookie('flatlinkAuth'),
+                    "currentId": JSON.stringify(seenProviders),
+                    "matchAmount": 1
+                },
+                success: function (data, status, xhr) {
+                    if (data) {
+                        if (data.success == true) {
+                            potentialMatches.push(data.providers[0])
+                            seenProviders.push(data.providers[0].provider.id)
+                            potentialMatches.sort((a, b) => b.score.score - a.score.score);
+                        }
+                        if (data.success == false) {
+                            $('.errorMessage').show()
+                            $('.errorMessage .messageText').html(errorMessages[data.error])
+                        }
+                    }
+
+                },
+                error: function (jqXHR, textStatus, err) {
+                    $('.errorOverlay').show()
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 30000);
+
+                }
+            });
+
+        }
+
+        $.ajax({
+            url: '<%=process.env.apiUrl%>/matchingService/getMatch',
+            type: 'POST',
+            async: true,
+            cache: false,
+            crossDomain: true,
+            data: {
+                "flatlinkAuth": getCookie('flatlinkAuth'),
+                "currentId": "[]",
+                "matchAmount": 5
+            },
+            success: function (data, status, xhr) {
+                if (data) {
+                    if (data.success == true) {
+                        potentialMatches = data.providers.map((provider, index) => ({
+                            provider: provider.provider,
+                            score: provider.score
+                        }));
+                        potentialMatches.forEach(element => {
+                            seenProviders.push(element.provider.id)
+                        });
+                        var matchpercents = "<br><br><br>";
+                        var element = potentialMatches[0]
+                        $('.providerSection .flatImage').attr('src', `<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.provider.images[0]}?flatlinkAuth=${getCookie('flatlinkAuth')}`)
+
+                        var gendPreference = "";
+                        if (element.provider.genderPreference == "female") gendPreference = "Nur Frauen";
+                        if (element.provider.genderPreference == "male") gendPreference = "Nur Männer";
+                        if (element.provider.genderPreference == "intersex") gendPreference = "Nur Intersex";
+                        if (element.provider.genderPreference == "none") gendPreference = "";
+
+
+                        var obj = `
 
                 <div class="providerSection loading notEmpty grayShadowBoldNoOffset id${element.provider.id}">
                     <img class="flatImage" src="<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.provider.images[0]}?flatlinkAuth=${getCookie('flatlinkAuth')}" alt=''>
                     <div class="imageOverlay">
+                    </div>
+                    <div class="dislikeOverlay">
+                        <img src="/assets/svg/dislikeIcon.svg">
+                    </div>
+                    <div class="matchOverlay">
+                        <img src="/assets/svg/likeIcon.svg">
                     </div>
                     <div class="topDetails">
                         <div class="location">
@@ -144,23 +228,22 @@ $.ajax({
                
                 
             `
-            $('.matchContainer').append(obj)
+                        $('.providerSection.loading.notEmpty').replaceWith(obj)
+                    }
+                    if (data.success == false) {
+                        $('.errorMessage').show()
+                        $('.errorMessage .messageText').html(errorMessages[data.error])
+                    }
+                }
+
+            },
+            error: function (jqXHR, textStatus, err) {
+                $('.errorOverlay').show()
+                setTimeout(() => {
+                    window.location.reload();
+                }, 30000);
+
+            }
         });
-        }
-        if (data.success == false) {
-            $('.errorMessage').show()
-            $('.errorMessage .messageText').html(errorMessages[data.error])
-        }
-    }
-
-    },
-    error: function (jqXHR, textStatus, err) {
-        $('.errorOverlay').show()
-        setTimeout(() => {
-            window.location.reload();
-        }, 30000);
-
-}
-});
 
     </script>
