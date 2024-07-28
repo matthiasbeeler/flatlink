@@ -93,30 +93,45 @@
         function like() {
             $('.id' + potentialMatches[0].provider.id + " .matchOverlay").css('opacity', '1');
             function animateAndDelete(cardElement) {
+               
                 cardElement.classList.add('animateLike');
 
                 cardElement.addEventListener('animationend', function () {
                     cardElement.remove();
+                    var obj = `<div style="z-index:8;" class="providerSection loading notEmpty grayShadowBoldNoOffset">
+                    </div>`;
+            $('.matchContainer').append(obj);
+
+            potentialMatches = potentialMatches.slice(1, potentialMatches.length);
+            generateNewCard()
+            getNewMatch(seenProviders);
                 }, { once: true });
             }
             const card = document.querySelector('.id' + potentialMatches[0].provider.id);
             animateAndDelete(card);
-            potentialMatches = potentialMatches.slice(1, potentialMatches.length);
-            getNewMatch(seenProviders);
+           
+           
         }
         function dislike() {
             $('.id' + potentialMatches[0].provider.id + " .dislikeOverlay").css('opacity', '1');
             function animateAndDelete(cardElement) {
+               
                 cardElement.classList.add('animateDislike');
-
+              
                 cardElement.addEventListener('animationend', function () {
                     cardElement.remove();
+                    var obj = `<div style="z-index:8;" class="providerSection loading notEmpty grayShadowBoldNoOffset">
+                    </div>`;
+            $('.matchContainer').append(obj);
+
+            potentialMatches = potentialMatches.slice(1, potentialMatches.length);
+            generateNewCard()
+            getNewMatch(seenProviders);
                 }, { once: true });
             }
             const card = document.querySelector('.id' + potentialMatches[0].provider.id);
             animateAndDelete(card);
-            potentialMatches = potentialMatches.slice(1, potentialMatches.length);
-            getNewMatch(seenProviders);
+
         }
 
         function getNewMatch() {
@@ -134,6 +149,7 @@
                 success: function (data, status, xhr) {
                     if (data) {
                         if (data.success == true) {
+                           if(data.providers.length == 0) return;
                             potentialMatches.push(data.providers[0])
                             seenProviders.push(data.providers[0].provider.id)
                             potentialMatches.sort((a, b) => b.score.score - a.score.score);
@@ -177,10 +193,44 @@
                         potentialMatches.forEach(element => {
                             seenProviders.push(element.provider.id)
                         });
-                        var matchpercents = "<br><br><br>";
-                        var element = potentialMatches[0]
-                        $('.providerSection .flatImage').attr('src', `<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.provider.images[0]}?flatlinkAuth=${getCookie('flatlinkAuth')}`)
+                        generateNewCard()
+                    }
+                    if (data.success == false) {
+                        $('.errorMessage').show()
+                        $('.errorMessage .messageText').html(errorMessages[data.error])
+                    }
+                }
 
+            },
+            error: function (jqXHR, textStatus, err) {
+                $('.errorOverlay').show()
+                setTimeout(() => {
+                    window.location.reload();
+                }, 30000);
+
+            }
+        });
+
+        function noMatches() {
+            var obj = `
+
+<div class="providerSection noMatches grayShadowBoldNoOffset">
+   <img src="/assets/svg/noMatches.svg">
+
+</div>
+
+
+`
+$('.providerSection.loading.notEmpty').replaceWith(obj)
+        }
+
+        function generateNewCard() {
+            var matchpercents = "<br><br><br>";
+            if(potentialMatches.length == 0) return noMatches();
+                        var element = potentialMatches[0];
+                        console.log(element.provider.id, potentialMatches)
+                        $('.providerSection .flatImage').attr('src', `<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.provider.images[0]}?flatlinkAuth=${getCookie('flatlinkAuth')}`)
+            
                         var gendPreference = "";
                         if (element.provider.genderPreference == "female") gendPreference = "Nur Frauen";
                         if (element.provider.genderPreference == "male") gendPreference = "Nur Männer";
@@ -189,8 +239,7 @@
 
 
                         var obj = `
-
-                <div class="providerSection loading notEmpty grayShadowBoldNoOffset id${element.provider.id}">
+ <div class="providerSection loading notEmpty grayShadowBoldNoOffset id${element.provider.id}">
                     <img class="flatImage" src="<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.provider.images[0]}?flatlinkAuth=${getCookie('flatlinkAuth')}" alt=''>
                     <div class="imageOverlay">
                     </div>
@@ -227,23 +276,9 @@
                 </div>
                
                 
+                
             `
-                        $('.providerSection.loading.notEmpty').replaceWith(obj)
-                    }
-                    if (data.success == false) {
-                        $('.errorMessage').show()
-                        $('.errorMessage .messageText').html(errorMessages[data.error])
-                    }
-                }
+            $('.providerSection.loading.notEmpty').replaceWith(obj)
 
-            },
-            error: function (jqXHR, textStatus, err) {
-                $('.errorOverlay').show()
-                setTimeout(() => {
-                    window.location.reload();
-                }, 30000);
-
-            }
-        });
-
+        }
     </script>
