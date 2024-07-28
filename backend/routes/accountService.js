@@ -101,7 +101,7 @@ router.get("/uploads/providerImages/:id", function (req, res, next) {
             process.cwd() + "/uploads/providerImages/" + imagePath
           );
         } else {
-          return res.sendFile(process.cwd() + "/assets/accountPlaceholder.svg");
+          return res.sendFile(process.cwd() + "/assets/noFlatImage.svg");
         }
       }
     );
