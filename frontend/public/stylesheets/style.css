@@ -961,6 +961,10 @@ height: 94%;
   padding: unset;
 }
 
+.matches .matchButton.disabled{
+  opacity: 0.5;
+}
+
 
 /*loader*/
 
