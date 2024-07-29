@@ -91,6 +91,8 @@
         let potentialMatches;
         let seenProviders = [];
         function like() {
+            $('.matchButton').addClass('disabled');
+            $('.matchButton').attr('onclick', '');
             console.log(potentialMatches)
             $('.id' + potentialMatches[0].provider.id + " .matchOverlay").css('opacity', '1');
             function animateAndDelete(cardElement) {
@@ -275,11 +277,12 @@ $('.providerSection.loading.notEmpty').replaceWith(obj)
                         </div>
                     </div>
                 </div>
-               
-                
-                
-            `
+            `;
             $('.providerSection.loading.notEmpty').replaceWith(obj)
 
+            $('.matchButton').removeClass('disabled');
+            $('.matchButton.likeButton').attr('onclick', 'like()');
+            $('.matchButton.dislikeButton').attr('onclick', 'dislike()');
+            $('.matchButton.returnButton').attr('onclick', 'return()');
         }
     </script>
