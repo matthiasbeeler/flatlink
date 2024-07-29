@@ -64,9 +64,11 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
   var userId = newUser.id;
   data.id = userId;
 
+  var newPreferenceEntry;
+
   if (data.type == "IchsucheeinZimmer") {
     //creating the userPreference entry
-    const newPreferenceEntry = await searcherPreferences
+    newPreferenceEntry = await searcherPreferences
       .create(data)
       .catch((err) => {
         //on error newly created user gets deleted
@@ -77,7 +79,7 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
       });
   } else if (data.type == "IchhabeeinZimmer") {
     //creating the roomPreference entry
-    const newPreferenceEntry = await providerPreferences
+    newPreferenceEntry = await providerPreferences
       .create(data)
       .catch((err) => {
         // catch error if anything goes wrong
@@ -107,7 +109,8 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
       return await uploadImage(image, process.cwd() + "/uploads/providerImages/" + uuid + ".webp", errors);
     }));
 
-    //console.log(uploadedImages)
+    newPreferenceEntry.images = imageIds;
+    newPreferenceEntry.save()
   }
 
   //send success email with email verification link
