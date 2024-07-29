@@ -777,6 +777,7 @@ height: 94%;
 
 .matchContainer .providerSection.animateLike{
   animation: moveRightRotateAndFade 1.5s ease-out;
+  z-index: 9;
 }
 
 @keyframes moveRightRotateAndFade {
@@ -836,6 +837,14 @@ height: 94%;
     height: 100% !important;
     object-fit: cover;
   }
+}
+
+.matchContainer .noMatches img{
+  width: 95%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 5%;
 }
 
 .matchContainer .providerSection .bottomDetails, .matchContainer .providerSection .topDetails{
