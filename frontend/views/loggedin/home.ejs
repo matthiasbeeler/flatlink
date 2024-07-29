@@ -91,6 +91,7 @@
         let potentialMatches;
         let seenProviders = [];
         function like() {
+            console.log(potentialMatches)
             $('.id' + potentialMatches[0].provider.id + " .matchOverlay").css('opacity', '1');
             function animateAndDelete(cardElement) {
                
