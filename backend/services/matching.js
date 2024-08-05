@@ -22,14 +22,14 @@ let weights = {
 
 exports.matching = async (request, response, User,searcherPreferences,providerPreferences) =>{
     const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret).data.id;
-    const user = await User.findOne({ id: userId });
+    const user = await User.findOne({where: { id: userId }});
     const matchAmount = request.body.matchAmount;
     try {
     var idsToFilter = JSON.parse(request.body.currentId);
     } catch (error) {
         var idsToFilter = [] 
     }
-    const preferences = await searcherPreferences.findOne({ id: userId });
+    const preferences = await searcherPreferences.findOne({where:{ id: userId }});
     console.log(idsToFilter)
     if(idsToFilter && idsToFilter.length > 0){
     idsToFilter.forEach(element => {
