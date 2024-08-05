@@ -135,6 +135,12 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.JSON,
           allowNull: true
         },
+        likes: {
+          type: DataTypes.JSON,
+          allowNull: false,
+          unique: false,
+          defaultValue: []
+        },
   })
   return providerPreferences;
 }
