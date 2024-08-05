@@ -4,7 +4,7 @@ const { User, searcherPreferences, providerPreferences }= require('../database/m
 const { accountData } = require('../services/userData');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
-const { matching, updatePreferences } = require('../services/matching');
+const { matching } = require('../services/matching');
 
 
 
@@ -28,6 +28,7 @@ var provider = [
      ];
 
      const { v4: uuidv4 } = require('uuid');
+const { likeMatch, dislikeMatch } = require('../services/matchingAction');
      
      const places = [
        { name: 'Zürich', plz: 8000 },
@@ -139,9 +140,14 @@ router.post('/getMatch', async (req, res) => {
   await matching(req,res,User,searcherPreferences,providerPreferences)
 })
 
-router.post('/Match', async (req, res) => {
-  await updatePreferences(req,res,User,searcherPreferences)
+router.post('/likeMatch', async (req, res) => {
+  await likeMatch(req,res,User,searcherPreferences,providerPreferences)
 })
+
+router.post('/dislikeMatch', async (req, res) => {
+  await dislikeMatch(req,res,User,searcherPreferences,providerPreferences)
+})
+
 
 
 

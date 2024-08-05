@@ -110,6 +110,7 @@
             getNewMatch(seenProviders);
                 }, { once: true });
             }
+            postLike(potentialMatches[0].provider.id)
             const card = document.querySelector('.id' + potentialMatches[0].provider.id);
             animateAndDelete(card);
            
@@ -132,10 +133,81 @@
             getNewMatch(seenProviders);
                 }, { once: true });
             }
+            postDislike(potentialMatches[0].provider.id)
             const card = document.querySelector('.id' + potentialMatches[0].provider.id);
             animateAndDelete(card);
 
         }
+
+
+        function postLike(providerId) {
+            console.log(providerId)
+            $.ajax({
+                url: '<%=process.env.apiUrl%>/matchingService/likeMatch',
+                type: 'POST',
+                async: true,
+                cache: false,
+                crossDomain: true,
+                data: {
+                    "flatlinkAuth": getCookie('flatlinkAuth'),
+                    "providerId": providerId,
+                },
+                success: function (data, status, xhr) {
+                    if (data) {
+                        if (data.success == true) {
+                            console.log("success")
+                        }
+                        if (data.success == false) {
+                            console.log(data)
+                        }
+                    }
+
+                },
+                error: function (jqXHR, textStatus, err) {
+                    $('.errorOverlay').show()
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 30000);
+
+                }
+            });
+
+        }
+
+
+        function postDislike(providerId) {
+            $.ajax({
+                url: '<%=process.env.apiUrl%>/matchingService/dislikeMatch',
+                type: 'POST',
+                async: true,
+                cache: false,
+                crossDomain: true,
+                data: {
+                    "flatlinkAuth": getCookie('flatlinkAuth'),
+                    "providerId": providerId,
+                },
+                success: function (data, status, xhr) {
+                    if (data) {
+                        if (data.success == true) {
+                            console.log("success")
+                        }
+                        if (data.success == false) {
+                            console.log(data)
+                        }
+                    }
+
+                },
+                error: function (jqXHR, textStatus, err) {
+                    $('.errorOverlay').show()
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 30000);
+
+                }
+            });
+
+        }
+
 
         function getNewMatch() {
             $.ajax({
@@ -231,7 +303,7 @@ $('.providerSection.loading.notEmpty').replaceWith(obj)
             var matchpercents = "<br><br><br>";
             if(potentialMatches.length == 0) return noMatches();
                         var element = potentialMatches[0];
-                        console.log(element.provider.id, potentialMatches)
+                        console.log(element.provider.images, potentialMatches)
                         $('.providerSection .flatImage').attr('src', `<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.provider.images[0]}?flatlinkAuth=${getCookie('flatlinkAuth')}`)
             
                         var gendPreference = "";
