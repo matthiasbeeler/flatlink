@@ -3,42 +3,43 @@
 
     <body>
         <div class="content">
-            <img src="/assets/svg/flatlinkTextLogo.svg" alt="" class="topLeftLogoText">
+            <img src="/assets/svg/flatlinkTextLogo.svg" alt="" class="hideMatchDetail topLeftLogoText">
 
             <a href="">
-                <img src="/assets/svg/preferences.svg" class="topRightButton" alt="">
+                <img src="/assets/svg/preferences.svg" class="topRightButton hideMatchDetail" alt="">
             </a>
-            <div class="spacing10"></div>
-            <div class="spacing10"></div>
+            <div class="spacing10 hideMatchDetail"></div>
+            <div class="spacing10 hideMatchDetail"></div>
+            <%- include('../modules/matchDetail') %>
 
-            <div class="matches">
+            <div class="matches hideMatchDetail">
                 <div class="matchContainer">
                     <div class="providerSection loading notEmpty grayShadowBoldNoOffset id${element.provider.id}">
 
                     </div>
                 </div>
                 <div class="buttonSection">
-                    <div class="backButton matchButton grayShadowBoldNoOffset">
+                    <div class="backButton matchButton grayShadowBoldNoOffset disabled">
                         <img src="/assets/svg/backIcon.svg" alt="">
                     </div>
-                    <div onclick="dislike()" class="dislikeButton matchButton grayShadowBoldNoOffset">
+                    <div  class="dislikeButton matchButton grayShadowBoldNoOffset disabled">
                         <img src="/assets/svg/dislikeIcon.svg" alt="">
                     </div>
-                    <div class="moreInfoButton matchButton grayShadowBoldNoOffset">
+                    <div class="moreInfoButton matchButton grayShadowBoldNoOffset disabled">
                         <img src="/assets/svg/moreInfoIcon.svg" alt="">
 
                     </div>
-                    <div onclick="like()" class="likeButton matchButton grayShadowBoldNoOffset">
+                    <div  class="likeButton matchButton grayShadowBoldNoOffset disabled">
                         <img src="/assets/svg/likeIcon.svg" alt="">
                     </div>
                 </div>
             </div>
-            <div class="spacing10"></div>
-            <div class="spacing10"></div>
-            <div class="spacing10"></div>
-            <div class="spacing10"></div>
+            <div class="spacing10 hideMatchDetail"></div>
+            <div class="spacing10 hideMatchDetail"></div>
+            <div class="spacing10 hideMatchDetail"></div>
+            <div class="spacing10 hideMatchDetail"></div>
 
-            <div class="foreground bottomNav">
+            <div class="foreground bottomNav hideMatchDetail">
                 <div class="foregroundTop">
                     <div class="oval"></div>
                 </div>
@@ -85,15 +86,51 @@
     </html>
 
     <script>
-
-
+        //$('.hideMatchDetail').hide()
 
         let potentialMatches;
         let seenProviders = [];
+
+        function dislikeMoreInfo(){
+            $('.matchButton').addClass('disabled');
+            $('.matchButton').attr('onclick', '');
+            closeInfo()
+            setTimeout(() => {
+            dislike()
+            }, 400);
+        }
+
+        function likeMoreInfo(){
+            $('.matchButton').addClass('disabled');
+            $('.matchButton').attr('onclick', '');
+            closeInfo()
+            setTimeout(() => {
+            like()
+            }, 400);
+        }
+
+        function moreInfo() {
+            loadData()
+            $('.hideMatchDetail').css('opacity', '0')
+            setTimeout(() => {
+                $('.hideMatchDetail').hide()
+                $('.moduleContent').show()
+            $('.moduleContent').css('opacity', '1')
+            }, 300);
+        }
+
+        function closeInfo() {
+            $('.moduleContent').css('opacity', '0')
+            setTimeout(() => {
+                $('.moduleContent').hide()
+                $('.hideMatchDetail').show()
+            $('.hideMatchDetail').css('opacity', '1')
+            }, 300);
+        }
+
         function like() {
             $('.matchButton').addClass('disabled');
             $('.matchButton').attr('onclick', '');
-            console.log(potentialMatches)
             $('.id' + potentialMatches[0].provider.id + " .matchOverlay").css('opacity', '1');
             function animateAndDelete(cardElement) {
                
@@ -117,6 +154,8 @@
            
         }
         function dislike() {
+            $('.matchButton').addClass('disabled');
+            $('.matchButton').attr('onclick', '');
             $('.id' + potentialMatches[0].provider.id + " .dislikeOverlay").css('opacity', '1');
             function animateAndDelete(cardElement) {
                
@@ -339,12 +378,12 @@ $('.providerSection.loading.notEmpty').replaceWith(obj)
                         <div class="price">
                             <div class="sideIcon"><img src="/assets/svg/moneyBank.svg" alt="">
                             </div>
-                            <div class="title descriptionText">400 chf/monat</div>
+                            <div class="title descriptionText">${element.provider.price} chf/monat</div>
 
                         </div>
                         <div class="flatmates">
                             <div class="sideIcon"><img src="/assets/svg/people.svg" alt=""></div>
-                            <div class="title descriptionText">3 Mitbewohner:innen</div>
+                            <div class="title descriptionText">${element.provider.flatmates} Mitbewohner:innen</div>
 
                         </div>
                     </div>
@@ -355,6 +394,10 @@ $('.providerSection.loading.notEmpty').replaceWith(obj)
             $('.matchButton').removeClass('disabled');
             $('.matchButton.likeButton').attr('onclick', 'like()');
             $('.matchButton.dislikeButton').attr('onclick', 'dislike()');
+            $('.matchButton.dislikeButtonMoreInfo').attr('onclick', 'dislikeMoreInfo()');
+            $('.matchButton.likeButtonMoreInfo').attr('onclick', 'likeMoreInfo()');
+            $('.matchButton.backButtonMoreInfo').attr('onclick', 'closeInfo()');
             $('.matchButton.returnButton').attr('onclick', 'return()');
+            $('.matchButton.moreInfoButton').attr('onclick', 'moreInfo()');
         }
     </script>
