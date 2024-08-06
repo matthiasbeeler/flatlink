@@ -115,7 +115,7 @@
             }
           </style>
 
-          <div class="spacing8"></div>
+          <!--<div class="spacing8"></div>
           <p class="selectLabel" for="selectInput">Was sind euere Geschlechter?</p>
           <div class="spacing1"></div>
           <div style="border-radius: 20px 20px 0px 0px;" class="selectInput selectInput3 selectInput3Gender">
@@ -174,7 +174,7 @@
               <img class="imgSize" src="/assets/svg/intersex.svg" alt="">
             </div>
           </div>
-          <div class="spacing8"></div>
+          <div class="spacing8"></div>-->
 
 
 
@@ -305,10 +305,14 @@
         var data = JSON.parse(localStorage.getItem("signupData"));
         data.gender = $('#gender').val();
         data.food = $('#food').val();
-        data.intersexFlatmates = Number($('.intersexCounter').val());
+        /*data.intersexFlatmates = Number($('.intersexCounter').val());
         data.maleFlatmates = Number($('.maleCounter').val())
         data.femaleFlatmates = Number($('.femaleCounter').val())
-        data.noneFlatmates = Number($('.noneCounter').val())
+        data.noneFlatmates = Number($('.noneCounter').val())*/
+        data.intersexFlatmates = 0;
+        data.maleFlatmates =0;
+        data.femaleFlatmates = 0;
+        data.noneFlatmates =0;
         data.description = $('#description').val();
         localStorage.setItem("signupData", JSON.stringify(data));
         try {
