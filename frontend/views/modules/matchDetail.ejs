@@ -21,6 +21,7 @@
             </div>
             <div class="title descriptionText">Passt zu 85% zu Dir</div>
         </div>
+       
         <div class="spacing5"></div>
         <div class="price infoText">
             <div class="sideIcon"><img src="/assets/svg/moneyBank.svg" alt="">
@@ -75,8 +76,28 @@
             </div>
             <div class="title descriptionText">Waschmaschine verfügbar</div>
         </div>
-
-
+        <div class="spacing5"></div>
+        <div class="infoText">
+            <div class="sideIcon"><img src="/assets/svg/locationPin.svg" alt="">
+            </div>
+            <div class="title descriptionText">Standort</div>
+        </div>
+        <div class="infoText bus lightInfoText">
+            <div class="sideIcon"><img src="/assets/svg/bus.svg" alt="">
+            </div>
+            <div class="title descriptionText"></div>
+        </div>
+        <div class="spacing3"></div>
+        <div class="infoText shop lightInfoText">
+            <div class="sideIcon"><img src="/assets/svg/store.svg" alt="">
+            </div>
+            <div class="title descriptionText"></div>
+        </div>
+        <iframe src="" frameborder="0"></iframe>
+        <div class="spacing3"></div>
+        <div class="infoText marginLeftSmall address lightInfoText">
+            <div class="title descriptionText"></div>
+        </div>
         <div class="spacing8"></div>
         <div class="cleanliness infoText">
             <div class="sideIcon"><img src="/assets/svg/mop.svg" alt="">
@@ -119,7 +140,7 @@
                     </div>
 
                     <div class="spacing8"></div>
-                    <div class="size infoText">
+                    <div class="infoText">
                         <div class="sideIcon"><img src="/assets/svg/doNotDisturb.svg" alt="">
                         </div>
                         <div class="title descriptionText">Ruhige Atmosphäre</div>
@@ -246,6 +267,7 @@ function loadData() {
     const id = potentialMatches[0].provider.id;
     var provider = potentialMatches[0].provider;
     console.log(potentialMatches[0]);
+    $('.carouselSlide').remove()
     const imageSources =  potentialMatches[0].provider.images;
      let currentIndex = 0;
         const carouselTrack = document.querySelector('.carouselTrack');
@@ -343,6 +365,14 @@ function loadData() {
         $('.matchPercent .descriptionText').text(`Passt zu ${potentialMatches[0].score.matchPercent}% zu Dir`)
 
         $('.price .descriptionText').text(`${provider.price} chf/monat`)
+
+
+        $('.bus .descriptionText').text(`Nächster öV ${Math.round(provider.transportDistance)}m zu Fuss`)
+
+        $('.shop .descriptionText').text(`Nächster Shop ${Math.round(provider.supermarketDistance)}m zu Fuss`)
+        $('.address .descriptionText').text(`${provider.street}, ${provider.plz} ${provider.place}`)
+
+        $('iframe').attr('src', `https://www.google.com/maps?q=${provider.latitude},${provider.longitude}&z=15&output=embed&iwloc=near`)
 
         $('.flatmates .descriptionText').text(`${provider.flatmates} Mitbewohner:innen`)
         
