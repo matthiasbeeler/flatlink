@@ -187,6 +187,13 @@
     font-size: 140%;
   }
   
+  .inputLabel{
+    font-size:large;
+    margin: 0% 0% 1% 7%;
+    color: var(--mainText);
+
+  }
+
   .selectInput {
     overflow: hidden;
     width: calc(86% - 2px);
@@ -1157,9 +1164,11 @@
     .descriptionText{
       font-size: larger;
       font-weight: bold;
+      width: 87%;
+
     }
     .lightText{
-        font-weight: 500;
+        font-weight: 400;
         font-size: larger;
     }
   }
@@ -1172,6 +1181,7 @@
       display: inline-block;
     }
     .descriptionText{
+      width: 87%;
       font-size: large;
       font-weight: bold;
     }
