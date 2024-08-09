@@ -28,10 +28,14 @@
                 <form>
                     <div class="message orangeShadowNoOffset">
                     </div>
+                    <label class="inputLabel">Dein Nachname</label>
+                    <div class="spacing1"></div>
                     <input type="text" name="lastName" required placeholder="Dein Nachname"
                         onchange="$(this).css('border', '1px solid var(--inputBorder)');"
                         oninvalid=" $(this).css('border', '1px solid red');" id="lastName" autocomplete="family-name">
                     <div class="spacing8"></div>
+                    <label class="inputLabel">Deine Telefonnummer</label>
+                    <div class="spacing1"></div>
                     <select id="phoneCode" class="phoneSelect" name="select" id="" onchange="$(this).css('border', '1px solid var(--inputBorder)');"
                     oninvalid=" $(this).css('border', '1px solid red');" disabled autocomplete="tel-country-code">
                         <option value="+41">+41 </option>
@@ -40,7 +44,8 @@
                     onchange="$(this).css('border', '1px solid var(--inputBorder)');" onkeyup="this.value = this.value.replace(/[^0-9-]/g, '');"
                     oninvalid=" $(this).css('border', '1px solid red');" id="phonenumber" autocomplete="tel">
                     <div class="spacing8"></div>
-
+                    <label class="inputLabel">Passwort</label>
+                    <div class="spacing1"></div>
                     <input type="password" name="password" required placeholder="Passwort"
                     onchange="$(this).css('border', '1px solid var(--inputBorder)');"
                     oninvalid=" $(this).css('border', '1px solid red');" id="password" autocomplete="off" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
@@ -53,7 +58,8 @@
                         <p id="length" class="invalid">Mindestens <strong>8 Zeichen</strong></p>
                       </div>
                 <div class="spacing5"></div>
-
+                <label class="inputLabel">Passwort wiederholen</label>
+                <div class="spacing1"></div>
                 <input type="password" name="passwordCheck" id="passwordCheck" required placeholder="Passwort wiederholen"
                 onchange="$(this).css('border', '1px solid var(--inputBorder)');"
                 oninvalid=" $(this).css('border', '1px solid red');" autocomplete="off" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"> 

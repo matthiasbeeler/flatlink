@@ -40,7 +40,6 @@ router.get('/likes', function(req, res, next) {
 
 router.get('/account/update/:type', function(req, res, next) {
   const updateType = req.params.type;
-  console.log(updateType)
   res.render('loggedin/account/detailUpdateGeneral', {updateType});
 });
 

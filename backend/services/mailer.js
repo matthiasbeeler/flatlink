@@ -23,7 +23,37 @@ exports.singupSuccessEmail = function(email, firstName, userId, type){
         to: email, // List of recipients //email
         subject: "flatlink", // Subject line
         html: mailHTML,
-        text: "Willkommen bei flatlink. Mit folgendem Link, verifizierst du Deine eMail Adresse: "+process.env.appUrl+"/verifyEmail?token="+verificationToken
+        text: "Willkommen bei flatlink. Mit folgendem Link, verifizierst Du Deine eMail Adresse: "+process.env.appUrl+"/verifyEmail?token="+verificationToken
+      };
+      transporter.sendMail(mailOptions, (err, response) => {
+          if (!err) {
+            return true
+          }else{
+              console.log(err)
+            return false
+          }
+        });
+    });
+    
+  } catch (error) {
+      console.log(error)
+      return false
+  }
+  }
+
+
+
+  exports.emailAddressUpdate = function(email, firstName, userId){
+    try {
+        const verificationToken = jwt.sign({data:{id: userId, email: email}}, process.env.jwtSecret, {expiresIn: '1h'});
+      const filename = process.cwd() + "/emailTemplates/emailAddressUpdate.ejs";
+    ejs.renderFile(filename,{firstName: firstName, verificationUrl: process.env.appUrl+"/verifyEmail?token="+verificationToken}, (error, mailHTML) => {
+      const mailOptions = {
+        from: process.env.emailUserName, // Sender address
+        to: email, // List of recipients //email
+        subject: "flatlink eMail Update", // Subject line
+        html: mailHTML,
+        text: "Deine neue eMail Adresse. Mit folgendem Link, verifizierst Du sie: "+process.env.appUrl+"/verifyEmail?token="+verificationToken
       };
       transporter.sendMail(mailOptions, (err, response) => {
           if (!err) {
