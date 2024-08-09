@@ -13,6 +13,10 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
+router.get('/verifye', function(req, res, next) {
+  res.render('emailVerificationError');
+});
+
 router.all("*", function (req, res, next) {
   try {
   if(req.cookies.flatlinkAuth){

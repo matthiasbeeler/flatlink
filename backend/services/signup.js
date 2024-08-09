@@ -15,6 +15,7 @@ const {
   ynqProvider,
   ynTable,
   ynTableConversion,
+  formatPhonenumber,
 } = require("./global");
 const { singupSuccessEmail } = require("./mailer");
 const { v4: uuidv4 } = require('uuid');
@@ -28,7 +29,6 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
   if (data.type == "IchsucheeinZimmer") {
     //validating user inputs
     await validateSearcher(data, errors);
-    //const passwordHash = bcrypt.hashSync(request.body.data.password, 10);
   } else if (data.type == "IchhabeeinZimmer") {
     //validating user inputs
     await validateProvider(data, errors);
@@ -129,16 +129,6 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
   });
 };
 
-//formatphonenumber
-async function formatPhonenumber(fullNumber) {
-  const parsedNumber = parsePhoneNumberFromString(fullNumber);
-
-  if (!parsedNumber) {
-      throw new Error('Invalid phone number');
-  }
-
-  return parsedNumber.formatInternational();
-}
 
 //validate user inputs from searchers (on error setting medium values)
 async function validateSearcher(data, errors) {

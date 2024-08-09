@@ -18,12 +18,16 @@
                 <form>
                     <div class="message orangeShadowNoOffset">
                     </div>
+                    <label class="inputLabel" for="firstName">Dein Vorname</label>
+                    <div class="spacing1"></div>
                     <input type="text" name="firstName" required placeholder="Dein Vorname"
                         onchange="$(this).css('border', '1px solid var(--inputBorder)');"
                         oninvalid=" $(this).css('border', '1px solid red');" id="firstName" autocomplete="given-name">
                     <div class="spacing8">
 
                     </div>
+                    <label class="inputLabel" for="job">Deine eMail</label>
+                    <div class="spacing1"></div>
                     <input type="email" name="email" required placeholder="Deine eMail"
                         onchange="$(this).css('border', '1px solid var(--inputBorder)');"
                         oninvalid=" $(this).css('border', '1px solid red');" id="eMail" autocomplete="email">

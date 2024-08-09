@@ -8,7 +8,8 @@ const { accountData } = require('../services/userData');
 const uuid = require('uuid');
 const { validate } = require("uuid");
 const jwt = require('jsonwebtoken');
-const fs = require('fs')
+const fs = require('fs');
+const { updatePhonenumber, updateEmail, updateJob, updatePassword } = require('../services/accountUpdate');
 
 router.post('/login', loginBouncer.block, async(req, res, next) =>{
   await login(req, res, User)
@@ -54,6 +55,15 @@ router.get("*", function (req, res, next) {
 router.post('/accountData', async (req, res) => {
   await accountData(req,res,User,searcherPreferences,providerPreferences)
 })
+
+router.post('/updateAccount', async (req, res) => {
+  if(req.body.type == "phonenumber")return await updatePhonenumber(req,res,User)
+  if(req.body.type == "email")return await updateEmail(req,res,User)
+    if(req.body.type == "job")return await updateJob(req,res,searcherPreferences)
+      if(req.body.type == "password")return await updatePassword(req,res,User)
+
+})
+
 
 
 router.get("/uploads/searcherImages/:id", function (req, res, next) {

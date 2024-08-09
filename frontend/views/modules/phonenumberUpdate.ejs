@@ -1,0 +1,45 @@
+<div class="topTitle title topTitleSettings">Telefonnummer</div>
+
+
+<div class="foreground">
+    <div class="foregroundTop">
+        <div class="oval"></div>
+    </div>
+    <div class="innerForeground">
+        <div class="message orangeShadowNoOffset">
+        </div>
+    <form id="mainForm"> 
+        <label class="inputLabel" for="phoneInput">Deine Telefonnummer</label>
+        <div class="spacing1"></div>
+        <select name="phoneCode" id="phoneCode" class="phoneSelect" id="" onchange="$(this).css('border', '1px solid var(--inputBorder)');"
+        oninvalid=" $(this).css('border', '1px solid red');" disabled autocomplete="tel-country-code">
+            <option value="+41">+41 </option>
+        </select>
+        <input name="phonenumber" type="tel" class="phoneInput" required placeholder="Deine Telefonnummer"
+        onchange="$(this).css('border', '1px solid var(--inputBorder)');" onkeyup="this.value = this.value.replace(/[^0-9-]/g, '');"
+        oninvalid=" $(this).css('border', '1px solid red');" id="phonenumber" autocomplete="tel">
+        <div class="spacing5"></div>
+           <div class="spacing5"></div>
+           <div class="info">
+            <img src="/assets/svg/info.svg" alt="">
+            <div class="infoText">
+                
+                Deine Telefonnummer kannst Du ein Mal innert 24 Stunden ändern.
+            </div>
+        </div>
+        <div class="spacing8"></div>
+
+           <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
+               <div class="buttonText">Ändern</div>
+               </div>
+           <input type="submit" id="submitButton" value="submit" style="display: none;">
+
+        </form>
+
+
+        
+    <div class="spacing5"></div>
+    <div class="spacing3"></div>
+
+</div>
+</div>
