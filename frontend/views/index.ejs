@@ -15,13 +15,17 @@
                 <form id="mainForm" method="post" action=""> 
                     <div class="message orangeShadowNoOffset">
                     </div>
+                    <label class="inputLabel" for="email">eMail</label>
+                    <div class="spacing1"></div>
                     <input type="email" name="email" placeholder="eMail"
                         onchange="$(this).css('border', '1px solid var(--inputBorder)');"
                         oninvalid=" $(this).css('border', '1px solid red');" required>
                     <div class="spacing8">
 
                     </div>
-                    <input type="password" name="password" required placeholder="Password"
+                    <label class="inputLabel" for="password">Passwort</label>
+                    <div class="spacing1"></div>
+                    <input type="password" name="password" required placeholder="Passwort"
                     onchange="$(this).css('border', '1px solid var(--inputBorder)');"
                         oninvalid=" $(this).css('border', '1px solid red');"
                        >
