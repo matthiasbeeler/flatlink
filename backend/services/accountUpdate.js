@@ -63,7 +63,6 @@ exports.updatePhonenumber = async function (request, response, User) {
 exports.updateEmail = async function (request, response, User) {
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
-  console.log(request.body);
   var emailAddress = request.body.email;
   var emailAddress = emailAddress.trim().replace(/\s{2,}/g, " ");
   if (!emailAddress)
@@ -130,7 +129,6 @@ exports.updateEmail = async function (request, response, User) {
 exports.updateJob = async function (request, response, searcherPreferences) {
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
-  console.log(request.body);
   var job = request.body.job;
 
   //getting user
@@ -155,7 +153,6 @@ exports.updateJob = async function (request, response, searcherPreferences) {
 exports.updatePassword = async function (request, response, Users) {
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
-  console.log(request.body);
   var password = request.body.password;
 
   //checking if password fullfills requirements
@@ -186,7 +183,6 @@ exports.updatePassword = async function (request, response, Users) {
 exports.updateProfileImage = async function (request, response, User) {
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
-  console.log(request.body);
 
   //getting user
   var user = await User.findOne({

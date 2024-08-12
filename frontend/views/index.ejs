@@ -75,7 +75,6 @@
             crossDomain: true,
             data: $('form').serializeArray(),
             success: function (data) {
-                console.log(data)
                 if (data.success == true) {
                     setCookie("flatlinkAuth", data.token)
                     window.location = "/user/";

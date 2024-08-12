@@ -180,7 +180,6 @@
 
 
         function postLike(providerId) {
-            console.log(providerId)
             $.ajax({
                 url: '<%=process.env.apiUrl%>/matchingService/likeMatch',
                 type: 'POST',
@@ -194,10 +193,8 @@
                 success: function (data, status, xhr) {
                     if (data) {
                         if (data.success == true) {
-                            console.log("success")
                         }
                         if (data.success == false) {
-                            console.log(data)
                         }
                     }
 
@@ -228,10 +225,8 @@
                 success: function (data, status, xhr) {
                     if (data) {
                         if (data.success == true) {
-                            console.log("success")
                         }
                         if (data.success == false) {
-                            console.log(data)
                         }
                     }
 
@@ -342,7 +337,6 @@ $('.providerSection.loading.notEmpty').replaceWith(obj)
             var matchpercents = "<br><br><br>";
             if(potentialMatches.length == 0) return noMatches();
                         var element = potentialMatches[0];
-                        console.log(element.provider.images, potentialMatches)
                         $('.providerSection .flatImage').attr('src', `<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.provider.images[0]}?flatlinkAuth=${getCookie('flatlinkAuth')}`)
             
                         var gendPreference = "";

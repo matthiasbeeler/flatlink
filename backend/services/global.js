@@ -42,7 +42,6 @@ exports.uploadImage = async function(image, filePath, errors){
   .toFile(
    filePath,
     (err, info) => {
-      console.log(err);
       if (err) console.log(err);
       if (err) errors.push("image");
     }

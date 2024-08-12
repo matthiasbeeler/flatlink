@@ -243,7 +243,6 @@ $.ajax({
     },
     success: function (data, status, xhr) {
         if (data) {
-            console.log(data)
        if (data.success == true) {
         setCookie("flatlinkAuth", data.token)
         $(".emptyLoading").removeClass("emptyLoading");

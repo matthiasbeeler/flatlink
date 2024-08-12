@@ -45,7 +45,6 @@
 
     </html>
     <script>
-console.log("<%=updateType%>")
 $("#mainForm").submit(function(e) {
         e.preventDefault();
         $('.phoneSelect').attr('disabled', false)
@@ -71,7 +70,6 @@ $("#mainForm").submit(function(e) {
             crossDomain: true,
             data: formdata,
             success: function (data) {
-                console.log(data)
                 if (data.success == true) {
                     setCookie("flatlinkAuth", data.token)
                     window.location = "/user/account";
