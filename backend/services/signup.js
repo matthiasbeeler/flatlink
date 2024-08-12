@@ -98,7 +98,6 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
    
   } else if (data.type == "IchhabeeinZimmer") {
     const images = request.files["files[]"];
-    console.log(request.files["files[]"])
     var imageIds = []
     //multi image upload
     uploadedImages = await Promise.all(images.map(async (image) => {
@@ -133,7 +132,6 @@ async function validateSearcher(data, errors) {
   //one to ten selects check for validity
   ten.forEach((element) => {
     if (!arrayTen.includes(Number(data[element]))) {
-      //console.log(element, data[element]);
       data[element] = "5";
       errors.push(element);
     }
@@ -219,7 +217,6 @@ async function validateProvider(data, errors) {
   }
 }
 
-//console.log(amentitieProximity('Sunnmatt 32, 6410 Goldau'))
 
 async function amentitieProximity(address, newPreferenceEntry) {
   var latitude = 0;
@@ -230,8 +227,6 @@ async function amentitieProximity(address, newPreferenceEntry) {
   )
     .then((response) => response.json())
     .then((data) => {
-      //console.log(address)
-      //console.log(data)
       latitude = data[0].lat;
       longitude = data[0].lon;
     });

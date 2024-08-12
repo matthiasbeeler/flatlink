@@ -8,7 +8,6 @@ const jwt= require('jsonwebtoken');
 
 router.all("*", function (req, res, next) {
   try {
-    console.log(req.cookies.flatlinkAuth)
 
   if(req.cookies.flatlinkAuth){
     if(uuid.validate(jwt.verify(req.cookies.flatlinkAuth, process.env.jwtSecret).data.id)) return next();

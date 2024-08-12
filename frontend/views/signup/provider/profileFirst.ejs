@@ -239,7 +239,6 @@
     const input = document.querySelector("#file")
     let imagesArray = []
     function displayImages() {
-        console.log(imagesArray)
       output.style.display = "block"
 
       let images = ""
@@ -323,7 +322,6 @@
 
     for (let i = 0; i < imagesArray.length; i++) {
     formData.append("files[]", imagesArray[i]);
-    console.log([...formData])
 
   }
  var imageCount = 0;
@@ -340,7 +338,6 @@
             data: formData,
             crossDomain: true,
             success: function (data, status, xhr) {
-              console.log(data)
               if (data) {
 
                 setTimeout(() => {
