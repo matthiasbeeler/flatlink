@@ -1,7 +1,5 @@
 const validator = require("validator");
 const bcrypt = require("bcrypt");
-const sharp = require("sharp");
-const { parsePhoneNumberFromString } = require('libphonenumber-js');
 const {
   findUserWithEmail,
   ten,
@@ -16,13 +14,13 @@ const {
   ynTable,
   ynTableConversion,
   formatPhonenumber,
+  uploadImage,
 } = require("./global");
 const { singupSuccessEmail } = require("./mailer");
 const { v4: uuidv4 } = require('uuid');
 
 exports.signup = async (request, response, User, searcherPreferences, providerPreferences) => {
   let errors = [];
-  console.log(request.body)
   var data = JSON.parse(request.body.data);
 
 
@@ -96,7 +94,7 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
   if (data.type == "IchsucheeinZimmer") {
     var image = request.files.image;
     //single image upload
-    uploadImage(image, process.cwd() + "/uploads/searcherImages/" + userId + ".webp", errors)
+    await uploadImage(image, process.cwd() + "/uploads/searcherImages/" + userId + ".webp", errors)
    
   } else if (data.type == "IchhabeeinZimmer") {
     const images = request.files["files[]"];
@@ -339,18 +337,3 @@ async function amentitieProximity(address, newPreferenceEntry) {
     });
     
 };
-
-//process and save image
-async function uploadImage(image, filePath, errors){
-  await sharp(image.data)
-  .rotate()
-  .webp({ quality: 80 })
-  .toFile(
-   filePath,
-    (err, info) => {
-      console.log(err);
-      if (err) console.log(err);
-      if (err) errors.push("image");
-    }
-  );
-}
