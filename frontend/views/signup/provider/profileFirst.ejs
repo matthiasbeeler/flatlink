@@ -13,7 +13,6 @@
       <p class="bigCenterTitle title">
         Das Profil
       </p>
-
       <div class="foreground">
         <div class="foregroundTop">
           <div class="oval"></div>
@@ -49,6 +48,7 @@
 
         </div>
         <form>
+
           <p class="selectLabel" for="imageUploadSingle">Fotos</p>
 
           <div class="imageUploadSingle" id="imageUploadSingle" onclick="$('#file').click();$(this).removeClass('invalidInput')">
@@ -79,14 +79,18 @@
               display: inline-block;
               height: 100%;
               width: max-content;
+              max-width: 70%;
               border-radius: 10px;
               position: relative;
               margin-right: 15px;
+              aspect-ratio: 1/1;
             }
 
             .output .image img {
-              height: 100%;
-              width: 100%;
+              max-height: 100%;
+              width: auto;
+              height: auto;
+              max-width: 100%;
               border-radius: 10px;
             }
 

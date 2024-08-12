@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const { parsePhoneNumberFromString, parsePhoneNumber } = require('libphonenumber-js');
+const { parsePhoneNumber } = require('libphonenumber-js');
+const sharp = require("sharp");
 
 exports.generateAccessToken =  async function(id) {
     return await jwt.sign({data:{id: id}}, process.env.jwtSecret, {expiresIn: '365d'});
@@ -31,6 +32,21 @@ exports.formatPhonenumber = async function(fullNumber) {
       return newPhoneNumber.formatInternational();
   }
   return internationalFormat;
+}
+
+//global image upload function
+exports.uploadImage = async function(image, filePath, errors){
+  await sharp(image.data)
+  .rotate()
+  .webp({ quality: 80 })
+  .toFile(
+   filePath,
+    (err, info) => {
+      console.log(err);
+      if (err) console.log(err);
+      if (err) errors.push("image");
+    }
+  );
 }
 
 //global preference variables
