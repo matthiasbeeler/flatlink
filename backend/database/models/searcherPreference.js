@@ -86,12 +86,6 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: false
           },
-          seenProviders: {
-            type: DataTypes.JSON,
-            allowNull: false,
-            unique: false,
-            defaultValue: []
-          },
           description: {
             type: DataTypes.TEXT,
             allowNull: false,

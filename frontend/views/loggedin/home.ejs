@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="buttonSection">
-                    <div class="backButton matchButton grayShadowBoldNoOffset disabled">
+                    <div class="backButton returnButton matchButton grayShadowBoldNoOffset disabled disabledReturn">
                         <img src="/assets/svg/backIcon.svg" alt="">
                     </div>
                     <div  class="dislikeButton matchButton grayShadowBoldNoOffset disabled">
@@ -87,7 +87,7 @@
 
     <script>
         //$('.hideMatchDetail').hide()
-
+        let lastMatch;
         let potentialMatches;
         let seenProviders = [];
 
@@ -128,6 +128,18 @@
             }, 300);
         }
 
+
+        function returnToLast(){
+            if(!lastMatch) return
+            console.log(lastMatch, potentialMatches)
+            potentialMatches.unshift(lastMatch);
+            console.log(potentialMatches)
+            lastMatch = undefined;
+            generateNewCard();
+            $('.matchButton.backButton').addClass('disabledReturn');
+
+        }
+
         function like() {
             $('.matchButton').addClass('disabled');
             $('.matchButton').attr('onclick', '');
@@ -141,7 +153,9 @@
                     var obj = `<div style="z-index:8;" class="providerSection loading notEmpty grayShadowBoldNoOffset">
                     </div>`;
             $('.matchContainer').append(obj);
+            $('.matchButton.backButton').removeClass('disabledReturn');
 
+            lastMatch = potentialMatches[0];
             potentialMatches = potentialMatches.slice(1, potentialMatches.length);
             generateNewCard()
             getNewMatch(seenProviders);
@@ -166,7 +180,9 @@
                     var obj = `<div style="z-index:8;" class="providerSection loading notEmpty grayShadowBoldNoOffset">
                     </div>`;
             $('.matchContainer').append(obj);
+            $('.matchButton.backButton').removeClass('disabledReturn');
 
+            lastMatch = potentialMatches[0];
             potentialMatches = potentialMatches.slice(1, potentialMatches.length);
             generateNewCard()
             getNewMatch(seenProviders);
@@ -331,6 +347,13 @@
 
 `
 $('.providerSection.loading.notEmpty').replaceWith(obj)
+/*
+if(lastMatch) {$('.matchButton.backButton').removeClass('disabledReturn');
+$('.matchButton.backButton').removeClass('disabledReturn');
+$('.matchButton.returnButton').attr('onclick', 'returnToLast()');
+
+}
+*/            
         }
 
         function generateNewCard() {
@@ -391,7 +414,7 @@ $('.providerSection.loading.notEmpty').replaceWith(obj)
             $('.matchButton.dislikeButtonMoreInfo').attr('onclick', 'dislikeMoreInfo()');
             $('.matchButton.likeButtonMoreInfo').attr('onclick', 'likeMoreInfo()');
             $('.matchButton.backButtonMoreInfo').attr('onclick', 'closeInfo()');
-            $('.matchButton.returnButton').attr('onclick', 'return()');
+            $('.matchButton.returnButton').attr('onclick', 'returnToLast()');
             $('.matchButton.moreInfoButton').attr('onclick', 'moreInfo()');
         }
     </script>

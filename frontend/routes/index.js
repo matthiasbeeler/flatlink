@@ -13,8 +13,8 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-router.get('/verifye', function(req, res, next) {
-  res.render('emailVerificationError');
+router.get('/verifyEmail', function(req, res, next) {
+  res.render('emailVerification', {token: req.query.token});
 });
 
 router.all("*", function (req, res, next) {

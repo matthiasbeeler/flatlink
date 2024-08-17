@@ -19,6 +19,8 @@ const {
   updateJob,
   updatePassword,
   updateProfileImage,
+  verifyEmail,
+  resendVerificationEmail,
 } = require("../services/accountUpdate");
 
 router.post("/login", loginBouncer.block, async (req, res, next) => {
@@ -28,6 +30,15 @@ router.post("/login", loginBouncer.block, async (req, res, next) => {
 router.post("/signup", signupBouncer.block, async (req, res) => {
   await signup(req, res, User, searcherPreferences, providerPreferences);
 });
+
+router.post("/verifyEmail", async (req, res, next) => {
+  return await verifyEmail(req, res, User)
+})
+
+router.post("/resendVerificationEmail", async (req, res) => {
+  return await resendVerificationEmail(req, res, User)
+})
+
 
 router.post("*", function (req, res, next) {
   try {
@@ -86,6 +97,7 @@ router.post("/updateAccount", async (req, res) => {
   if (req.body.type == "profileImage")
     return await updateProfileImage(req, res, User);
 });
+
 
 router.get("/uploads/searcherImages/:id", function (req, res, next) {
   try {
