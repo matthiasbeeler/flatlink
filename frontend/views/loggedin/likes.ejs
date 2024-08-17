@@ -9,7 +9,15 @@
             <div class="spacing10 hideMatchDetail"></div>
            <div class="spacing10 hideMatchDetail"></div>
            <%- include('../modules/matchDetailLikes') %>
+           <div class="spacing10 hideSuccess"></div>
+           <div class="spacing10 hideSuccess"></div>
+           <div class="spacing10 hideSuccess "></div>
+           <div class="spacing10 hideSuccess"></div>
 
+           <div class="lds-ripple hideSuccess ">
+               <div></div>
+               <div></div>
+             </div>
           <div class="likeContainer hideMatchDetail">
 
           </div>
@@ -103,7 +111,7 @@ $.ajax({
        if (data.success == true) {
         data.logs.forEach(element => {
             likeData["like"+element.providerId] = element.providerPreference;
-            
+            $('.hideSuccess').hide()
         var obj = `
 
                      <div class="like${element.providerId} likeElement grayShadowNoOffset" onclick='moreInfo("like${element.providerId}")'>
