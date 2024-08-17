@@ -1,0 +1,55 @@
+<div class="topTitle title topTitleSettings">Profilbild</div>
+
+
+<div class="foreground">
+    <div class="foregroundTop">
+        <div class="oval"></div>
+    </div>
+    <div class="innerForeground">
+        <div class="message orangeShadowNoOffset">
+        </div>
+    <form id="mainForm"> 
+        <p class="selectLabel" for="imageUploadSingle">Dein Profilbild</p>
+
+          <div class="imageUploadSingle" id="imageUploadSingle" onclick="$('#file').click();$(this).removeClass('invalidInput')">
+            <p>Drücke hier um Dein Profilbild festzusetzen</p><img style="display: none;" id="fileDisplay" src=""
+              alt="">
+          </div>
+                  
+          <input oninvalid="$(this).parent().children('.imageUploadSingle').addClass('invalidInput')" required type="file" accept="image/*" name="file" style="display: none;" id="file">
+          <script>
+            var imgInp = document.getElementById('file')
+            var fileDisplay = document.getElementById('fileDisplay');
+            imgInp.onchange = evt => {
+              const [file] = imgInp.files
+              if (file) {
+                fileDisplay.src = URL.createObjectURL(file)
+                fileDisplay.style.display = "block";
+                document.querySelector('.imageUploadSingle p').style.display = "none";
+              }
+            }
+          </script>
+           <div class="spacing5"></div>
+           <div class="info">
+            <img src="/assets/svg/info.svg" alt="">
+            <div class="infoText">
+                
+                Dein Profilbild kannst Du ein Mal innert 24 Stunden ändern.
+            </div>
+        </div>
+        <div class="spacing8"></div>
+
+           <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
+               <div class="buttonText">Ändern</div>
+               </div>
+           <input type="submit" id="submitButton" value="submit" style="display: none;">
+
+        </form>
+
+
+        
+    <div class="spacing5"></div>
+    <div class="spacing3"></div>
+
+</div>
+</div>

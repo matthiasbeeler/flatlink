@@ -7,13 +7,12 @@ const jwt = require('jsonwebtoken');
 exports.accountData = async (request, response, User,searcherPreferences,providerPreferences) =>{
      const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret).data.id;
      var user = await User.findOne({
-        attributes: ['firstName', 'lastName', 'phonenumber', 'email', 'userType'],
+        attributes: ['firstName', 'lastName', 'phonenumber', 'email', 'userType', 'emailVerified'],
         where: {
             id: userId
         }
       })
       var personalData;
-      console.log(user)
       if(user.userType == "searcher"){
         personalData = await searcherPreferences.findOne({
             attributes: ['gender', 'occupation'],

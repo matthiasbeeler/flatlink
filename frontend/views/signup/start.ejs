@@ -78,7 +78,6 @@
     <script>
     $("form").submit(function(e) {
         e.preventDefault();
-        console.log($('form').serializeArray())
         $(".submitButton").addClass('buttonLoading');
         $('.submitButton').attr('onclick', '');
         setTimeout(() => {

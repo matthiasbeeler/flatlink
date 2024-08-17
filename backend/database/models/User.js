@@ -47,6 +47,10 @@ module.exports = (sequelize, DataTypes) => {
             unique: false,
             defaultValue: false,
           },
+          lastProfileImageUpdate: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
 
     })
     return User;

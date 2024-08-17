@@ -89,7 +89,6 @@
       const urlParams = new URLSearchParams(window.location.search);
       if(urlParams.get('error')) {
         var data = JSON.parse(localStorage.getItem("signupData"));
-        console.log(data.lastName)
         $('#lastName').val(data.lastName)
         $('#phoneCode').val(data.phoneCode);
         $('#phonenumber').val(data.phonenumber);
