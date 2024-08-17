@@ -1,11 +1,10 @@
 var express = require('express');
 var router = express.Router();
-const { User, searcherPreferences, providerPreferences }= require('../database/models');
+const { User, searcherPreferences, providerPreferences, matchLog }= require('../database/models');
 const { accountData } = require('../services/userData');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 const { matching } = require('../services/matching');
-
 
 
 router.all("*", function (req, res, next) {
@@ -28,8 +27,7 @@ var provider = [
      ];
 
      const { v4: uuidv4 } = require('uuid');
-const { likeMatch, dislikeMatch } = require('../services/matchingAction');
-     
+const { likeMatch, dislikeMatch, getLikedMatch } = require('../services/matchingAction');
      const places = [
        { name: 'Zürich', plz: 8000 },
        { name: 'Genève', plz: 1200 },
@@ -137,17 +135,21 @@ const { likeMatch, dislikeMatch } = require('../services/matchingAction');
   });
 */
 router.post('/getMatch', async (req, res) => {
-  await matching(req,res,User,searcherPreferences,providerPreferences)
+  await matching(req,res,User,searcherPreferences,providerPreferences, matchLog)
 })
 
 router.post('/likeMatch', async (req, res) => {
-  await likeMatch(req,res,User,searcherPreferences,providerPreferences)
+  await likeMatch(req,res,User,searcherPreferences,providerPreferences, matchLog)
 })
 
 router.post('/dislikeMatch', async (req, res) => {
-  await dislikeMatch(req,res,User,searcherPreferences,providerPreferences)
+  await dislikeMatch(req,res,User,searcherPreferences,providerPreferences, matchLog)
 })
 
+
+router.post('/getLikedMatch', async (req, res) => {
+  await getLikedMatch(req,res, matchLog, providerPreferences)
+})
 
 
 

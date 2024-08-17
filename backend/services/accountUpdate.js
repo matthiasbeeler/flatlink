@@ -1,5 +1,10 @@
 const jwt = require("jsonwebtoken");
-const { formatPhonenumber, passwordRegex, uploadImage } = require("./global");
+const {
+  formatPhonenumber,
+  passwordRegex,
+  uploadImage,
+  verifyTokenExpiry,
+} = require("./global");
 const moment = require("moment");
 var validator = require("validator");
 const { emailAddressUpdate } = require("./mailer");
@@ -117,6 +122,7 @@ exports.updateEmail = async function (request, response, User) {
 
   //updating email
   user.email = emailAddress;
+  user.emailVerified = false;
   user.lastEmailUpdate = moment().toDate();
   await user.save();
   await emailAddressUpdate(emailAddress, user.firstName, userId);
@@ -124,6 +130,24 @@ exports.updateEmail = async function (request, response, User) {
     expiresIn: "365d",
   });
   return response.json({ success: true, token });
+};
+
+exports.resendVerificationEmail = async function (request, response, User) {
+  const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
+    .data.id;
+
+  var user = await User.findOne({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user) {
+    return response.json({ success: false, message: "Nutzer nicht gefunden " });
+  }
+  console.log(user.email)
+  await emailAddressUpdate(user.email, user.firstName, userId);
+  return response.json({ success: true });
 };
 
 exports.updateJob = async function (request, response, searcherPreferences) {
@@ -222,4 +246,31 @@ exports.updateProfileImage = async function (request, response, User) {
     expiresIn: "365d",
   });
   return response.json({ success: true, token });
+};
+
+exports.verifyEmail = async function (request, response, User) {
+  try {
+    const tokenData = jwt.verify(request.body.token, process.env.jwtSecret);
+ 
+  console.log(tokenData);
+  
+  //getting user
+  var user = await User.findOne({
+    where: {
+      id: tokenData.data.id,
+      email: tokenData.data.email
+    },
+  });
+  if (!user) {
+    return response.json({ success: false, message: "Nutzer nicht gefunden " });
+  }
+  //updating verification status
+  user.emailVerified = true;
+  await user.save();
+
+  return response.json({ success: true });
+} catch (error) {
+  console.log(error);
+  if (error) return response.json({ success: false });
+}
 };

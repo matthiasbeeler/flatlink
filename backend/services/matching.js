@@ -20,8 +20,10 @@ let weights = {
     budget: 1
 };
 
-exports.matching = async (request, response, User,searcherPreferences,providerPreferences) =>{
+exports.matching = async (request, response, User,searcherPreferences,providerPreferences, matchLog) =>{
     const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret).data.id;
+    try {
+
     const user = await User.findOne({where: { id: userId }});
     const matchAmount = request.body.matchAmount;
     try {
@@ -30,15 +32,23 @@ exports.matching = async (request, response, User,searcherPreferences,providerPr
         var idsToFilter = [] 
     }
     const preferences = await searcherPreferences.findOne({where:{ id: userId }});
-    console.log(idsToFilter)
+    var seenProviders = await matchLog.findAll({
+        attributes: ['providerId'],
+        where: {
+          searcherId: userId
+        },
+        raw: true,
+      });
+      var seenProviders = seenProviders.map(provider => provider.providerId);
     if(idsToFilter && idsToFilter.length > 0){
+
     idsToFilter.forEach(element => {
-        preferences.seenProviders.push(element)
+        seenProviders.push(element)
     });
     }
     const providers = await providerPreferences.findAll({
         where:{
-            id: {[Op.notIn]: preferences.seenProviders},
+            id: {[Op.notIn]: seenProviders},
 
         }
     })
@@ -74,6 +84,10 @@ exports.matching = async (request, response, User,searcherPreferences,providerPr
     // Return the provider with the highest score
     const bestProvider = scoredProviders;
     response.json({success: true, providers: bestProvider.slice(0, matchAmount)});
+            
+} catch (error) {
+        console.log(error)
+}
 }
 
 const parseRange = (range) => {
