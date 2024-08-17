@@ -64,11 +64,15 @@
   }
   
   .topLeftLogoText {
-    width: 45%;
+    width: 44.97%;
     margin: 6% 0% 0% 7%;
     float: left;
     position: absolute;
     z-index: 2;
+  }
+
+  .topLeftLogoTextLikes {
+    width: 46.11%;
   }
   
   .topRightButton {
@@ -375,6 +379,10 @@
       color: var(--mainButtonAndLogo);
     }
   }
+  .smallButton{
+    font-size: 140%;
+
+  }
   
   .message {
     display: none;
@@ -385,6 +393,7 @@
     background-color: var(--mainForeground);
     border-radius: 20px;
     margin-bottom: 5%;
+    background: var(--mainInput);
   }
   .errorMessage {
     background-color: var(--mainInput);
@@ -724,8 +733,10 @@
     white-space: nowrap; /* Prevent text wrapping */
     overflow: hidden;
   }
+
+
   
-  .groupButtonDiv {
+  .groupButtonDiv, .likeElement{
     width: 80%;
     padding: 3% 3% 3% 3%;
     margin-left: 7%;
@@ -742,6 +753,49 @@
       text-decoration: none;
     }
   }
+
+  .likeElement .likeImageLeft{
+    width: 20%;
+    height: auto;
+    aspect-ratio: 1/1;
+    border-radius: 13px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+.likeElement{
+  padding: 2%;
+  width: 82%;
+ .likeAddress{
+    display: inline-block;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 90%;
+    height: min-content;
+  }
+   .likeInfo{
+    display: inline-block;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 70%;
+  }
+  .textContent{
+    display: inline-block;
+    width: 78%;
+    vertical-align: middle;
+
+  }
+}
+
   
   .groupButtonDiv .textContent {
     width: 84%;
@@ -1018,7 +1072,9 @@
         transform: translate(-50%, -50%);
       }
   }
- .matchButton.disabled {
+
+
+ .matchButton.disabled, .matchButton.disabledReturn {
     opacity: 0.5;
   }
   

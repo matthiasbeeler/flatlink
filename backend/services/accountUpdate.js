@@ -1,5 +1,10 @@
 const jwt = require("jsonwebtoken");
-const { formatPhonenumber, passwordRegex } = require("./global");
+const {
+  formatPhonenumber,
+  passwordRegex,
+  uploadImage,
+  verifyTokenExpiry,
+} = require("./global");
 const moment = require("moment");
 var validator = require("validator");
 const { emailAddressUpdate } = require("./mailer");
@@ -29,25 +34,27 @@ exports.updatePhonenumber = async function (request, response, User) {
     const now = moment();
     const difference = now.diff(lastUpdate, "hours");
     if (difference < 24) {
-      return response
-        .json({
-          success: false,
-          message:
-            "Deine Telefonnummer kannst Du ein Mal innert 24 Stunden ändern.",
-        });
+      return response.json({
+        success: false,
+        message:
+          "Deine Telefonnummer kannst Du ein Mal innert 24 Stunden ändern.",
+      });
     }
   }
 
-      //check if phonenumber is used
-      var phonenumberUse = await User.findOne({
-        where: {
-          phonenumber: formattedPhonenumber,
-        },
-      });
-      if (phonenumberUse) {
-        return response.json({ success: false, message: "Telefonnummer wird bereits genutzt." });
-      }
-      //update phonenumber
+  //check if phonenumber is used
+  var phonenumberUse = await User.findOne({
+    where: {
+      phonenumber: formattedPhonenumber,
+    },
+  });
+  if (phonenumberUse) {
+    return response.json({
+      success: false,
+      message: "Telefonnummer wird bereits genutzt.",
+    });
+  }
+  //update phonenumber
   user.phonenumber = String(formattedPhonenumber);
   user.lastPhoneNumberUpdate = moment().toDate();
   await user.save();
@@ -58,11 +65,9 @@ exports.updatePhonenumber = async function (request, response, User) {
   return response.json({ success: true, token });
 };
 
-
 exports.updateEmail = async function (request, response, User) {
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
-    console.log(request.body)
   var emailAddress = request.body.email;
   var emailAddress = emailAddress.trim().replace(/\s{2,}/g, " ");
   if (!emailAddress)
@@ -72,7 +77,7 @@ exports.updateEmail = async function (request, response, User) {
       message: "Fülle alle Felder aus",
     });
 
-    //checking for valid eMail address
+  //checking for valid eMail address
   if (!validator.isEmail(emailAddress))
     return response.json({
       success: false,
@@ -95,12 +100,10 @@ exports.updateEmail = async function (request, response, User) {
     const now = moment();
     const difference = now.diff(lastUpdate, "hours");
     if (difference < 24) {
-      return response
-        .json({
-          success: false,
-          message:
-            "Deine eMail kannst Du ein Mal innert 24 Stunden ändern.",
-        });
+      return response.json({
+        success: false,
+        message: "Deine eMail kannst Du ein Mal innert 24 Stunden ändern.",
+      });
     }
   }
 
@@ -111,25 +114,45 @@ exports.updateEmail = async function (request, response, User) {
     },
   });
   if (emailUse) {
-    return response.json({ success: false, message: "eMail wird bereits genutzt." });
+    return response.json({
+      success: false,
+      message: "eMail wird bereits genutzt.",
+    });
   }
 
   //updating email
   user.email = emailAddress;
+  user.emailVerified = false;
   user.lastEmailUpdate = moment().toDate();
   await user.save();
-  await emailAddressUpdate(emailAddress, user.firstName, userId)
+  await emailAddressUpdate(emailAddress, user.firstName, userId);
   var token = await jwt.sign({ data: { id: userId } }, process.env.jwtSecret, {
     expiresIn: "365d",
   });
   return response.json({ success: true, token });
 };
 
+exports.resendVerificationEmail = async function (request, response, User) {
+  const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
+    .data.id;
+
+  var user = await User.findOne({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user) {
+    return response.json({ success: false, message: "Nutzer nicht gefunden " });
+  }
+  console.log(user.email)
+  await emailAddressUpdate(user.email, user.firstName, userId);
+  return response.json({ success: true });
+};
 
 exports.updateJob = async function (request, response, searcherPreferences) {
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
-    console.log(request.body)
   var job = request.body.job;
 
   //getting user
@@ -151,16 +174,18 @@ exports.updateJob = async function (request, response, searcherPreferences) {
   return response.json({ success: true, token });
 };
 
-
 exports.updatePassword = async function (request, response, Users) {
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
-    console.log(request.body)
   var password = request.body.password;
 
   //checking if password fullfills requirements
-  if(!passwordRegex.test(password)) return response.json({ success: false, message: "Passwort folgt nicht den vorgaben" });
-  
+  if (!passwordRegex.test(password))
+    return response.json({
+      success: false,
+      message: "Passwort folgt nicht den vorgaben",
+    });
+
   //getting user
   var user = await Users.findOne({
     where: {
@@ -172,10 +197,80 @@ exports.updatePassword = async function (request, response, Users) {
   }
 
   //updating pasword
-  user.password = await bcrypt.hashSync(password, 10),
-  await user.save();
+  (user.password = await bcrypt.hashSync(password, 10)), await user.save();
   var token = await jwt.sign({ data: { id: userId } }, process.env.jwtSecret, {
     expiresIn: "365d",
   });
   return response.json({ success: true, token });
+};
+
+exports.updateProfileImage = async function (request, response, User) {
+  const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
+    .data.id;
+
+  //getting user
+  var user = await User.findOne({
+    where: {
+      id: userId,
+    },
+  });
+  if (!user) {
+    return response.json({ success: false, message: "Nutzer nicht gefunden " });
+  }
+  //check for update not more than every 24h
+  if (user.lastProfileImageUpdate) {
+    const lastUpdate = moment(user.lastProfileImageUpdate);
+    const now = moment();
+    const difference = now.diff(lastUpdate, "hours");
+    if (difference < 24) {
+      return response.json({
+        success: false,
+        message: "Dein Profilbild kannst Du ein Mal innert 24 Stunden ändern.",
+      });
+    }
+  }
+
+  var image = request.files.image;
+  //single image upload
+  await uploadImage(
+    image,
+    process.cwd() + "/uploads/searcherImages/" + userId + ".webp",
+    []
+  );
+
+  //updating email
+  user.lastProfileImageUpdate = moment().toDate();
+  await user.save();
+
+  var token = await jwt.sign({ data: { id: userId } }, process.env.jwtSecret, {
+    expiresIn: "365d",
+  });
+  return response.json({ success: true, token });
+};
+
+exports.verifyEmail = async function (request, response, User) {
+  try {
+    const tokenData = jwt.verify(request.body.token, process.env.jwtSecret);
+ 
+  console.log(tokenData);
+  
+  //getting user
+  var user = await User.findOne({
+    where: {
+      id: tokenData.data.id,
+      email: tokenData.data.email
+    },
+  });
+  if (!user) {
+    return response.json({ success: false, message: "Nutzer nicht gefunden " });
+  }
+  //updating verification status
+  user.emailVerified = true;
+  await user.save();
+
+  return response.json({ success: true });
+} catch (error) {
+  console.log(error);
+  if (error) return response.json({ success: false });
+}
 };

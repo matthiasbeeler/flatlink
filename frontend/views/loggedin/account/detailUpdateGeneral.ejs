@@ -30,7 +30,11 @@
                     <%- include('../../modules/passwordUpdate') %>
 
                     <%}%>
-            
+                    <%if(updateType == "profileImage"){%>
+                        <%- include('../../modules/profileImageUpdate') %>
+    
+                        <%}%>
+                
 
 
     </div>
@@ -41,7 +45,6 @@
 
     </html>
     <script>
-console.log("<%=updateType%>")
 $("#mainForm").submit(function(e) {
         e.preventDefault();
         $('.phoneSelect').attr('disabled', false)
@@ -50,6 +53,12 @@ $("#mainForm").submit(function(e) {
             var formdata = new FormData(document.querySelector('#mainForm'));
             formdata.append('type', '<%=updateType%>');
             formdata.append('flatlinkAuth', getCookie('flatlinkAuth'));
+            <%# image append on profile image update %>
+            <%if(updateType == "profileImage"){%>
+                formdata.append('image', $('#file')[0].files[0]);
+    
+                        <%}%>
+
             $('.phoneSelect').attr('disabled', true)
 
         $.ajax({
@@ -61,7 +70,6 @@ $("#mainForm").submit(function(e) {
             crossDomain: true,
             data: formdata,
             success: function (data) {
-                console.log(data)
                 if (data.success == true) {
                     setCookie("flatlinkAuth", data.token)
                     window.location = "/user/account";

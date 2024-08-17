@@ -3,18 +3,21 @@
 
     <body>
         <div class="content">
-            <img src="/assets/svg/flatlinkTextLogo.svg" alt="" class="topLeftLogoText">
+            <img src="/assets/svg/yourLikes.svg" alt="" class="topLeftLogoText  topLeftLogoTextLikes">
 
-            <div class="spacing10"></div>
-            <div class="spacing10"></div>
-            <div class="title">Deine Likes</div>
+            <div class="spacing10 hideMatchDetail"></div>
+            <div class="spacing10 hideMatchDetail"></div>
+           <div class="spacing10 hideMatchDetail"></div>
+           <%- include('../modules/matchDetailLikes') %>
 
-           <div class="spacing10"></div>
-           <div class="spacing10"></div>
-           <div class="spacing10"></div>
+          <div class="likeContainer hideMatchDetail">
+
+          </div>
+           <div class="spacing10 hideMatchDetail"></div>
+           <div class="spacing10 hideMatchDetail"></div>
            <div class="spacing10"></div>
 
-            <div class="foreground bottomNav">
+            <div class="foreground bottomNav hideMatchDetail">
                 <div class="foregroundTop">
                     <div class="oval"></div>
                 </div>
@@ -64,73 +67,62 @@
 
     <script>
 
+
+function moreInfo(data) {
+            loadData(data)
+            $('.hideMatchDetail').css('opacity', '0')
+            setTimeout(() => {
+                $('.hideMatchDetail').hide()
+                $('.moduleContent').show()
+            $('.moduleContent').css('opacity', '1')
+            }, 300);
+        }
+
+
+        function closeInfo() {
+            $('.moduleContent').css('opacity', '0')
+            setTimeout(() => {
+                $('.moduleContent').hide()
+                $('.hideMatchDetail').show()
+            $('.hideMatchDetail').css('opacity', '1')
+            }, 300);
+        }
+var likeData = {}
 $.ajax({
-    url: '<%=process.env.apiUrl%>/matchingService/getMatch',
+    url: '<%=process.env.apiUrl%>/matchingService/getLikedMatch',
     type: 'POST',
     async: true,
     cache: false,
     crossDomain: true,
     data: {
         "flatlinkAuth": getCookie('flatlinkAuth'),
-        "currentId": "",
-        "matchAmount": 1
     },
     success: function (data, status, xhr) {
         if (data) {
+            console.log(data)
        if (data.success == true) {
-        var matchpercents = "<br><br><br>";
-        data.providers.forEach(element => {
-        console.log(element.provider.images)
-        $('.providerSection .flatImage').attr('src', `<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.provider.images[0]}?flatlinkAuth=${ getCookie('flatlinkAuth')}`)
-
-            var gendPreference = "";
-            if(element.provider.genderPreference == "female") gendPreference = "Nur Frauen";
-            if(element.provider.genderPreference == "male") gendPreference = "Nur Männer";
-            if(element.provider.genderPreference == "intersex") gendPreference = "Nur Intersex";
-            if(element.provider.genderPreference == "none") gendPreference = "";
-
+        data.logs.forEach(element => {
+            likeData["like"+element.providerId] = element.providerPreference;
             
         var obj = `
 
-                <div class="providerSection loading notEmpty grayShadowBoldNoOffset id${element.provider.id}">
-                    <img class="flatImage" src="<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.provider.images[0]}?flatlinkAuth=${getCookie('flatlinkAuth')}" alt=''>
-                    <div class="imageOverlay">
-                    </div>
-                    <div class="dislikeOverlay">
-                        <img src="/assets/svg/dislikeIcon.svg">
-                    </div>
-                    <div class="matchOverlay">
-                        <img src="/assets/svg/likeIcon.svg">
-                    </div>
-                    <div class="topDetails">
-                        <div class="location">
-                            <div class="sideIcon"><img src="/assets/svg/location.svg" alt="">
-                            </div>
-                            <div class="title descriptionText">${element.provider.plz}, ${element.provider.place}</div>
-
-                        </div>
-                        <div class="genderPreference">
-                            <div class="title descriptionText">${gendPreference}</div>
-                        </div>
-                    </div>
-                    <div class="bottomDetails">
-                        <div class="price">
-                            <div class="sideIcon"><img src="/assets/svg/moneyBank.svg" alt="">
-                            </div>
-                            <div class="title descriptionText">400 chf/monat</div>
-
-                        </div>
-                        <div class="flatmates">
-                            <div class="sideIcon"><img src="/assets/svg/people.svg" alt=""></div>
-                            <div class="title descriptionText">3 Mitbewohner:innen</div>
-
-                        </div>
-                    </div>
-                </div>
+                     <div class="like${element.providerId} likeElement grayShadowNoOffset" onclick='moreInfo("like${element.providerId}")'>
+            <div class="likeImageLeft">
+                <img src="<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.providerPreference.images[0]}?flatlinkAuth=${getCookie('flatlinkAuth')}" alt="">
+            </div>
+            <div class="textContent">
+            <div class="likeAddress" id="likeAddress">
+               ${element.providerPreference.street}, ${element.providerPreference.plz} ${element.providerPreference.place}
+            </div>
+            <div class="likeInfo">
+                ${element.providerPreference.price}chf/monat · ${element.providerPreference.flatmates} Personen
+            </div>
+        </div>
+           </div>
                
-                
+                <div class="spacing8"></div>
             `
-            $('.providerSection.loading.notEmpty').replaceWith(obj)
+            $('.likeContainer').append(obj)
         });
         }
         if (data.success == false) {
