@@ -131,7 +131,7 @@
 
                     <div class="buttonElement">
                         <div class="textContent">
-                            <div class="buttonTitle customTitle">
+                            <div class="buttonTitle customTitleSecond">
                                 Profilbild
                             </div>
                         </div>
@@ -191,16 +191,20 @@
             </div>
             <div class="innerForeground">
                 <div class="innerNav">
-                    <a href="/user/">
-
+                    <%if(userType == "searcher"){%>
                         <div class="navElement">
                             <center>
                                 <img src="/assets/svg/exploreEmpty.svg" alt="">
                                 <p>Explore</p>
                             </center>
                         </div>
-                    </a>
-                    <a href="/user/likes">
+                        <%}%>
+                        <%if(userType == "searcher"){%>
+
+                        <a href="/user/likes">
+                            <%}else{%>
+                            <a href="/user/providerLikes">
+                            <%}%>
                         <div class="navElement">
                             <center>
 
@@ -273,8 +277,14 @@
                             $('.occupationDetail').html("@" + data.personalData.place)
                             $('.genderDetail').html(`<span class="noAnimation" id="flatmates">${data.personalData.flatmates}</span>  <img src="/assets/svg/people.svg" alt="">`);
                             $('.genderDetail').addClass('flatmates noAnimation')
-                            $('.customTitle').html("Adresse")
-                            $('.customContent').html(`${data.personalData.street}, ${data.personalData.place} ${data.personalData.plz}`)
+                            $('.customTitle').text("Adresse")
+                            $('.customTitle').parent().parent().children('.buttonIcon').remove()
+                            $('.customTitle').parent().parent().parent().attr('href', '')
+                            $('.customTitle').parent().addClass('noChevron')
+
+                            $('.customContent').text(`${data.personalData.street}, ${data.personalData.place} ${data.personalData.plz}`)
+                            $('.customTitleSecond').text('Eure Präferenzen')
+                            $('.customTitleSecond').parent().parent().parent().attr('href', '/user/preferences')
 
                         }
                         adjustFontSize('nameDetail', 12, 80, 2);

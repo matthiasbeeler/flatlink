@@ -15,6 +15,7 @@ const {
   ynTableConversion,
   formatPhonenumber,
   uploadImage,
+  amentitieProximity,
 } = require("./global");
 const { singupSuccessEmail } = require("./mailer");
 const { v4: uuidv4 } = require('uuid');
@@ -112,17 +113,17 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
 
   //send success email with email verification link
   singupSuccessEmail(data.eMail, data.firstName, userId, data.type);
-
+ 
   if (errors.length <= 0)
     return response.json({
       success: true,
-      token: await generateAccessToken(userId),
+      token: await generateAccessToken(userId, data.type == "IchhabeeinZimmer" ? "provider" : "searcher"),
     });
   return response.json({
     success: true,
     message: "trueFalse",
     errors: errors,
-    token: await generateAccessToken(userId),
+    token: await generateAccessToken(userId, data.type == "IchhabeeinZimmer" ? "provider" : "searcher"),
   });
 };
 
@@ -217,118 +218,3 @@ async function validateProvider(data, errors) {
   }
 }
 
-
-async function amentitieProximity(address, newPreferenceEntry) {
-  var latitude = 0;
-  var longitude = 0;
-  //get coordinates
-  await fetch(
-    `https://geocode.maps.co/search?q=${address}&api_key=663de6e18d609818847521uwqbeba8c`
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      latitude = data[0].lat;
-      longitude = data[0].lon;
-    });
-  const radius = 4000; // Search radius for amenities in meters
-  newPreferenceEntry.longitude = longitude;
-  newPreferenceEntry.latitude = latitude;
-  // Fetch data for public transport stops and supermarkets from OSM using Overpass API
-  const overpassUrl = `https://overpass-api.de/api/interpreter?data=[out:json];(node["highway"="bus_stop"](around:${radius},${latitude},${longitude});node["railway"="station"](around:${radius},${latitude},${longitude});node["shop"](around:${radius},${latitude},${longitude}););out;`;
-
-  fetch(overpassUrl)
-    .then((response) => response.json())
-    .then((data) => {
-      // Process data for public transport stops
-      const publicTransportStops = data.elements.filter(
-        (element) =>
-          element.tags &&
-          (element.tags.highway === "bus_stop" ||
-            element.tags.railway === "station")
-      );
-      const publicTransportData = publicTransportStops.map((stop) => ({
-        type: stop.tags.highway === "bus_stop" ? "Bus Stop" : "Train Station",
-        name: stop.tags.name ? stop.tags.name : "Unnamed",
-        lat: stop.lat,
-        lon: stop.lon,
-      }));
-
-      // Process data for supermarkets
-      const supermarkets = data.elements.filter(
-        (element) => element.tags && element.tags.shop === "supermarket"
-      );
-      const supermarketData = supermarkets.map((supermarket) => ({
-        type: "Supermarket",
-        name: supermarket.tags.name ? supermarket.tags.name : "Unnamed",
-        lat: supermarket.lat,
-        lon: supermarket.lon,
-      }));
-
-      // Calculate walking distance to each public transport stop
-      const publicTransportDistances = publicTransportData.map((stop) => {
-        const walkingUrl = `http://156.67.28.73:8080/ors/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624887530b44551b45fa975553e2aabd3f99&start=${longitude},${latitude}&end=${stop.lon},${stop.lat}`;
-        return fetch(walkingUrl)
-          .then((response) => response.json())
-          .then((walkingData) => {
-            const walkingDistance =
-              walkingData.features[0].properties.summary.distance; // Walking distance in meters
-            return { ...stop, distance: walkingDistance };
-          });
-      });
-
-      // Calculate walking distance to each supermarket
-      const supermarketDistances = supermarketData.map((supermarket) => {
-        const walkingUrl = `http://156.67.28.73:8080/ors/v2/directions/foot-walking?api_key=5b3ce3597851110001cf624887530b44551b45fa975553e2aabd3f99&start=${longitude},${latitude}&end=${supermarket.lon},${supermarket.lat}`;
-        return fetch(walkingUrl)
-          .then((response) => response.json())
-          .then((walkingData) => {
-            const walkingDistance =
-              walkingData.features[0].properties.summary.distance; // Walking distance in meters
-            return { ...supermarket, distance: walkingDistance };
-          });
-      });
-
-      var closestPublicTransport;
-      // Find the closest public transport stop
-      Promise.all(publicTransportDistances)
-        .then((distances) => {
-          closestPublicTransport = distances.reduce(
-            (closest, current) => {
-              return closest.distance < current.distance ? closest : current;
-            }
-          );
-
-          newPreferenceEntry.transportData = closestPublicTransport;
-          newPreferenceEntry.transportDistance = closestPublicTransport.distance;
-          newPreferenceEntry.save();
-
-        })
-        .catch((error) => {
-          console.error(
-            "Error calculating walking distances for public transport:",
-            error
-          );
-        });
-        var closestSupermarket;
-      // Find the closest supermarket
-      Promise.all(supermarketDistances)
-        .then((distances) => {
-          closestSupermarket = distances.reduce((closest, current) => {
-            return closest.distance < current.distance ? closest : current;
-          });
-          newPreferenceEntry.supermarketData = closestSupermarket;
-         newPreferenceEntry.supermarketDistance = closestSupermarket.distance;
-         newPreferenceEntry.save();
-        })
-        .catch((error) => {
-          console.error(
-            "Error calculating walking distances for supermarkets:",
-            error
-          );
-        });
-    })
-    .catch((error) => {
-      console.error("Error fetching or processing data:", error);
-    });
-    
-};

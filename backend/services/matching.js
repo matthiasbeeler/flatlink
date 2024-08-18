@@ -53,7 +53,7 @@ exports.matching = async (request, response, User,searcherPreferences,providerPr
         }
     })
     if (!user || !preferences) {
-        return res.status(404).send('User not found');
+        return response.status(404).send('User not found');
     }
 
 
