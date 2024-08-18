@@ -31,17 +31,15 @@
                 </div>
                 <div class="innerForeground">
                 <div class="innerNav">
-                    <a href="/user">
-
-                    <div class="navElement">
-                        <center>
-                            <img src="/assets/svg/exploreFull.svg" style="display: none;" alt="">
-                            <img src="/assets/svg/exploreEmpty.svg"  alt="">
-                            <p>Explore</p>
-                        </center>
-                    </div>
-                </a>
-
+                    <%if(userType == "searcher"){%>
+                        <div class="navElement">
+                            <center>
+                                <img src="/assets/svg/exploreEmpty.svg" alt="">
+                                <p>Explore</p>
+                            </center>
+                        </div>
+                        <%}%>
+                       
                         <div class="navElement">
                             <center>
     
