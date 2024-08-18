@@ -27,7 +27,7 @@ var provider = [
      ];
 
      const { v4: uuidv4 } = require('uuid');
-const { likeMatch, dislikeMatch, getLikedMatch } = require('../services/matchingAction');
+const { likeMatch, dislikeMatch, getLikedMatch, updateSearcherPreferences, updateProviderPreferences } = require('../services/matchingAction');
      const places = [
        { name: 'Zürich', plz: 8000 },
        { name: 'Genève', plz: 1200 },
@@ -151,6 +151,14 @@ router.post('/getLikedMatch', async (req, res) => {
   await getLikedMatch(req,res, matchLog, providerPreferences)
 })
 
+
+router.post('/updateSearcherPreferences', async (req, res) => {
+  await updateSearcherPreferences(req,res,searcherPreferences)
+})
+
+router.post('/updateProviderPreferences', async (req, res) => {
+  await updateProviderPreferences(req,res,providerPreferences)
+})
 
 
 

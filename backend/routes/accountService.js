@@ -8,7 +8,7 @@ const {
 const { login } = require("../services/authentication");
 const { loginBouncer, signupBouncer } = require("../services/bouncer");
 const { signup } = require("../services/signup");
-const { accountData } = require("../services/userData");
+const { accountData, allData } = require("../services/userData");
 const uuid = require("uuid");
 const { validate } = require("uuid");
 const jwt = require("jsonwebtoken");
@@ -82,6 +82,12 @@ router.get("*", function (req, res, next) {
 router.post("/accountData", async (req, res) => {
   await accountData(req, res, User, searcherPreferences, providerPreferences);
 });
+
+router.post("/getAllData", async (req, res) => {
+  await allData(req, res, User, searcherPreferences, providerPreferences);
+});
+
+
 
 router.post("/updateAccount", async (req, res) => {
   if (req.body.type == "phonenumber")

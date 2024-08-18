@@ -27,7 +27,7 @@ exports.login = async (request, response, User) =>{
   if(user) await validateUser(user.dataValues.password, password)
   
   async function validateUser(hash, password) {
-    const accessToken = await generateAccessToken(user.dataValues.id);
+    const accessToken = await generateAccessToken(user.dataValues.id, user.dataValues.userType);
     bcrypt
       .compare(password, hash)
       .then(res => {
