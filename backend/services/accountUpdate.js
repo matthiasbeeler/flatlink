@@ -4,6 +4,7 @@ const {
   passwordRegex,
   uploadImage,
   verifyTokenExpiry,
+  generateAccessToken,
 } = require("./global");
 const moment = require("moment");
 var validator = require("validator");
@@ -59,9 +60,7 @@ exports.updatePhonenumber = async function (request, response, User) {
   user.lastPhoneNumberUpdate = moment().toDate();
   await user.save();
 
-  var token = await jwt.sign({ data: { id: userId } }, process.env.jwtSecret, {
-    expiresIn: "365d",
-  });
+  var token = await generateAccessToken(userId, user.userType)
   return response.json({ success: true, token });
 };
 
@@ -126,9 +125,8 @@ exports.updateEmail = async function (request, response, User) {
   user.lastEmailUpdate = moment().toDate();
   await user.save();
   await emailAddressUpdate(emailAddress, user.firstName, userId);
-  var token = await jwt.sign({ data: { id: userId } }, process.env.jwtSecret, {
-    expiresIn: "365d",
-  });
+  var token = await generateAccessToken(userId, user.userType)
+
   return response.json({ success: true, token });
 };
 
@@ -168,9 +166,8 @@ exports.updateJob = async function (request, response, searcherPreferences) {
   //updating job
   user.occupation = job;
   await user.save();
-  var token = await jwt.sign({ data: { id: userId } }, process.env.jwtSecret, {
-    expiresIn: "365d",
-  });
+  var token = await generateAccessToken(userId, user.userType)
+
   return response.json({ success: true, token });
 };
 
@@ -198,9 +195,8 @@ exports.updatePassword = async function (request, response, Users) {
 
   //updating pasword
   (user.password = await bcrypt.hashSync(password, 10)), await user.save();
-  var token = await jwt.sign({ data: { id: userId } }, process.env.jwtSecret, {
-    expiresIn: "365d",
-  });
+  var token = await generateAccessToken(userId, user.userType)
+
   return response.json({ success: true, token });
 };
 
@@ -242,9 +238,8 @@ exports.updateProfileImage = async function (request, response, User) {
   user.lastProfileImageUpdate = moment().toDate();
   await user.save();
 
-  var token = await jwt.sign({ data: { id: userId } }, process.env.jwtSecret, {
-    expiresIn: "365d",
-  });
+  var token = await generateAccessToken(userId, user.userType)
+
   return response.json({ success: true, token });
 };
 
@@ -252,7 +247,6 @@ exports.verifyEmail = async function (request, response, User) {
   try {
     const tokenData = jwt.verify(request.body.token, process.env.jwtSecret);
  
-  console.log(tokenData);
   
   //getting user
   var user = await User.findOne({
