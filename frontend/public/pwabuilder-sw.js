@@ -1,6 +1,6 @@
 // This is the service worker with the combined offline experience (Offline page + Offline copy of pages)
 
-const CACHE = "pwabuilder-offline-page";
+const CACHE = "flatlink-offline-page";
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
@@ -26,8 +26,8 @@ if (workbox.navigationPreload.isSupported()) {
 
 workbox.routing.registerRoute(
   new RegExp('/*'),
-  new workbox.strategies.StaleWhileRevalidate({
-    cacheName: CACHE
+  new workbox.strategies.NetworkFirst({
+    cacheName: CACHE,
   })
 );
 
