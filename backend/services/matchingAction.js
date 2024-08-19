@@ -123,9 +123,12 @@ exports.updateProviderPreferences = async (
 ) => {
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
-  const images = request.files["files[]"];
+    const images = Array.isArray(request.files["files[]"]) 
+    ? request.files["files[]"] 
+    : [request.files["files[]"]]; 
+  
   var imageIds = [];
-  //multi image upload
+  
   uploadedImages = await Promise.all(
     images.map(async (image) => {
       const uuid = uuidv4();
