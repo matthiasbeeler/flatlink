@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<%- include('../modules/head', {title:"Explore"}) %>
+
+    <body>
+        <div class="content tutorialContent">
+            <img src="/assets/svg/flatlinkTextLogo.svg" alt="" class="hideMatchDetail topLeftLogoText">
+
+            <a href="/user/preferences" style="display: none;">
+                <img src="/assets/svg/preferences.svg" class="topRightButton hideMatchDetail" alt="">
+            </a>
+            <div class="spacing10 hideMatchDetail"></div>
+            <div class="spacing10 hideMatchDetail"></div>
+
+            <div class="start">
+                <img src="/assets/svg/yourDreamFlat.svg" style="display: none; opacity: 0;" class="firstText" alt="">
+                <img src="/assets/svg/onlyLittleClicks.svg" style="display: none; opacity: 0;" class="secondText" alt="">
+
+                <div class="buttonContainer">
+                <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
+                    <div class="buttonText">Tutorial beginnen</div>
+                    </div>
+                    <div class="spacing5"></div>
+                <div class="buttonDiv button lightButton" onclick="window.location = '/user'">
+                    <div class="buttonText">Tutorial überspringen</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottomNavTutorial">
+                <div class="tutorialOverlay">
+                    <img class="explore" src="/assets/svg/exploreExplination.svg" alt="">
+                    <img class="like" src="/assets/svg/likesExplination.svg" alt="">
+
+                </div>
+                <div class="foreground bottomNav hideMatchDetail">
+                    <div class="foregroundTop">
+                        <div class="oval"></div>
+                    </div>
+                    <div class="innerForeground">
+                    <div class="innerNav">
+    
+                            <div class="navElement">
+                                <center>
+                                    <img src="/assets/svg/exploreEmpty.svg" alt="">
+                                    <p>Explore</p>
+                                </center>
+                            </div>
+                           
+                            <div class="navElement">
+                                <center>
+        
+                                    <img src="/assets/svg/heartEmpty.svg" style="display: none;" alt="">
+                                    <img src="/assets/svg/heartFull.svg" alt="">
+                                    <p>Likes</p>
+                                </center>
+                            </div>
+                        <div class="navElement">
+                            <center>
+    
+                                <img src="/assets/svg/accountEmpty.svg" alt="">
+                                <img src="/assets/svg/accountFull.svg" style="display: none;" alt="">
+                                <p>Account</p>
+                            </center>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        <%- include('../modules/footer', { minHeight: 0.89, hide: true}) %>
+
+    </body>
+
+    </html>
+<script defer>
+
+setTimeout(() => {
+    $('.start .firstText').show();
+    $('.start .firstText').css('opacity', '1')
+
+    setTimeout(() => {
+    $('.start .firstText').show();
+    $('.start .firstText').css('top', '30%')
+    setTimeout(() => {
+    $('.start .secondText').show();
+    $('.start .secondText').css('opacity', '1')
+        setTimeout(() => {
+            $('.start .buttonContainer').show();
+
+            setTimeout(() => {
+                $('.start .buttonContainer').css('opacity', '1')
+
+        }, 1000);
+        }, 100);
+
+    /*setTimeout(() => {
+        $('.start .firstText').css('opacity', '0')
+        $('.start .secondText').css('opacity', '0')
+        setTimeout(() => {
+            $('.start .firstText').hide();
+            $('.start .secondText').hide()
+        }, 1000);
+}, 3000);*/
+}, 1000);
+}, 1500);
+
+
+}, 1000);
+
+
+</script>

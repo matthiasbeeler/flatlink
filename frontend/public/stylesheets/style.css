@@ -42,8 +42,66 @@
     user-select: none;
     user-drag: none;
     -webkit-user-drag: none;
+
   }
+
   
+  .tutorialContent *{
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+  }
+
+  .tutorialContent{
+    .start .firstText{
+      width: 80%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .start .secondText{
+      width: 80%;
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .start .buttonContainer{
+      top: 60%;
+      width: 100%;
+      opacity: 0;
+      position: absolute;
+      display: none;
+    }
+    .bottomNavTutorial .tutorialOverlay{
+      width: 100vw;
+      height: 100%;
+      background-color: #171717b2;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      z-index: 10;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      img{
+        position: fixed;
+    bottom: 0px;
+    top: unset !important;
+    max-width: 100%;
+    margin-top: unset !important;
+    margin-bottom: 20%;
+
+
+      }
+     
+    }
+    .bottomNavTutorial .bottomNav{
+      z-index: 11;
+    }
+  }
+
   .noAnimation {
     -webkit-transition: none;
     -moz-transition: none;
