@@ -1081,6 +1081,15 @@
     position: relative;
     transform: translate(-50%, -50%);
   }
+
+  .noLikes{
+    width: 80%;
+    margin-left: 10%;
+    img{
+      width: 100%;
+    }
+  }
+
   
  .buttonSection {
     width: 100%;

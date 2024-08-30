@@ -18,6 +18,10 @@
                <div></div>
                <div></div>
              </div>
+             <div class="noLikes" style="display: none;">
+                <div class="spacing10"></div>
+                <img src="/assets/svg/noLikes.svg"  alt="">
+             </div>
           <div class="likeContainer hideMatchDetail">
 
           </div>
@@ -105,12 +109,19 @@ $.ajax({
     crossDomain: true,
     data: {
         "flatlinkAuth": getCookie('flatlinkAuth'),
+        "userType": "<%=userType%>"
     },
     success: function (data, status, xhr) {
         if (data) {
             console.log(data)
        if (data.success == true) {
+        if(data.logs.length <= 0)  {
+            $('.hideSuccess').hide();
+            $('.noLikes').show()
+        }
+        if(data.logs.length <= 0)  return;
         data.logs.forEach(element => {
+            
             likeData["like"+element.providerId] = element.providerPreference;
             $('.hideSuccess').hide()
         var obj = `

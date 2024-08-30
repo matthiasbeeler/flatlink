@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'providerId',
           targetKey: 'id'
         });
+        matchLog.belongsTo(models.searcherPreferences, {
+            foreignKey: 'searcherId',
+            targetKey: 'id'
+          });
       };
     return matchLog;
 }
