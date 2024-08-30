@@ -1,3 +1,43 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+
+<!DOCTYPE html>
+<%- include('./modules/head', {title:"eMail verification"}) %>
+
+    <body>
+        <div class="content">
+            <div class="spacing10"></div>
+
+              <div>
+                
+                <p class="bigCenterTitle title">
+                    ?????
+                 </p>
+
+                             <p class="bigCenterTitle title">
+               Hmmm🤨
+            </p>
+            <div class="spacing10">
+            </div>
+            <div class="info">
+                <img src="/assets/svg/info.svg" alt="">
+                <div class="infoText">
+                    <p><%= message %> <br>
+                    <%= error.status %></p>
+                </div>
+            </div>
+           
+            <div class="spacing10">
+            </div>
+            <a href="/user/">
+            <div class="buttonDiv button submitButton"onclick="">
+                <div class="buttonText">Zrück zum Start</div>
+                </div>
+            </a>
+
+            </div>
+           
+        </div>
+        <%- include('./modules/footer', { minHeight: 0.5, hide: false}) %>
+
+    </body>
+
+    </html>
