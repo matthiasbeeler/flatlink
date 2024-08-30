@@ -14,6 +14,7 @@ router.get("/logout", (req, res) => {
 });
 
 router.get('/verifyEmail', function(req, res, next) {
+  if(!req.query.token) res.redirect('/user')
   res.render('emailVerification', {token: req.query.token});
 });
 
@@ -50,6 +51,15 @@ router.get('/signup/data', function(req, res, next) {
 
 router.get('/signup/preferences/typeOption', function(req, res, next) {
   res.render('signup/typeOption');
+});
+
+router.get('/forgotPassword', function(req, res, next) {
+  res.render('forgotPassword');
+});
+
+router.get('/resetPassword', function(req, res, next) {
+  if(!req.query.token) res.redirect('/forgotPassword')
+  res.render('resetPassword', {token: req.query.token});
 });
 
 //provider

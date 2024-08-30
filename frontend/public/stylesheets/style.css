@@ -1132,7 +1132,7 @@
   }
 
 
- .matchButton.disabled, .matchButton.disabledReturn {
+ .matchButton.disabled, .matchButton.disabledReturn, .disabled {
     opacity: 0.5;
   }
   
