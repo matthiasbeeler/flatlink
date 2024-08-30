@@ -16,6 +16,13 @@ exports.likeMatch = async (
   const providerId = request.body.providerId;
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
+
+    await matchLog.destroy({
+      where: {
+        searcherId: userId,
+        providerId: request.body.providerId,
+      },
+    });
   const log = await matchLog.create({
     searcherId: userId,
     providerId: request.body.providerId,
@@ -33,6 +40,12 @@ exports.dislikeMatch = async (
 ) => {
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
+    await matchLog.destroy({
+      where: {
+        searcherId: userId,
+        providerId: request.body.providerId,
+      },
+    });
   const log = await matchLog.create({
     searcherId: userId,
     providerId: request.body.providerId,

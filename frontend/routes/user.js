@@ -42,6 +42,10 @@ router.get('/preferences', function(req, res, next) {
   res.render('loggedin/preferences');
 });
 
+router.get('/tutorial/searcher', function(req, res, next) {
+  res.render('loggedin/tutorialSearcher');
+});
+
 router.get('/account/update/:type', function(req, res, next) {
   const updateType = req.params.type;
   res.render('loggedin/account/detailUpdateGeneral', {updateType});
