@@ -53,7 +53,36 @@ exports.singupSuccessEmail = function(email, firstName, userId, type){
         to: email, // List of recipients //email
         subject: "flatlink eMail Update", // Subject line
         html: mailHTML,
-        text: "Deine neue eMail Adresse. Mit folgendem Link, verifizierst Du sie: "+process.env.appUrl+"/verifyEmail?token="+verificationToken
+        text: "Deine neue eMail Adresse. Mit folgendem Link verifizierst Du sie: "+process.env.appUrl+"/verifyEmail?token="+verificationToken
+      };
+      transporter.sendMail(mailOptions, (err, response) => {
+          if (!err) {
+            return true
+          }else{
+              console.log(err)
+            return false
+          }
+        });
+    });
+    
+  } catch (error) {
+      console.log(error)
+      return false
+  }
+  }
+
+
+  exports.passwordForgottenEmail = function(email, userId){
+    try {
+        const verificationToken = jwt.sign({data:{id: userId, email: email, type: "password"}}, process.env.jwtSecret, {expiresIn: '1h'});
+      const filename = process.cwd() + "/emailTemplates/passwordForgotten.ejs";
+    ejs.renderFile(filename,{verificationUrl: process.env.appUrl+"/resetPassword?token="+verificationToken}, (error, mailHTML) => {
+      const mailOptions = {
+        from: process.env.emailUserName, // Sender address
+        to: email, // List of recipients //email
+        subject: "flatlink Passwort vergessen?", // Subject line
+        html: mailHTML,
+        text: "Passwort vergessen? Mit folgendem Link setzt Du es zurück: "+process.env.appUrl+"/resetPassword?token="+verificationToken
       };
       transporter.sendMail(mailOptions, (err, response) => {
           if (!err) {

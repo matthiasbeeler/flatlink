@@ -377,7 +377,9 @@ function loadData() {
 
         $('.flatmates .descriptionText').text(`${provider.flatmates} Mitbewohner:innen`)
         
-        if(provider.food !=="none") $('.food .descriptionText').text(`${provider.food} Mitbewohner:innen`);
+        if(provider.food !=="none"){
+          provider.food == "vegan" ? $('.food .descriptionText').text(`Vegane Mitbewohner:innen`) : $('.food .descriptionText').text(`Vegetraische Mitbewohner:innen`);
+        }
         if(provider.food =="none") $('.food, .foodHide').hide();
 
         $('.size .descriptionText').text(`${provider.roomSize} qm grosses Zimmer`)
