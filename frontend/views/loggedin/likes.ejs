@@ -18,6 +18,10 @@
                <div></div>
                <div></div>
              </div>
+             <div class="noLikes" style="display: none;">
+                <div class="spacing10"></div>
+                <img src="/assets/svg/noLikes.svg"  alt="">
+             </div>
           <div class="likeContainer hideMatchDetail">
 
           </div>
@@ -105,12 +109,20 @@ $.ajax({
     crossDomain: true,
     data: {
         "flatlinkAuth": getCookie('flatlinkAuth'),
+        "userType": "<%=userType%>"
     },
     success: function (data, status, xhr) {
         if (data) {
             console.log(data)
        if (data.success == true) {
+        if(data.logs.length <= 0)  {
+            $('.hideSuccess').hide();
+            $('.noLikes').show()
+        }
+        if(data.logs.length <= 0)  return;
+        if("<%=userType%>" == "searcher"){
         data.logs.forEach(element => {
+            
             likeData["like"+element.providerId] = element.providerPreference;
             $('.hideSuccess').hide()
         var obj = `
@@ -133,6 +145,33 @@ $.ajax({
             `
             $('.likeContainer').append(obj)
         });
+    }
+    if("<%=userType%>" == "provider"){
+        data.logs.forEach(element => {
+            
+            likeData["like"+element.searcherId] = element.searcherPreference;
+            $('.hideSuccess').hide()
+        var obj = `
+
+                     <div class="like${element.searcherId} likeElement grayShadowNoOffset" onclick='moreInfo("like${element.searcherId}")'>
+            <div class="likeImageLeft loading notEmpty">
+                <img src="<%=process.env.apiUrl%>/accountService/uploads/searcherImages/${element.searcherId}?flatlinkAuth=${getCookie('flatlinkAuth')}" alt="">
+            </div>
+            <div class="textContent">
+            <div class="likeAddress likeName" id="likeAddress">
+               ${element.User.firstName} ${element.User.lastName}
+            </div>
+            <div class="likeInfo">
+                ${element.searcherPreference.occupation}
+            </div>
+        </div>
+           </div>
+               
+                <div class="spacing8"></div>
+            `
+            $('.likeContainer').append(obj)
+        });
+    }
         }
         if (data.success == false) {
             $('.errorMessage').show()
