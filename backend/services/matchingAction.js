@@ -79,6 +79,39 @@ exports.getLikedMatch = async (
   response.json({ success: true, logs: logs });
 };
 
+exports.getLikedSearcher = async (
+  request,
+  response,
+  matchLog,
+  searcherPreferences,
+  User
+) => {
+  const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
+    .data.id;
+  //joining tables matchLog and providerPreference to get the providerData
+  const logs = await matchLog.findAll({
+    where: {
+      providerId: userId,
+      matchType: true,
+    },
+    include: [
+      {
+        model: searcherPreferences,
+        required: false,
+      },
+      {
+        model: User,
+        required: false,
+        attributes: ['firstName', 'lastName'], 
+      },
+      
+    ],
+    raw: true,
+    nest: true,
+  });
+  response.json({ success: true, logs: logs });
+};
+
 exports.updateSearcherPreferences = async (
   request,
   response,
