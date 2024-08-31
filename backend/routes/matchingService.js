@@ -149,7 +149,7 @@ router.post('/dislikeMatch', async (req, res) => {
 
 router.post('/getLikedMatch', async (req, res) => {
   if(req.body.userType == "searcher") return await getLikedMatch(req,res, matchLog, providerPreferences)
-  if(req.body.userType == "provider") return await getLikedSearcher(req,res, matchLog, searcherPreferences)
+  if(req.body.userType == "provider") return await getLikedSearcher(req,res, matchLog, searcherPreferences, User)
 })
 
 

@@ -829,6 +829,10 @@
 .likeElement{
   padding: 2%;
   width: 82%;
+  *{
+    text-align: left;
+
+  }
  .likeAddress{
     display: inline-block;
     width: 100%;
@@ -837,7 +841,9 @@
     overflow: hidden;
     font-size: 90%;
     height: min-content;
+    vertical-align: middle;
   }
+
    .likeInfo{
     display: inline-block;
     width: 100%;
@@ -845,6 +851,8 @@
     white-space: nowrap;
     overflow: hidden;
     font-size: 70%;
+    vertical-align: middle;
+
   }
   .textContent{
     display: inline-block;

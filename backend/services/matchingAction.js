@@ -83,7 +83,8 @@ exports.getLikedSearcher = async (
   request,
   response,
   matchLog,
-  searcherPreferences
+  searcherPreferences,
+  User
 ) => {
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
@@ -98,6 +99,12 @@ exports.getLikedSearcher = async (
         model: searcherPreferences,
         required: false,
       },
+      {
+        model: User,
+        required: false,
+        attributes: ['firstName', 'lastName'], 
+      },
+      
     ],
     raw: true,
     nest: true,
