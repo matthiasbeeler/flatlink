@@ -1,0 +1,304 @@
+        <div class="moduleContent" style="display: none;opacity: 0;">
+            <div class="spacing10"></div>
+            <div class="spacing10"></div>
+
+            <div class="carouselContainer">
+                <div class="carouselTrack">
+                </div>
+            </div>
+        <div class="spacing5">
+
+        </div>
+        <div class="genderPreference infoText">
+            <div class="title lightText descriptionText">Nur Frauen</div>
+        </div>
+        <div class="spacing1"></div>
+        <div class="spacing1"></div>
+
+        <div class="price infoText">
+            <div class="sideIcon"><img src="/assets/svg/moneyBank.svg" alt="">
+            </div>
+            <div class="title descriptionText">Budget: 400 chf/monat</div>
+        </div>
+        <div class="spacing5"></div>
+        <div class="flatmates infoText">
+            <div class="sideIcon"><img src="/assets/svg/people.svg" alt="">
+            </div>
+            <div class="title descriptionText">3 MitbewohnerInnen</div>
+        </div>
+
+        <div class="spacing5 foodHide"></div>
+        <div class="food infoText">
+            <div class="sideIcon"><img src="/assets/svg/food.svg" alt="">
+            </div>
+            <div class="title descriptionText">Vegan</div>
+        </div>
+
+        <div class="spacing5"></div>
+        <div class="size infoText">
+            <div class="sideIcon"><img src="/assets/svg/ruler.svg" alt="">
+            </div>
+            <div class="title descriptionText">15qm grosses Zimmer</div>
+        </div>
+
+        <div class="spacing5"></div>
+        <div class="flatsize infoText">
+            <div class="sideIcon"><img src="/assets/svg/apartmentBuilding.svg" alt="">
+            </div>
+            <div class="title descriptionText">96qm grosse Wohnung</div>
+        </div>
+
+        <div class="spacing5"></div>
+      
+        <div class="job infoText">
+          <div class="sideIcon"><img src="/assets/svg/work.svg" alt="">
+          </div>
+          <div class="title descriptionText"></div>
+      </div>
+        <div class="spacing5"></div>
+       
+        <div class="cleanliness infoText">
+            <div class="sideIcon"><img src="/assets/svg/mop.svg" alt="">
+            </div>
+            <div class="title descriptionText">Sauberkeit</div>
+        </div>
+                    <div class="spacing1"></div>
+                    <div class="selectInput selectCleanliness">
+                      <div class="selectElement one" >
+                        1
+                      </div>
+                      <div class="selectElement two" >
+                        2
+                      </div>
+                      <div class="selectElement three" >
+                        3
+                      </div>
+                      <div class="selectElement four" >
+                        4
+                      </div>
+                      <div class="selectElement five" >
+                        5
+                      </div>
+                      <div class="selectElement six" >
+                        6
+                      </div>
+                      <div class="selectElement seven" >
+                        7
+                      </div>
+                      <div class="selectElement eight" >
+                        8
+                      </div>
+                      <div class="selectElement nine" >
+                        9
+                      </div>
+                      <div class="selectElement ten" >
+                        10
+                      </div>
+                      <input required type="text" name="cleanliness" id="cleanliness" style="display: none;" class="selectField">
+                    </div>
+
+                    <div class="spacing8"></div>
+                    <div class="infoText">
+                        <div class="sideIcon"><img src="/assets/svg/doNotDisturb.svg" alt="">
+                        </div>
+                        <div class="title descriptionText">Ruhige Atmosphäre</div>
+                    </div>
+                                <div class="spacing1"></div>
+                                <div class="selectInput">
+                                  <div class="selectElement one" >
+                                    1
+                                  </div>
+                                  <div class="selectElement two" >
+                                    2
+                                  </div>
+                                  <div class="selectElement three" >
+                                    3
+                                  </div>
+                                  <div class="selectElement four" >
+                                    4
+                                  </div>
+                                  <div class="selectElement five" >
+                                    5
+                                  </div>
+                                  <div class="selectElement six" >
+                                    6
+                                  </div>
+                                  <div class="selectElement seven" >
+                                    7
+                                  </div>
+                                  <div class="selectElement eight" >
+                                    8
+                                  </div>
+                                  <div class="selectElement nine" >
+                                    9
+                                  </div>
+                                  <div class="selectElement ten" >
+                                    10
+                                  </div>
+                                  <input required type="text" name="cleanliness" id="atmosphere" style="display: none;" class="selectField">
+                                </div>
+
+
+
+
+                                <div class="spacing8"></div>
+
+
+                                <div class="spacing5">
+                                  
+                                </div>
+                                <div class="description infoText">
+                                    <div class="sideIcon"><img src="/assets/svg/description.svg" alt="">
+                                    </div>
+                                    <div class="title descriptionText">Beschreibung</div>
+                                </div>
+                                <div class="infoText  descriptionDescriptionText descriptionText">hi</div>
+                                <div class="spacing10"></div>
+                                <div class="spacing10"></div>
+                                <div class="spacing10"></div>
+                                <div class="spacing10"></div>
+                                <div class="buttonSection">
+                                   
+                                   <center>
+                                    <a class="phoneLink" href="">
+                                    <div  class="likeButton phoneButton matchButton grayShadowBoldNoOffset">
+                                      <img src="/assets/svg/phone.svg" alt="">
+                                  </div>
+                                </a>
+                                    <div onclick="closeInfo()" class="backButton backButtonMoreInfo matchButton grayShadowBoldNoOffset">
+                                        <img src="/assets/svg/backArrow.svg" alt="">
+                                    </div>
+                                  </center>
+                                </div>
+
+        </div>
+
+         
+            
+
+
+    <script>
+
+
+
+
+// Usage
+
+var numArray = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eigth', 'nine', 'ten'];
+
+function loadData(providerDataId) {
+  var provider = likeData[providerDataId].searcherPreference;
+  var user = likeData[providerDataId].User;
+    $('.selectElement').removeClass('selected')
+    $('.carouselSlide').remove()
+    $('.dot').remove()
+    const imageSources =  [""+provider.id+""]
+     let currentIndex = 0;
+        const carouselTrack = document.querySelector('.carouselTrack');
+        const dotsContainer = document.querySelector('.dots');
+        const carouselContainer = document.querySelector('.carouselContainer');
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        function createSlides() {
+            imageSources.forEach((src, index) => {
+                const slide = document.createElement('div');
+                slide.classList.add('carouselSlide');
+                const img = document.createElement('img');
+                img.src = `<%=process.env.apiUrl%>/accountService/uploads/searcherImages/${src}?flatlinkAuth=${getCookie('flatlinkAuth')}`;;
+                img.alt = `Carousel Image ${index + 1}`;
+                img.classList.add('carouselImage');
+                slide.appendChild(img);
+                carouselTrack.appendChild(slide);
+            });
+        }
+
+        function showImage(index) {
+            carouselTrack.style.transform = `translateX(-${index * 100}%)`;
+            updateDots();
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % imageSources.length;
+            showImage(currentIndex);
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + imageSources.length) % imageSources.length;
+            showImage(currentIndex);
+        }
+
+       
+
+        function updateDots() {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function handleTouchStart(event) {
+            touchStartX = event.touches[0].clientX;
+        }
+
+        function handleTouchMove(event) {
+            touchEndX = event.touches[0].clientX;
+        }
+
+        function handleTouchEnd() {
+            if (touchStartX - touchEndX > 50) {
+                nextImage();
+            }
+            if (touchEndX - touchStartX > 50) {
+                prevImage();
+            }
+            touchStartX = 0;
+            touchEndX = 0;
+        }
+
+        createSlides();
+        showImage(currentIndex);
+
+        // Add touch event listeners
+        carouselContainer.addEventListener('touchstart', handleTouchStart);
+        carouselContainer.addEventListener('touchmove', handleTouchMove);
+        carouselContainer.addEventListener('touchend', handleTouchEnd);
+
+        // next image every 8 seconds
+        setInterval(nextImage, 8000);
+
+        let gendPreference;
+        if (provider.genderPreference == "female") gendPreference = "Bevorzugt Frauen";
+        if (provider.genderPreference == "male") gendPreference = "Bevorzugt Männer";
+        if (provider.genderPreference == "intersex") gendPreference = "Bevorzugt Intersex";
+        if (provider.genderPreference == "none") gendPreference = "";
+        $('.genderPreference .descriptionText').text(gendPreference)
+
+
+        $('.price .descriptionText').text(`Budget: ${provider.budget} chf/monat`)
+
+
+       $('.flatmates .descriptionText').text(`${provider.flatmates} Mitbewohner:innen wären optimal`)
+        
+        if(provider.food !=="none"){
+          provider.food == "vegan" ? $('.food .descriptionText').text(`Vegan`) : $('.food .descriptionText').text(`Vegetraisch`);
+        }
+        if(provider.food =="none") $('.food, .foodHide').hide();
+
+        $('.size .descriptionText').text(`${provider.roomSize} qm grosses Zimmer`)
+        $('.flatsize .descriptionText').text(`${provider.flatSize} qm grosse Wohnung`)
+        $('.job .descriptionText').text(`${provider.occupation}`)
+
+        $('#cleanliness').parent().children('.'+numArray[Number(provider.cleanliness)-1]).addClass('selected');
+
+
+        $('#atmosphere').parent().children('.'+numArray[Number(provider.quietness)-1]).addClass('selected')
+
+
+        $('.phoneLink').attr('href', 'tel:'+user.phonenumber)
+
+        $('.descriptionDescriptionText').text(provider.description)
+    };
+
+    </script>
