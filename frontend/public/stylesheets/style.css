@@ -792,7 +792,14 @@
     overflow: hidden;
   }
 
+.footerTextAccount{
+  text-align: center;
+  opacity: 0.5;
+  *{
+  text-decoration: none;
 
+  }
+}
   
   .groupButtonDiv, .likeElement{
     width: 80%;

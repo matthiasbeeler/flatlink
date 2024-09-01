@@ -8,7 +8,17 @@
             <div class="spacing10 hideMatchDetail"></div>
             <div class="spacing10 hideMatchDetail"></div>
            <div class="spacing10 hideMatchDetail"></div>
-           <%- include('../modules/matchDetailLikes') %>
+            <% if(userType == "provider"){ %>
+
+                <%- include('../modules/searcherDetailLikes') %>
+
+            <%}%>
+            <% if(userType == "searcher"){ %>
+                <%- include('../modules/matchDetailLikes') %>
+
+                <%}%>
+
+
            <div class="spacing10 hideSuccess"></div>
            <div class="spacing10 hideSuccess"></div>
            <div class="spacing10 hideSuccess "></div>
@@ -149,7 +159,7 @@ $.ajax({
     if("<%=userType%>" == "provider"){
         data.logs.forEach(element => {
             
-            likeData["like"+element.searcherId] = element.searcherPreference;
+            likeData["like"+element.searcherId] = element;
             $('.hideSuccess').hide()
         var obj = `
 

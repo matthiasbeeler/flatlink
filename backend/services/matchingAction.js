@@ -102,7 +102,7 @@ exports.getLikedSearcher = async (
       {
         model: User,
         required: false,
-        attributes: ['firstName', 'lastName'], 
+        attributes: ['firstName', 'lastName', 'phonenumber'], 
       },
       
     ],
