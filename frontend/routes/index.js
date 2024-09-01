@@ -18,6 +18,14 @@ router.get('/verifyEmail', function(req, res, next) {
   res.render('emailVerification', {token: req.query.token});
 });
 
+router.get("/impressum", (req, res) => {
+  res.render('legal/impressum');
+});
+
+router.get("/datenschutz", (req, res) => {
+  res.render('legal/dataprivacy');
+});
+
 router.all("*", function (req, res, next) {
   try {
   if(req.cookies.flatlinkAuth){
