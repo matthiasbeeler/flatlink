@@ -31,13 +31,7 @@
   </script>
 
   <script defer>
-        if (!localStorage.getItem('cookieNoticeAccepted')) {
-     if(document.location.pathname !== "/datenschutz" && document.location.pathname !==  "/impressum") {
-          // If the notice has not been accepted, display it
-
-     document.querySelector('.cookieNoticeBackground').style.display = 'flex';
-     }
-   }
+    
    
    // Add an event listener to the cookie notice to handle the user accepting it
    document.querySelector('.dismiss-cookie-notice').addEventListener('click', function() {
@@ -199,3 +193,13 @@
 
   </div>
 </div>
+
+<script defer>
+      if (!localStorage.getItem('cookieNoticeAccepted')) {
+     if(document.location.pathname !== "/datenschutz" && document.location.pathname !==  "/impressum") {
+          // If the notice has not been accepted, display it
+
+     document.querySelector('.cookieNoticeBackground').style.display = 'flex';
+     }
+   }
+</script>
