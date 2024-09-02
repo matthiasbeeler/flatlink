@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<%- include('../modules/head', {title:"Explore"}) %>
+
+    <body>
+        <div class="content">
+            <img src="/assets/svg/admin.svg" alt="" class="hideMatchDetail topLeftLogoText">
+
+            <div class="spacing10 hideMatchDetail"></div>
+            <div class="spacing10 hideMatchDetail"></div>
+
+            <div class="infoAdminContainer grayShadowBoldNoOffset searcher">
+                <div class="icon">
+                    <img src="/assets/svg/face.svg" alt="">
+                </div>
+                <div class="text">
+                    <div class="smallText">
+                        searchers
+                    </div>
+                    <div class="number">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="infoAdminContainer grayShadowBoldNoOffset provider">
+                <div class="icon">
+                    <img src="/assets/svg/apartmentBuilding.svg" alt="">
+                </div>
+                <div class="text">
+                    <div class="smallText">
+                        providers
+                    </div>
+                    <div class="number">
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="foreground bottomNav hideMatchDetail">
+                <div class="foregroundTop">
+                    <div class="oval"></div>
+                </div>
+                <div class="innerForeground">
+                    <div class="innerNav">
+                        <div class="navElement">
+                            <center>
+                                <img src="/assets/svg/exploreFull.svg" alt="">
+                                <img src="/assets/svg/exploreEmpty.svg" style="display: none;" alt="">
+                                <p>Home</p>
+                            </center>
+                        </div>
+                        
+                        <a href="/logout">
+                            <div class="navElement">
+                                <center>
+
+                                    <img src="/assets/svg/logout.svg" alt="">
+                                    <img src="/assets/svg/heartFull.svg" style="display: none;" alt="">
+                                    <p>Logout</p>
+                                </center>
+                            </div>
+                        </a>
+                        <!--
+                        <a href="/user/account">
+                            <div class="navElement">
+                                <center>
+
+                                    <img src="/assets/svg/accountEmpty.svg" alt="">
+                                    <img src="/assets/svg/accountFull.svg" style="display: none;" alt="">
+                                    <p>Account</p>
+                                </center>
+                            </div>
+                        </a>
+
+                    </div>
+                    -->
+                </div>
+
+            </div>
+
+        </div>
+        <%- include('../modules/footer', { minHeight: 0.89, hide: true}) %>
+
+    </body>
+
+    </html>
+
+    <script>
+       
+
+        $.ajax({
+            url: '<%=process.env.apiUrl%>/adminService/getStartStats',
+            type: 'POST',
+            async: true,
+            cache: false,
+            crossDomain: true,
+            data: {
+                "flatlinkAuth": getCookie('flatlinkAuth'),
+            },
+            success: function (data, status, xhr) {
+                if (data) {
+                    console.log(data)
+                    if (data.success == true) {
+                        $('.searcher .text .number').text(data.searcherCount)
+                        $('.provider .text .number').text(data.providerCount)
+
+                    }
+                    if (data.success == false) {
+                        $('.errorMessage').show()
+                        $('.errorMessage .messageText').html(errorMessages[data.error])
+                    }
+                }
+
+            },
+            error: function (jqXHR, textStatus, err) {
+                $('.errorOverlay').show()
+                setTimeout(() => {
+                    window.location.reload();
+                }, 30000);
+
+            }
+        });
+
+    </script>
