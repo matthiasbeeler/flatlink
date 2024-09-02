@@ -184,7 +184,7 @@
 
 // Usage
 
-var numArray = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eigth', 'nine', 'ten'];
+var numArray = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 
 function loadData(providerDataId) {
   var provider = likeData[providerDataId].searcherPreference;
@@ -290,9 +290,17 @@ function loadData(providerDataId) {
         $('.flatsize .descriptionText').text(`${provider.flatSize} qm grosse Wohnung`)
         $('.job .descriptionText').text(`${provider.occupation}`)
 
+        console.log(numArray[Number(provider.cleanliness)-1])
+        try {
+          console.log($('#cleanliness').parent().children(), $('#cleanliness').parent().children('.'+numArray[Number(provider.cleanliness)-1]).attr('class'))
         $('#cleanliness').parent().children('.'+numArray[Number(provider.cleanliness)-1]).addClass('selected');
+        console.log($('#cleanliness').parent().children('.'+numArray[Number(provider.cleanliness)-1]).attr('class'))
 
 
+          
+      } catch (error) {
+          console.log(error)
+        }
         $('#atmosphere').parent().children('.'+numArray[Number(provider.quietness)-1]).addClass('selected')
 
 
