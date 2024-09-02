@@ -23,6 +23,7 @@ router.all("*", function (req, res, next) {
 })
 
 router.get('/', function(req, res, next) {
+  if(jwt.verify(req.cookies.flatlinkAuth, process.env.jwtSecret).data.userType == "admin") return   res.redirect('/admin')
   if(jwt.verify(req.cookies.flatlinkAuth, process.env.jwtSecret).data.userType == "provider") return   res.render('loggedin/likes', {userType: jwt.verify(req.cookies.flatlinkAuth, process.env.jwtSecret).data.userType});
   res.render('loggedin/home');
 });

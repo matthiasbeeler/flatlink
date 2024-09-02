@@ -8,6 +8,7 @@ require("dotenv").config({path: path.resolve(process.cwd(), `${process.env.NODE_
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
+var adminRouter = require('./routes/admin');
 
 var app = express();
 
@@ -23,7 +24,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'assets', 'images', 'favicon.png')))
 
 app.use('/user', userRouter);
+app.use('/admin', adminRouter);
 app.use('/', indexRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
