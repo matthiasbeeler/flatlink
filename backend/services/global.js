@@ -18,6 +18,16 @@ exports.findUserWithEmail = async function(User, email){
 
   //formatphonenumber
 exports.formatPhonenumber = async function(fullNumber) {
+    // Check if the number starts with '417'
+    console.log(fullNumber.startsWith('+41417'))
+    console.log(fullNumber)
+
+
+    if (fullNumber.startsWith('+41417')) {
+
+        fullNumber = "+41"+fullNumber.slice(5);
+    }
+    console.log(fullNumber)
   const phoneNumber = parsePhoneNumber(fullNumber, "CH");
   const internationalFormat = phoneNumber.formatInternational();
 
