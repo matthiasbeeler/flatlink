@@ -14,7 +14,12 @@
         </div>
         <div class="spacing1"></div>
         <div class="spacing1"></div>
-
+        <div class="name infoText">
+          <div class="sideIcon"><img src="/assets/svg/face.svg" alt="">
+          </div>
+          <div class="title descriptionText">Name</div>
+      </div>
+        <div class="spacing5"></div>
         <div class="price infoText">
             <div class="sideIcon"><img src="/assets/svg/moneyBank.svg" alt="">
             </div>
@@ -289,18 +294,11 @@ function loadData(providerDataId) {
         $('.size .descriptionText').text(`${provider.roomSize} qm grosses Zimmer`)
         $('.flatsize .descriptionText').text(`${provider.flatSize} qm grosse Wohnung`)
         $('.job .descriptionText').text(`${provider.occupation}`)
+        $('.name .descriptionText').text(`${user.firstName} ${user.lastName}`)
 
-        console.log(numArray[Number(provider.cleanliness)-1])
-        try {
-          console.log($('#cleanliness').parent().children(), $('#cleanliness').parent().children('.'+numArray[Number(provider.cleanliness)-1]).attr('class'))
+
         $('#cleanliness').parent().children('.'+numArray[Number(provider.cleanliness)-1]).addClass('selected');
-        console.log($('#cleanliness').parent().children('.'+numArray[Number(provider.cleanliness)-1]).attr('class'))
 
-
-          
-      } catch (error) {
-          console.log(error)
-        }
         $('#atmosphere').parent().children('.'+numArray[Number(provider.quietness)-1]).addClass('selected')
 
 
