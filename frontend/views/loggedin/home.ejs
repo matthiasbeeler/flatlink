@@ -359,10 +359,11 @@ $('.matchButton.returnButton').attr('onclick', 'returnToLast()');
         function generateNewCard() {
             var matchpercents = "<br><br><br>";
             if(potentialMatches.length == 0) return noMatches();
-            if(!element.provider.images[0])return noMatches();
             try {
                 
                         var element = potentialMatches[0];
+            if(!element.provider.images[0])return noMatches();
+
                         $('.providerSection .flatImage').attr('src', `<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.provider.images[0]}?flatlinkAuth=${getCookie('flatlinkAuth')}`)
             
                         var gendPreference = "";
