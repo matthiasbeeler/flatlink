@@ -12,6 +12,7 @@
   
     if (!localStorage.getItem('cookieNoticeAccepted')) {
      // If the notice has not been accepted, display it
+     if(document.location.pathname == "/datenschutz" || document.location.pathname ==  "/impressum") return;
      document.querySelector('.cookieNoticeBackground').style.display = 'flex';
    }
    
