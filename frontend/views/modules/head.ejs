@@ -33,14 +33,17 @@
   <script defer>
     
    
+  
+    window.addEventListener('DOMContentLoaded', () => {
    // Add an event listener to the cookie notice to handle the user accepting it
-   document.querySelector('.dismiss-cookie-notice').addEventListener('click', function() {
+
+      document.querySelector('.dismiss-cookie-notice').addEventListener('click', function() {
      // Set the 'cookieNoticeAccepted' item in local storage
      localStorage.setItem('cookieNoticeAccepted', true);
      // Hide the cookie notice
      document.querySelector('.cookieNoticeBackground').style.display = 'none';
    });
-    window.addEventListener('DOMContentLoaded', () => {
+
       let displayMode = 'browser tab';
       if (window.matchMedia('(display-mode: standalone)').matches) {
         displayMode = 'standalone';
@@ -55,13 +58,7 @@
   document.querySelector('.cookieNoticeBackground').style.display = 'flex';
 }
 
-// Add an event listener to the cookie notice to handle the user accepting it
-document.querySelector('.dismiss-cookie-notice').addEventListener('click', function() {
-  // Set the 'cookieNoticeAccepted' item in local storage
-  localStorage.setItem('cookieNoticeAccepted', true);
-  // Hide the cookie notice
-  document.querySelector('.cookieNoticeBackground').style.display = 'none';
-});
+
   </script>
   <!--Ios splash screen-->
   <link rel="apple-touch-startup-image"
