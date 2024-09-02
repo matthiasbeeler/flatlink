@@ -1,4 +1,4 @@
-# flatLink
+# flatlink
 Welcome to flatlink, my matura project
 
 Get started
