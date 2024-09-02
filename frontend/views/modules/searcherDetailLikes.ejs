@@ -14,7 +14,12 @@
         </div>
         <div class="spacing1"></div>
         <div class="spacing1"></div>
-
+        <div class="name infoText">
+          <div class="sideIcon"><img src="/assets/svg/face.svg" alt="">
+          </div>
+          <div class="title descriptionText">Name</div>
+      </div>
+        <div class="spacing5"></div>
         <div class="price infoText">
             <div class="sideIcon"><img src="/assets/svg/moneyBank.svg" alt="">
             </div>
@@ -184,7 +189,7 @@
 
 // Usage
 
-var numArray = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eigth', 'nine', 'ten'];
+var numArray = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 
 function loadData(providerDataId) {
   var provider = likeData[providerDataId].searcherPreference;
@@ -289,9 +294,10 @@ function loadData(providerDataId) {
         $('.size .descriptionText').text(`${provider.roomSize} qm grosses Zimmer`)
         $('.flatsize .descriptionText').text(`${provider.flatSize} qm grosse Wohnung`)
         $('.job .descriptionText').text(`${provider.occupation}`)
+        $('.name .descriptionText').text(`${user.firstName} ${user.lastName}`)
+
 
         $('#cleanliness').parent().children('.'+numArray[Number(provider.cleanliness)-1]).addClass('selected');
-
 
         $('#atmosphere').parent().children('.'+numArray[Number(provider.quietness)-1]).addClass('selected')
 
