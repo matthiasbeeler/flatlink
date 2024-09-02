@@ -98,7 +98,10 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
     await uploadImage(image, process.cwd() + "/uploads/searcherImages/" + userId + ".webp", errors)
    
   } else if (data.type == "IchhabeeinZimmer") {
-    const images = request.files["files[]"];
+    const images = Array.isArray(request.files["files[]"]) 
+    ? request.files["files[]"] 
+    : [request.files["files[]"]]; 
+    
     var imageIds = []
     //multi image upload
     uploadedImages = await Promise.all(images.map(async (image) => {
