@@ -1314,10 +1314,15 @@
       width: 87%;
 
     }
+
     .lightText{
         font-weight: 400;
         font-size: larger;
     }
+  }
+
+  .moduleContent .infoText.name .descriptionText{
+    font-size: x-large;
   }
   .moduleContent .infoText.lightInfoText{
     width: 80%;
