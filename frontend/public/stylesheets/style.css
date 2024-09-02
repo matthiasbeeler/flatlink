@@ -42,6 +42,7 @@
     user-select: none;
     user-drag: none;
     -webkit-user-drag: none;
+    text-decoration: none;
 
   }
 
@@ -193,6 +194,10 @@
   
   .topTitleSettings {
     margin-left: 3%;
+  }
+
+  .passwordTitle{
+    width: 92%;
   }
   
   .whitespaceImage {
@@ -881,6 +886,10 @@
     .buttonContent {
       font-size: large;
       font-weight: normal;
+      width: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
   }
   
