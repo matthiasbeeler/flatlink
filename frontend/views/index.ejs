@@ -26,7 +26,7 @@
                   
                     <label class="inputLabel displayLogin" for="password" style="display: none;">Passwort</label>
                     <div class="spacing1 displayLogin" style="display: none;"></div>
-                   <input type="password" class="displayLogin" name="password" style="display: none;" required placeholder="Passwort"
+                   <input type="password" class="displayLogin passwordInput" name="password" style="display: none;" placeholder="Passwort"
                     onchange="$(this).css('border', '1px solid var(--inputBorder)');"
                         oninvalid=" $(this).css('border', '1px solid red');"
                        >
@@ -85,6 +85,7 @@
                     $(".submitButton").html("Log in")
                     $(".submitButton").removeClass('buttonLoading');
                         $('#mainForm').attr('id', 'loginForm')
+                        $('.passwordInput').prop('required', true)
                     $(".button").show();
                     }
                     if(data.type == "signup"){
