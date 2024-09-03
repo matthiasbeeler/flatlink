@@ -38,8 +38,49 @@
                     </div>
                 </div>
             </div>
+            <div class="spacing1"></div>
+            <div class="seperator"></div>
+            <div class="spacing1"></div>
+            <div class="infoAdminContainer grayShadowBoldNoOffset matcheCount" style="display: block;">
+                <div class="icon">
+                    <img src="/assets/svg/match.svg" alt="">
+                </div>
+                <div class="text">
+                    <div class="smallText">
+                        matches
+                    </div>
+                    <div class="number">
 
+                    </div>
+                </div>
+            </div>
 
+            <div class="infoAdminContainer grayShadowBoldNoOffset likes">
+                <div class="icon">
+                    <img src="/assets/svg/heartGreenLight.svg" alt="">
+                </div>
+                <div class="text">
+                    <div class="smallText">
+                        likes
+                    </div>
+                    <div class="number">
+
+                    </div>
+                </div>
+            </div>
+            <div class="infoAdminContainer grayShadowBoldNoOffset dislikes">
+                <div class="icon">
+                    <img src="/assets/svg/heartBrokenRedLight.svg" alt="">
+                </div>
+                <div class="text">
+                    <div class="smallText">
+                        dislikes
+                    </div>
+                    <div class="number">
+
+                    </div>
+                </div>
+            </div>
             <div class="foreground bottomNav hideMatchDetail">
                 <div class="foregroundTop">
                     <div class="oval"></div>
@@ -105,11 +146,12 @@
                 if (data) {
                     console.log(data)
                     if (data.success == true) {
-                        setTimeout(() => {
                             $('.searcher .text .number').text(data.searcherCount)
                         $('.provider .text .number').text(data.providerCount)
- 
-                        }, 50);
+                        $('.likes .text .number').text(data.likesCount)
+                        $('.dislikes .text .number').text(data.dislikesCount)
+                        $('.matcheCount .text .number').text(data.matchCount)
+
                        
                     }
                     if (data.success == false) {
