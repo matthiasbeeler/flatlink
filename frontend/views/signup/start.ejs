@@ -63,7 +63,7 @@
                 <div class="spacing3"></div>
 
                 <div class="buttonDiv button lightButton" onclick="window.location = '/'">
-                    <div class="buttonText">Login</div>
+                    <div class="buttonText">Zurück</div>
                     </div>
                     <div class="spacing8"></div>
                 </div>
@@ -76,6 +76,13 @@
     </html>
 
     <script>
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+            if(email) $('#eMail').val(email)
+        } catch (error) {
+            
+        }
     $("form").submit(function(e) {
         e.preventDefault();
         $(".submitButton").addClass('buttonLoading');
