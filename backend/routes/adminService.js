@@ -4,6 +4,7 @@ const {
   User,
   searcherPreferences,
   providerPreferences,
+  matchLog
 } = require("../database/models");
 const { accountData, allData } = require("../services/userData");
 const uuid = require("uuid");
@@ -39,7 +40,7 @@ router.all("*", function (req, res, next) {
 });
 
 router.post("/getStartStats", async (req, res, next) => {
-    await getStartStats(req, res, User);
+    await getStartStats(req, res, User, matchLog);
   });
 
 router.get("*", function (req, res, next) {

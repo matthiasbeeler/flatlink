@@ -1357,6 +1357,7 @@
   }
 
   .infoAdminContainer{
+    vertical-align: top;
     width: 36%;
     padding: 2%;
     aspect-ratio: 1/1;
