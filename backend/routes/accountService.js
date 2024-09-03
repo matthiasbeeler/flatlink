@@ -5,8 +5,8 @@ const {
   searcherPreferences,
   providerPreferences,
 } = require("../database/models");
-const { login, passwordForgotten, resetPassword } = require("../services/authentication");
-const { loginBouncer, signupBouncer, passwordBouncer } = require("../services/bouncer");
+const { login, passwordForgotten, resetPassword, accountStatus } = require("../services/authentication");
+const { loginBouncer, signupBouncer, passwordBouncer, accountStatusBouncer } = require("../services/bouncer");
 const { signup } = require("../services/signup");
 const { accountData, allData } = require("../services/userData");
 const uuid = require("uuid");
@@ -25,6 +25,10 @@ const {
 
 router.post("/login", loginBouncer.block, async (req, res, next) => {
   await login(req, res, User);
+});
+
+router.post("/getAccountStatus", accountStatusBouncer.block, async (req, res, next) => {
+  await accountStatus(req, res, User);
 });
 
 router.post("/signup", signupBouncer.block, async (req, res) => {

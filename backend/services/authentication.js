@@ -134,3 +134,32 @@ exports.resetPassword = async (request, response, Users) => {
 
   return response.json({ success: true });
 };
+
+
+
+exports.accountStatus = async (request, response, User) => {
+  if (!request.body.email)
+    return response.json({ success: false, error: 1 });
+  var email = request.body.email;
+  if (validator.isEmpty(email))
+    return response.json({
+      success: false,
+      error: 1,
+      message: "Bitte alle Felder ausfüllen",
+    });
+  if (!validator.isEmail(email))
+    return response.json({
+      success: false,
+      error: 2,
+      message: "Bitte gib deine eMail Adresse an.",
+    });
+  var user = await User.findOne({
+    where: {
+      email: email,
+    },
+  });
+  if (user) return response.json({ success: true, type: "login" });
+  return response.json({ success: true, type: "signup", email });
+  
+
+};

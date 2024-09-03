@@ -20,42 +20,43 @@
                     <input type="email" name="email" placeholder="eMail"
                         onchange="$(this).css('border', '1px solid var(--inputBorder)');"
                         oninvalid=" $(this).css('border', '1px solid red');" required>
-                    <div class="spacing8">
+                    <div class="spacing8 displayLogin" style="display: none;">
 
                     </div>
-                    <label class="inputLabel" for="password">Passwort</label>
-                    <div class="spacing1"></div>
-                    <input type="password" name="password" required placeholder="Passwort"
+                  
+                    <label class="inputLabel displayLogin" for="password" style="display: none;">Passwort</label>
+                    <div class="spacing1 displayLogin" style="display: none;"></div>
+                   <input type="password" class="displayLogin" name="password" style="display: none;" required placeholder="Passwort"
                     onchange="$(this).css('border', '1px solid var(--inputBorder)');"
                         oninvalid=" $(this).css('border', '1px solid red');"
                        >
+                      
+                       <div class="spacing5 displayLogin" style="display: none;"></div>
+                       <center class="displayLogin" style="display: none;">
+                           <a href="/forgotPassword" style="display: none;" class="displayLogin centerLink">Passwort vergessen</a>
+                       </center>
                        <div class="spacing8"></div>
+                       
                        <div class="buttonDiv button submitButton" data-onclick="$('#submitButton').click()" onclick="$('#submitButton').click();">
-                           <div class="buttonText">Log in</div>
+                           <div class="buttonText">Fortfahren</div>
                            </div>
+                           <!--ToDo: Add "eMail forgotton"-->
                        <input type="submit" id="submitButton" value="submit" style="display: none;">
 
                 </form>
 
            
                     
-                <div class="spacing5"></div>
-                <center>
-                    <a href="/forgotPassword" class="centerLink">Passwort vergessen</a>
-                </center>
-                <div class="spacing5"></div>
+              
 
                 <div class="seperator"></div>
                 <div class="spacing5"></div>
                 <div class="spacing3"></div>
 
-                <div class="buttonDiv button lightButton" onclick="window.location = '/signup'"> 
-                    <div class="buttonText">Sign up</div>
-                    </div>
-                </div>
+              
             </div>
         </div>
-        <%- include('./modules/footer', { minHeight: 0.5, hide: false}) %>
+        <%- include('./modules/footer', { minHeight: 0.6, hide: false}) %>
 
     </body>
 
@@ -64,6 +65,54 @@
     <script>
     $("#mainForm").submit(function(e) {
         e.preventDefault();
+        $(".submitButton").addClass('buttonLoading');
+        $('.submitButton').attr('onclick', '');
+        if($('form').attr('id') !== "mainForm") return;
+        setTimeout(() => {
+            
+        $.ajax({
+            url: '<%=process.env.apiUrl%>/accountService/getAccountStatus',
+            type: 'POST',
+            cache: false,
+            crossDomain: true,
+            data: $('form').serializeArray(),
+            success: function (data) {
+                console.log(data)
+                if (data.success == true) {
+                    if(data.type == "login"){
+                        $('.displayLogin').attr('style', '')
+                        $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+                    $(".submitButton").html("Log in")
+                    $(".submitButton").removeClass('buttonLoading');
+                        $('#mainForm').attr('id', 'loginForm')
+                    $(".button").show();
+                    }
+                    if(data.type == "signup"){
+                        window.location = "/signup?email="+data.email;
+                    }
+                }
+                if (data.success == false) {
+                    $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+                    $(".submitButton").removeClass('buttonLoading');
+                    $(".button").show();
+                    $('.message').show()
+                    $('.message').html(data.message)
+                }
+            },
+            error: function(xhr){
+                $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+
+        alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+    }
+        });
+
+    }, 500);
+    })
+
+    $("form").submit(function(e) {
+        e.preventDefault();
+        if($('form').attr('id') !== "loginForm") return;
+
         $(".submitButton").addClass('buttonLoading');
         $('.submitButton').attr('onclick', '');
         setTimeout(() => {
