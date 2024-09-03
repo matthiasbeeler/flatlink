@@ -5,6 +5,9 @@
         <div class="content">
             <img src="/assets/svg/admin.svg" alt="" class="hideMatchDetail topLeftLogoText">
 
+            <a onclick="location.reload()">
+                <img src="/assets/svg/sync.svg" class="topRightButton hideMatchDetail" alt="">
+            </a>
             <div class="spacing10 hideMatchDetail"></div>
             <div class="spacing10 hideMatchDetail"></div>
 
@@ -102,9 +105,12 @@
                 if (data) {
                     console.log(data)
                     if (data.success == true) {
-                        $('.searcher .text .number').text(data.searcherCount)
+                        setTimeout(() => {
+                            $('.searcher .text .number').text(data.searcherCount)
                         $('.provider .text .number').text(data.providerCount)
-
+ 
+                        }, 50);
+                       
                     }
                     if (data.success == false) {
                         $('.errorMessage').show()
