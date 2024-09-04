@@ -15,6 +15,9 @@
                 <form id="mainForm" method="post" action=""> 
                     <div class="message orangeShadowNoOffset">
                     </div>
+                    <div class="smallTitleSide">Einloggen / Registrieren</div>
+                    <div class="spacing5"></div>
+
                     <label class="inputLabel" for="email">eMail</label>
                     <div class="spacing1"></div>
                     <input type="email" name="email" placeholder="eMail"
@@ -42,21 +45,21 @@
                            </div>
                            <div class="spacing5 displayLogin" style="display: none;"></div>
                            <div class="spacing5 displayLogin" style="display: none;"></div>
-
+                           <div class="spacing8"></div>
+                           <div class="spacing5"></div>
+                           <div class="spacing3"></div>
                            <!--ToDo: Add "eMail forgotton"-->
                        <input type="submit" id="submitButton" value="submit" style="display: none;">
 
                 </form>
-                <div class="spacing8"></div>
-                <div class="spacing5"></div>
-                <div class="spacing3"></div>
+               
 
               
             </div>
         </div>
     </div>
 
-        <%- include('./modules/footer', { minHeight: 0.6, hide: false}) %>
+        <%- include('./modules/footer', { minHeight: 0.5, hide: false}) %>
 
     </body>
 
@@ -82,10 +85,11 @@
                     if(data.type == "login"){
                         $('.displayLogin').attr('style', '')
                         $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
-                    $(".submitButton").html("Log in")
+                    $(".submitButton").html("Einloggen")
                     $(".submitButton").removeClass('buttonLoading');
                         $('#mainForm').attr('id', 'loginForm')
                         $('.passwordInput').prop('required', true)
+                        $('.smallTitleSide').text('Einloggen')
                     $(".button").show();
                     }
                     if(data.type == "signup"){

@@ -191,6 +191,12 @@
   .title {
     font-weight: 900;
   }
+
+  .smallTitleSide{
+    margin-left: 7%;
+    font-weight: 700;
+    font-size: x-large;
+  }
   
   .topTitleSettings {
     margin-left: 3%;
