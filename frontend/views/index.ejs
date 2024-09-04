@@ -15,7 +15,7 @@
                 <form id="mainForm" method="post" action=""> 
                     <div class="message orangeShadowNoOffset">
                     </div>
-                    <div class="smallTitleSide">Einloggen / Registrieren</div>
+                    <div class="smallTitleSide"><a onclick="loginForm()">Einloggen</a> oder <a href="/signup">Registrieren?</</a>div>
                     <div class="spacing5"></div>
 
                     <label class="inputLabel" for="email">eMail</label>
@@ -66,6 +66,16 @@
     </html>
 
     <script>
+        function loginForm() {
+            $('.displayLogin').attr('style', '')
+            $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+            $(".submitButton").html("Einloggen")
+            $(".submitButton").removeClass('buttonLoading');
+            $('#mainForm').attr('id', 'loginForm')
+            $('.passwordInput').prop('required', true)
+            $('.smallTitleSide').text('Einloggen')
+        }
+
     $("#mainForm").submit(function(e) {
         e.preventDefault();
         $(".submitButton").addClass('buttonLoading');
@@ -85,8 +95,8 @@
                     if(data.type == "login"){
                         $('.displayLogin').attr('style', '')
                         $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
-                    $(".submitButton").html("Einloggen")
-                    $(".submitButton").removeClass('buttonLoading');
+                        $(".submitButton").html("Einloggen")
+                        $(".submitButton").removeClass('buttonLoading');
                         $('#mainForm').attr('id', 'loginForm')
                         $('.passwordInput').prop('required', true)
                         $('.smallTitleSide').text('Einloggen')
