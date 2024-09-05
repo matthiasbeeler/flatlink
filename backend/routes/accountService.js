@@ -97,7 +97,7 @@ router.post("/accountData", async (req, res) => {
 });
 
 router.post("/getAllData", async (req, res) => {
-  await allData(req, res, User);
+  await allData(req, res, User, searcherPreferences, providerPreferences);
 });
 
 
