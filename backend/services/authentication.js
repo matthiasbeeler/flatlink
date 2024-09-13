@@ -4,6 +4,7 @@ const { generateAccessToken, passwordRegex } = require("./global");
 const { passwordForgottenEmail } = require("./mailer");
 const jwt = require("jsonwebtoken");
 exports.login = async (request, response, User) => {
+  //checking if inputs are valid
   if (!request.body.email || !request.body.password)
     return response.json({ success: false, error: 1 });
   var password = request.body.password;
@@ -20,6 +21,7 @@ exports.login = async (request, response, User) => {
       error: 2,
       message: "Bitte gib deine eMail Adresse an.",
     });
+    //getting userData from db
   var user = await User.findOne({
     where: {
       email: email,
@@ -27,6 +29,7 @@ exports.login = async (request, response, User) => {
   });
   if (user) await validateUser(user.dataValues.password, password);
 
+    //checking password, generating JWT token
   async function validateUser(hash, password) {
     const accessToken = await generateAccessToken(
       user.dataValues.id,
@@ -56,6 +59,7 @@ exports.login = async (request, response, User) => {
 };
 
 exports.passwordForgotten = async (request, response, User) => {
+    //checking if inputs are valid
   if (!request.body.email)
     return response.json({
       success: false,
@@ -75,11 +79,13 @@ exports.passwordForgotten = async (request, response, User) => {
       error: 2,
       message: "Bitte gib deine eMail Adresse an.",
     });
+    //getting userData from db
   var user = await User.findOne({
     where: {
       email: email,
     },
   });
+  //sending eMail with pwf link
   if (user) {
     passwordForgottenEmail(email, user.id);
     return response.json({
@@ -96,6 +102,7 @@ exports.passwordForgotten = async (request, response, User) => {
 };
 
 exports.resetPassword = async (request, response, Users) => {
+      //checking if inputs are valid
   if (!request.body.token)
     return response.json({
       success: false,
@@ -138,6 +145,7 @@ exports.resetPassword = async (request, response, Users) => {
 
 
 exports.accountStatus = async (request, response, User) => {
+  //checking if eMail exists on db
   if (!request.body.email)
     return response.json({ success: false, error: 1 });
   var email = request.body.email;

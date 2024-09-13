@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 
 
 exports.getStartStats = async (request, response, User, matchLog) =>{
+  //serving adminPage with counts of matches, likes, dislikes, searchers and providers
     const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret).data.id;
 
     const searcherCount = await User.count({

@@ -5,7 +5,7 @@ const { singupSuccessEmail } = require('../services/mailer');
 database.sequelize.sync().then(() =>{
 })
 
-/* GET home page. */
+/* giving out 404 upon get */
 router.get('*', function(req, res, next) {
   res.sendStatus(404)
 });
