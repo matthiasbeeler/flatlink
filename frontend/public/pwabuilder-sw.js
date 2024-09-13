@@ -32,6 +32,11 @@ workbox.routing.registerRoute(
 );
 
 self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+  //disable openstreetmap caching
+  if (url.origin.includes('openstreetmap')) {
+    return; // Bypass caching OpenStreetMap resources.
+  }
   if (event.request.mode === 'navigate') {
     event.respondWith((async () => {
       try {
