@@ -54,6 +54,7 @@ router.post("/resendVerificationEmail", async (req, res) => {
 
 
 router.post("*", function (req, res, next) {
+  //checking if user is logged on pust ! -> 404 
   try {
     if (req.body.flatlinkAuth) {
       if (
@@ -73,6 +74,8 @@ router.post("*", function (req, res, next) {
 });
 
 router.get("*", function (req, res, next) {
+    //checking if user is logged on get ! -> redirect 
+
   try {
     if (req.query.flatlinkAuth) {
       if (
@@ -103,6 +106,8 @@ router.post("/getAllData", async (req, res) => {
 
 
 router.post("/updateAccount", async (req, res) => {
+    //performing right update-process on post
+
   if (req.body.type == "phonenumber")
     return await updatePhonenumber(req, res, User);
   
@@ -119,6 +124,8 @@ router.post("/updateAccount", async (req, res) => {
 
 
 router.get("/uploads/searcherImages/:id", function (req, res, next) {
+      //serving searcherImage from private upload folder
+
   try {
     var imagePath;
     if (validate(req.params.id)) {
@@ -144,6 +151,8 @@ router.get("/uploads/searcherImages/:id", function (req, res, next) {
 });
 
 router.get("/uploads/providerImages/:id", function (req, res, next) {
+        //serving providerImages from private upload folder
+
   try {
     var imagePath;
     if (validate(req.params.id)) {

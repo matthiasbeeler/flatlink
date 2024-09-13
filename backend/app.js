@@ -7,7 +7,6 @@ require("dotenv").config({
 });
 var bodyParser = require('body-parser')
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
 var adminServiceRouter = require("./routes/adminService");
 var matchingServiceRouter = require("./routes/matchingService");
 var accountServiceRouter = require("./routes/accountService");
@@ -48,7 +47,6 @@ app.use((req, res, next) => {
   return next();
 });
 
-app.use("/users", usersRouter);
 app.use("/accountService", accountServiceRouter);
 app.use("/matchingService", matchingServiceRouter);
 app.use("/adminService", adminServiceRouter);

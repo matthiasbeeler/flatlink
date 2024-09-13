@@ -8,6 +8,8 @@ const { matching } = require('../services/matching');
 
 
 router.all("*", function (req, res, next) {
+    //checking if user is logged on pust ! -> 404 
+
   try {
 
   if(req.body.flatlinkAuth){
@@ -23,6 +25,9 @@ router.all("*", function (req, res, next) {
 })
 
 
+//unused way to create fake-entries for testing
+
+/*
 var provider = [
      ];
 
@@ -119,7 +124,7 @@ const { likeMatch, dislikeMatch, getLikedMatch, updateSearcherPreferences, updat
        return entry;
      };
 
-/*
+
  router.post('/hi', async(req, res) => {
        
      const entries = [];
@@ -134,6 +139,8 @@ const { likeMatch, dislikeMatch, getLikedMatch, updateSearcherPreferences, updat
     return res.json({success: true})
   });
 */
+
+
 router.post('/getMatch', async (req, res) => {
   await matching(req,res,User,searcherPreferences,providerPreferences, matchLog)
 })

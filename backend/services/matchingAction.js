@@ -5,6 +5,7 @@ const { request, response } = require("express");
 const { v4: uuidv4 } = require("uuid");
 const { uploadImage, amentitieProximity } = require("./global");
 
+// Function to handle liking a match
 exports.likeMatch = async (
   request,
   response,
@@ -17,12 +18,14 @@ exports.likeMatch = async (
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
 
-    await matchLog.destroy({
-      where: {
-        searcherId: userId,
-        providerId: request.body.providerId,
-      },
-    });
+  // Delete any existing match log
+  await matchLog.destroy({
+    where: {
+      searcherId: userId,
+      providerId: request.body.providerId,
+    },
+  });
+  // Create a new match log with matchType true (like)
   const log = await matchLog.create({
     searcherId: userId,
     providerId: request.body.providerId,
@@ -30,6 +33,7 @@ exports.likeMatch = async (
   });
 };
 
+// Function to handle disliking a match
 exports.dislikeMatch = async (
   request,
   response,
@@ -40,12 +44,14 @@ exports.dislikeMatch = async (
 ) => {
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
-    await matchLog.destroy({
-      where: {
-        searcherId: userId,
-        providerId: request.body.providerId,
-      },
-    });
+  // Delete any existing match log
+  await matchLog.destroy({
+    where: {
+      searcherId: userId,
+      providerId: request.body.providerId,
+    },
+  });
+  // Create a new match log with matchType false (dislike)
   const log = await matchLog.create({
     searcherId: userId,
     providerId: request.body.providerId,
@@ -53,6 +59,7 @@ exports.dislikeMatch = async (
   });
 };
 
+// Function to get liked matches for a searcher
 exports.getLikedMatch = async (
   request,
   response,
@@ -61,7 +68,7 @@ exports.getLikedMatch = async (
 ) => {
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
-  //joining tables matchLog and providerPreference to get the providerData
+  // Join matchLog and providerPreferences tables to get provider data
   const logs = await matchLog.findAll({
     where: {
       searcherId: userId,
@@ -79,6 +86,7 @@ exports.getLikedMatch = async (
   response.json({ success: true, logs: logs });
 };
 
+// Function to get searchers who liked a provider
 exports.getLikedSearcher = async (
   request,
   response,
@@ -88,7 +96,7 @@ exports.getLikedSearcher = async (
 ) => {
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
-  //joining tables matchLog and providerPreference to get the providerData
+  // Join matchLog, searcherPreferences, and User tables to get searcher data
   const logs = await matchLog.findAll({
     where: {
       providerId: userId,
@@ -104,7 +112,6 @@ exports.getLikedSearcher = async (
         required: false,
         attributes: ['firstName', 'lastName', 'phonenumber'], 
       },
-      
     ],
     raw: true,
     nest: true,
@@ -112,6 +119,7 @@ exports.getLikedSearcher = async (
   response.json({ success: true, logs: logs });
 };
 
+// Function to update searcher preferences
 exports.updateSearcherPreferences = async (
   request,
   response,
@@ -120,6 +128,7 @@ exports.updateSearcherPreferences = async (
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
   try {
+    // Update searcher preferences in the database
     const [updatedRowsCount, updatedRows] = await searcherPreferences.update(
       {
         genderPreference: request.body.genderPreference,
@@ -153,7 +162,6 @@ exports.updateSearcherPreferences = async (
       });
     }
 
-    console.log(`Updated ${updatedRowsCount} row(s)`);
     return response.json({ success: true });
   } catch (error) {
     console.error("Error updating user preferences:", error);
@@ -161,6 +169,7 @@ exports.updateSearcherPreferences = async (
   }
 };
 
+// Function to update provider preferences
 exports.updateProviderPreferences = async (
   request,
   response,
@@ -169,7 +178,8 @@ exports.updateProviderPreferences = async (
 ) => {
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
-    const images = Array.isArray(request.files["files[]"]) 
+  // Handle image uploads
+  const images = Array.isArray(request.files["files[]"]) 
     ? request.files["files[]"] 
     : [request.files["files[]"]]; 
   
@@ -187,6 +197,7 @@ exports.updateProviderPreferences = async (
     })
   );
   try {
+    // Update provider preferences in the database
     const [updatedRowsCount, updatedRows] = await providerPreferences.update(
       {
         genderPreference: request.body.genderPreference,
@@ -212,18 +223,17 @@ exports.updateProviderPreferences = async (
         returning: true,
       }
     );
+    // Update amenity proximity data
     await amentitieProximity(
       request.body.street + ", " + request.body.place + " " + request.body.plz,
       await providerPreferences.findOne({ where: { id: userId } })
     );
     if (updatedRowsCount === 0) {
-      console.log("No user found with the given ID");
       return response.json({
         success: false,
         message: "No user found with the given ID",
       });
     }
-    console.log(`Updated ${updatedRowsCount} row(s)`);
     return response.json({ success: true });
   } catch (error) {
     console.error("Error updating user preferences:", error);

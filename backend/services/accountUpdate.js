@@ -12,6 +12,7 @@ const { emailAddressUpdate } = require("./mailer");
 const bcrypt = require("bcrypt");
 
 exports.updatePhonenumber = async function (request, response, User) {
+  //getting userId from token
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
   const phonenumber = request.body.phonenumber;
@@ -65,10 +66,12 @@ exports.updatePhonenumber = async function (request, response, User) {
 };
 
 exports.updateEmail = async function (request, response, User) {
+    //getting userId from token
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
   var emailAddress = request.body.email;
   var emailAddress = emailAddress.trim().replace(/\s{2,}/g, " ");
+  //checking if eMail address exists
   if (!emailAddress)
     return response.json({
       success: false,
@@ -131,6 +134,7 @@ exports.updateEmail = async function (request, response, User) {
 };
 
 exports.resendVerificationEmail = async function (request, response, User) {
+    //getting userId from token
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
 
@@ -143,7 +147,6 @@ exports.resendVerificationEmail = async function (request, response, User) {
   if (!user) {
     return response.json({ success: false, message: "Nutzer nicht gefunden " });
   }
-  console.log(user.email)
   await emailAddressUpdate(user.email, user.firstName, userId);
   return response.json({ success: true });
 };
@@ -172,6 +175,7 @@ exports.updateJob = async function (request, response, searcherPreferences) {
 };
 
 exports.updatePassword = async function (request, response, Users) {
+    //getting userId from token
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
   var password = request.body.password;
@@ -201,6 +205,7 @@ exports.updatePassword = async function (request, response, Users) {
 };
 
 exports.updateProfileImage = async function (request, response, User) {
+    //getting userId from token
   const userId = jwt.verify(request.body.flatlinkAuth, process.env.jwtSecret)
     .data.id;
 
