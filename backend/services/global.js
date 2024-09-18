@@ -1,63 +1,78 @@
 const jwt = require("jsonwebtoken");
-const { parsePhoneNumber } = require('libphonenumber-js');
+const { parsePhoneNumber } = require("libphonenumber-js");
 const sharp = require("sharp");
 
-exports.generateAccessToken =  async function(id, userType) {
-    return await jwt.sign({data:{id, userType}}, process.env.jwtSecret, {expiresIn: '365d'});
-  }
+exports.generateAccessToken = async function (id, userType) {
+  return await jwt.sign({ data: { id, userType } }, process.env.jwtSecret, {
+    expiresIn: "365d",
+  });
+};
 
 //find user with eMail
-exports.findUserWithEmail = async function(User, email){
-    const user = await User.findOne({
-      where: {
-        email: email,
-      },
-    });
-    return user
+exports.findUserWithEmail = async function (User, email) {
+  const user = await User.findOne({
+    where: {
+      email: email,
+    },
+  });
+  return user;
+};
+
+//formatphonenumber
+exports.formatPhonenumber = async function (fullNumber) {
+  // Check if the number starts with '417'
+
+  if (fullNumber.startsWith("+41417")) {
+    fullNumber = "+41" + fullNumber.slice(5);
   }
-
-  //formatphonenumber
-exports.formatPhonenumber = async function(fullNumber) {
-    // Check if the number starts with '417'
-
-    if (fullNumber.startsWith('+41417')) {
-
-        fullNumber = "+41"+fullNumber.slice(5);
-    }
   const phoneNumber = parsePhoneNumber(fullNumber, "CH");
   const internationalFormat = phoneNumber.formatInternational();
 
   // check if it could be a swiss number or not
   if (
-      internationalFormat.includes("+41") &&
-      (internationalFormat.match(/ /g) || []).length === 1 &&
-      phoneNumber[0] === "0" &&
-      phoneNumber[0] !== "0"
+    internationalFormat.includes("+41") &&
+    (internationalFormat.match(/ /g) || []).length === 1 &&
+    phoneNumber[0] === "0" &&
+    phoneNumber[0] !== "0"
   ) {
-      const newPhoneNumber = parsePhoneNumber("0" + sPhoneNumberString, "CH");
-      return newPhoneNumber.formatInternational();
+    const newPhoneNumber = parsePhoneNumber("0" + sPhoneNumberString, "CH");
+    return newPhoneNumber.formatInternational();
   }
   return internationalFormat;
-}
+};
 
 //global image upload function
-exports.uploadImage = async function(image, filePath, errors){
+exports.uploadImage = async function (
+  image,
+  filePath,
+  errors,
+  filePathCompressed
+) {
+  console.log("SSSSSSDSASDASD")
   await sharp(image.data)
-  .rotate()
-  .webp({ quality: 80 })
-  .toFile(
-   filePath,
-    (err, info) => {
+    .rotate()
+    .webp({ quality: 80 })
+    .toFile(filePath, (err, info) => {
       if (err) console.log(err);
       if (err) errors.push("image");
-    }
-  );
-}
+    });
+    console.log(filePathCompressed)
 
+  if (filePathCompressed) {
+    await sharp(image.data)
+      .rotate()
+      .resize({ 
+        height: 300, 
+        fit: 'contain', 
+      })      .webp({ quality: 80 })
+      .toFile(filePathCompressed, (err, info) => {
+        if (err) console.log(err);
+        if (err) errors.push("image");
+      });
+  }
+};
 
-
-
-exports.amentitieProximity = async function(address, newPreferenceEntry) {
+exports.amentitieProximity = async function (address, newPreferenceEntry) {
   var latitude = 0;
   var longitude = 0;
   //get coordinates
@@ -131,16 +146,14 @@ exports.amentitieProximity = async function(address, newPreferenceEntry) {
       // Find the closest public transport stop
       Promise.all(publicTransportDistances)
         .then((distances) => {
-          closestPublicTransport = distances.reduce(
-            (closest, current) => {
-              return closest.distance < current.distance ? closest : current;
-            }
-          );
+          closestPublicTransport = distances.reduce((closest, current) => {
+            return closest.distance < current.distance ? closest : current;
+          });
 
           newPreferenceEntry.transportData = closestPublicTransport;
-          newPreferenceEntry.transportDistance = closestPublicTransport.distance;
+          newPreferenceEntry.transportDistance =
+            closestPublicTransport.distance;
           newPreferenceEntry.save();
-
         })
         .catch((error) => {
           console.error(
@@ -148,7 +161,7 @@ exports.amentitieProximity = async function(address, newPreferenceEntry) {
             error
           );
         });
-        var closestSupermarket;
+      var closestSupermarket;
       // Find the closest supermarket
       Promise.all(supermarketDistances)
         .then((distances) => {
@@ -156,8 +169,8 @@ exports.amentitieProximity = async function(address, newPreferenceEntry) {
             return closest.distance < current.distance ? closest : current;
           });
           newPreferenceEntry.supermarketData = closestSupermarket;
-         newPreferenceEntry.supermarketDistance = closestSupermarket.distance;
-         newPreferenceEntry.save();
+          newPreferenceEntry.supermarketDistance = closestSupermarket.distance;
+          newPreferenceEntry.save();
         })
         .catch((error) => {
           console.error(
@@ -169,11 +182,7 @@ exports.amentitieProximity = async function(address, newPreferenceEntry) {
     .catch((error) => {
       console.error("Error fetching or processing data:", error);
     });
-    
 };
-
-
-
 
 //global preference variables
 exports.arrayTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -182,39 +191,32 @@ exports.arrayRoomSize = ["1-8", "9-14", "15-20", "21+"];
 exports.arrayFlatSize = ["1-40", "41-90", "91-140", "141+"];
 exports.arrayFood = ["none", "vegan", "vegetarian"];
 exports.ten = [
-    "accessibility",
-    "quietness",
-    "cleanliness",
-    "flatmates",
-    "balcony",
-    "connections",
-    "internet",
-    "washer",
-  ];
-  exports.tenProvider = [
-    "accessibility",
-    "quietness",
-    "cleanliness",
-    "flatmates",
-    "intersexFlatmates",
-    "maleFlatmates",
-    "femaleFlatmates",
-    "noneFlatmates"
-  ];
-
-exports.ynqProvider = [
+  "accessibility",
+  "quietness",
+  "cleanliness",
+  "flatmates",
   "balcony",
+  "connections",
   "internet",
   "washer",
-]
+];
+exports.tenProvider = [
+  "accessibility",
+  "quietness",
+  "cleanliness",
+  "flatmates",
+  "intersexFlatmates",
+  "maleFlatmates",
+  "femaleFlatmates",
+  "noneFlatmates",
+];
 
-exports.ynTable = [
-  "Ja",
-  "Nein",
-]
+exports.ynqProvider = ["balcony", "internet", "washer"];
+
+exports.ynTable = ["Ja", "Nein"];
 exports.ynTableConversion = {
-  "Ja": 1,
-  "Nein": 0,
-}
+  Ja: 1,
+  Nein: 0,
+};
 
-exports.passwordRegex =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
+exports.passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;

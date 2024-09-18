@@ -5,8 +5,18 @@ const {
   searcherPreferences,
   providerPreferences,
 } = require("../database/models");
-const { login, passwordForgotten, resetPassword, accountStatus } = require("../services/authentication");
-const { loginBouncer, signupBouncer, passwordBouncer, accountStatusBouncer } = require("../services/bouncer");
+const {
+  login,
+  passwordForgotten,
+  resetPassword,
+  accountStatus,
+} = require("../services/authentication");
+const {
+  loginBouncer,
+  signupBouncer,
+  passwordBouncer,
+  accountStatusBouncer,
+} = require("../services/bouncer");
 const { signup } = require("../services/signup");
 const { accountData, allData } = require("../services/userData");
 const uuid = require("uuid");
@@ -27,34 +37,40 @@ router.post("/login", loginBouncer.block, async (req, res, next) => {
   await login(req, res, User);
 });
 
-router.post("/getAccountStatus", accountStatusBouncer.block, async (req, res, next) => {
-  await accountStatus(req, res, User);
-});
+router.post(
+  "/getAccountStatus",
+  accountStatusBouncer.block,
+  async (req, res, next) => {
+    await accountStatus(req, res, User);
+  }
+);
 
 router.post("/signup", signupBouncer.block, async (req, res) => {
   await signup(req, res, User, searcherPreferences, providerPreferences);
 });
 
-router.post("/passwordForgotten", passwordBouncer.block, async (req, res, next) => {
-  await passwordForgotten(req, res, User);
-});
+router.post(
+  "/passwordForgotten",
+  passwordBouncer.block,
+  async (req, res, next) => {
+    await passwordForgotten(req, res, User);
+  }
+);
 
 router.post("/resetPassword", async (req, res, next) => {
   await resetPassword(req, res, User);
 });
 
-
 router.post("/verifyEmail", async (req, res, next) => {
-  return await verifyEmail(req, res, User)
-})
+  return await verifyEmail(req, res, User);
+});
 
 router.post("/resendVerificationEmail", async (req, res) => {
-  return await resendVerificationEmail(req, res, User)
-})
-
+  return await resendVerificationEmail(req, res, User);
+});
 
 router.post("*", function (req, res, next) {
-  //checking if user is logged on pust ! -> 404 
+  //checking if user is logged on pust ! -> 404
   try {
     if (req.body.flatlinkAuth) {
       if (
@@ -74,7 +90,7 @@ router.post("*", function (req, res, next) {
 });
 
 router.get("*", function (req, res, next) {
-    //checking if user is logged on get ! -> redirect 
+  //checking if user is logged on get ! -> redirect
 
   try {
     if (req.query.flatlinkAuth) {
@@ -103,14 +119,12 @@ router.post("/getAllData", async (req, res) => {
   await allData(req, res, User, searcherPreferences, providerPreferences);
 });
 
-
-
 router.post("/updateAccount", async (req, res) => {
-    //performing right update-process on post
+  //performing right update-process on post
 
   if (req.body.type == "phonenumber")
     return await updatePhonenumber(req, res, User);
-  
+
   if (req.body.type == "email") return await updateEmail(req, res, User);
 
   if (req.body.type == "job")
@@ -122,9 +136,8 @@ router.post("/updateAccount", async (req, res) => {
     return await updateProfileImage(req, res, User);
 });
 
-
 router.get("/uploads/searcherImages/:id", function (req, res, next) {
-      //serving searcherImage from private upload folder
+  //serving searcherImage from private upload folder
 
   try {
     var imagePath;
@@ -151,7 +164,7 @@ router.get("/uploads/searcherImages/:id", function (req, res, next) {
 });
 
 router.get("/uploads/providerImages/:id", function (req, res, next) {
-        //serving providerImages from private upload folder
+  //serving providerImages from private upload folder
 
   try {
     var imagePath;
@@ -169,6 +182,44 @@ router.get("/uploads/providerImages/:id", function (req, res, next) {
           );
         } else {
           return res.sendFile(process.cwd() + "/assets/noFlatImage.svg");
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/uploads/providerImagesCompressed/:id", function (req, res, next) {
+  //serving providerImages from private upload folder
+
+  try {
+    var imagePath;
+    if (validate(req.params.id)) {
+      imagePath = req.params.id + ".webp";
+    } else {
+      imagePath = "0";
+    }
+    fs.readFile(
+      process.cwd() + "/uploads/providerImagesCompressed/" + imagePath,
+      (err, data) => {
+        if (!err && data) {
+          return res.sendFile(
+            process.cwd() + "/uploads/providerImages/" + imagePath
+          );
+        } else {
+          fs.readFile(
+            process.cwd() + "/uploads/providerImages/" + imagePath,
+            (err, data) => {
+              if (!err && data) {
+                return res.sendFile(
+                  process.cwd() + "/uploads/providerImages/" + imagePath
+                );
+              } else {
+                return res.sendFile(process.cwd() + "/assets/noFlatImage.svg");
+              }
+            }
+          );
         }
       }
     );

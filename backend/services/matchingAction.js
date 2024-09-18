@@ -192,7 +192,8 @@ exports.updateProviderPreferences = async (
       return await uploadImage(
         image,
         process.cwd() + "/uploads/providerImages/" + uuid + ".webp",
-        []
+        [],
+        process.cwd() + "/uploads/providerImagesCompressed/" + uuid + ".webp",
       );
     })
   );
