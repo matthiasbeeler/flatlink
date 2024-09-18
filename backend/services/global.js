@@ -57,7 +57,9 @@ exports.uploadImage = async function (
       console.log(info)
     });
 
-  if (filePathCompressed) {
+    console.log(filePathCompressed.length, filePathCompressed)
+
+  if (filePathCompressed.length) {
     console.log("hi")
     await sharp(image.data)
       .rotate()
