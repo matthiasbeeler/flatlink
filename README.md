@@ -42,6 +42,7 @@ Basic route URI | Purpose
 ### Installation
 
 - In the main directory, `backend/` and `frontend/` directories install all the dependecies with `npm install` respectively
+- On your computer install nodemon with the commant `npm install -g nodemon` 
 - In `backend/` create a `development.env` file and add the following variables
 
 Variable name | Variable
@@ -61,6 +62,7 @@ Variable name | Variable
 `jwtSecret` | Secret Key for JWT encryption (same as in backend)
 
 - Open a new terminal and run `npm test` in the main directory (with `test` the DB-Tables are created automatically)
+    - if testing on windows use `npm run testWindows` 
 - The app should be running on http://localhost:3000/ with the API running on http://localhost:4000/
 
 
