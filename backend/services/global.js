@@ -55,24 +55,19 @@ exports.uploadImage = async function (
       if (err) console.log(err);
       if (err) errors.push("image");
       if (filePathCompressed.length > 0) {
-          sharp(image.data)
+        sharp(image.data)
           .rotate()
-          .resize({ 
-            height: 300, 
-            fit: 'contain', 
-          }).webp({ quality: 80 })
+          .resize({
+            height: 300,
+            fit: "contain",
+          })
+          .webp({ quality: 80 })
           .toFile(filePathCompressed, (err, info) => {
-            console.log(info, filePathCompressed)
             if (err) console.log(err);
             if (err) errors.push("image");
           });
       }
-    console.log(filePathCompressed.length > 0, filePathCompressed)
-      console.log(info)
     });
-
-
- 
 };
 
 exports.amentitieProximity = async function (address, newPreferenceEntry) {
