@@ -8,7 +8,10 @@
         "start": "npm-run-all --parallel start:backend start:frontend",
         "test:backend": "cd Backend && npm test",
         "test:frontend": "cd Frontend && npm test",
-        "test": "npm-run-all --parallel test:backend test:frontend"
+        "test": "npm-run-all --parallel test:backend test:frontend",
+        "testWindows:backend": "cd Backend && npm run testWindows",
+        "testWindows:frontend": "cd Frontend && npm run testWindows",
+        "testWindows": "npm-run-all --parallel testWindows:backend testWindows:frontend"
     },
     "dependencies": {
         "cookie-parser": "~1.4.4",

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=production node ./bin/www",
-    "test": " NODE_ENV=development nodemon node ./bin/www"
+    "test": " NODE_ENV=development nodemon node ./bin/www",
+    "testWindows": "set NODE_ENV=development&& nodemon node ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
