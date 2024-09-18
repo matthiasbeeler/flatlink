@@ -54,6 +54,7 @@ exports.uploadImage = async function (
     .toFile(filePath, (err, info) => {
       if (err) console.log(err);
       if (err) errors.push("image");
+      console.log(info, filePathCompressed)
     });
 
   if (filePathCompressed) {
@@ -64,7 +65,7 @@ exports.uploadImage = async function (
         fit: 'contain', 
       }).webp({ quality: 80 })
       .toFile(filePathCompressed, (err, info) => {
-        console.log(info)
+        console.log(info, filePathCompressed)
         if (err) console.log(err);
         if (err) errors.push("image");
       });
