@@ -54,25 +54,25 @@ exports.uploadImage = async function (
     .toFile(filePath, (err, info) => {
       if (err) console.log(err);
       if (err) errors.push("image");
+      if (filePathCompressed.length > 0) {
+          sharp(image.data)
+          .rotate()
+          .resize({ 
+            height: 300, 
+            fit: 'contain', 
+          }).webp({ quality: 80 })
+          .toFile(filePathCompressed, (err, info) => {
+            console.log(info, filePathCompressed)
+            if (err) console.log(err);
+            if (err) errors.push("image");
+          });
+      }
     console.log(filePathCompressed.length > 0, filePathCompressed)
       console.log(info)
     });
 
 
-  if (filePathCompressed.length) {
-    console.log("hi")
-    await sharp(image.data)
-      .rotate()
-      .resize({ 
-        height: 300, 
-        fit: 'contain', 
-      }).webp({ quality: 80 })
-      .toFile(filePathCompressed, (err, info) => {
-        console.log(info, filePathCompressed)
-        if (err) console.log(err);
-        if (err) errors.push("image");
-      });
-  }
+ 
 };
 
 exports.amentitieProximity = async function (address, newPreferenceEntry) {
