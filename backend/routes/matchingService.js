@@ -5,6 +5,7 @@ const { accountData } = require('../services/userData');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 const { matching } = require('../services/matching');
+const { likeMatch, dislikeMatch, getLikedMatch, updateSearcherPreferences, updateProviderPreferences, getLikedSearcher } = require('../services/matchingAction');
 
 
 router.all("*", function (req, res, next) {
