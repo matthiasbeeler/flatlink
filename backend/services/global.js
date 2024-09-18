@@ -41,22 +41,20 @@ exports.formatPhonenumber = async function (fullNumber) {
   return internationalFormat;
 };
 
-//global image upload function
+//global image upload function (including compressed v. for provider)
 exports.uploadImage = async function (
   image,
   filePath,
   errors,
   filePathCompressed
 ) {
-  console.log("SSSSSSDSASDASD")
   await sharp(image.data)
     .rotate()
-    .webp({ quality: 80 })
+    .webp({ quality: 90 })
     .toFile(filePath, (err, info) => {
       if (err) console.log(err);
       if (err) errors.push("image");
     });
-    console.log(filePathCompressed)
 
   if (filePathCompressed) {
     await sharp(image.data)
