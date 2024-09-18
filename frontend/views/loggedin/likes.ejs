@@ -139,7 +139,7 @@ $.ajax({
 
                      <div class="like${element.providerId} likeElement grayShadowNoOffset" onclick='moreInfo("like${element.providerId}")'>
             <div class="likeImageLeft loading notEmpty">
-                <img src="<%=process.env.apiUrl%>/accountService/uploads/providerImages/${element.providerPreference.images[0]}?flatlinkAuth=${getCookie('flatlinkAuth')}" alt="">
+                <img src="<%=process.env.apiUrl%>/accountService/uploads/providerImagesCompressed/${element.providerPreference.images[0]}?flatlinkAuth=${getCookie('flatlinkAuth')}" alt="">
             </div>
             <div class="textContent">
             <div class="likeAddress" id="likeAddress">

@@ -107,7 +107,7 @@ exports.signup = async (request, response, User, searcherPreferences, providerPr
     uploadedImages = await Promise.all(images.map(async (image) => {
       const uuid = uuidv4()
       imageIds.push(uuid)
-      return await uploadImage(image, process.cwd() + "/uploads/providerImages/" + uuid + ".webp", errors);
+      return await uploadImage(image, process.cwd() + "/uploads/providerImages/" + uuid + ".webp", errors, process.cwd() + "/uploads/providerImagesCompressed/" + uuid + ".webp",);
     }));
 
     newPreferenceEntry.images = imageIds;
