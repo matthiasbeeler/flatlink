@@ -54,10 +54,10 @@ exports.uploadImage = async function (
     .toFile(filePath, (err, info) => {
       if (err) console.log(err);
       if (err) errors.push("image");
+    console.log(filePathCompressed.length, filePathCompressed)
       console.log(info)
     });
 
-    console.log(filePathCompressed.length, filePathCompressed)
 
   if (filePathCompressed.length) {
     console.log("hi")
