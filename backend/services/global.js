@@ -50,7 +50,7 @@ exports.uploadImage = async function (
 ) {
   await sharp(image.data)
     .rotate()
-    .webp({ quality: 90 })
+    .webp({ quality: 80 })
     .toFile(filePath, (err, info) => {
       if (err) console.log(err);
       if (err) errors.push("image");
@@ -62,8 +62,9 @@ exports.uploadImage = async function (
       .resize({ 
         height: 300, 
         fit: 'contain', 
-      })      .webp({ quality: 80 })
+      }).webp({ quality: 80 })
       .toFile(filePathCompressed, (err, info) => {
+        console.log(info)
         if (err) console.log(err);
         if (err) errors.push("image");
       });
