@@ -153,7 +153,6 @@
           10: "ten"
         }
         var data = JSON.parse(localStorage.getItem("signupData"));
-        console.log(data.lastName)
         $('#gender').parent().children("."+data.genderPreference).click()
         $('#cleanliness').parent().children("."+numSelect[data.cleanliness]).click()
         $('#quietness').parent().children("."+numSelect[data.quietness]).click()

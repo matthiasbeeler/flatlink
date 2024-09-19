@@ -131,9 +131,7 @@
 
         function returnToLast(){
             if(!lastMatch) return
-            console.log(lastMatch, potentialMatches)
             potentialMatches.unshift(lastMatch);
-            console.log(potentialMatches)
             lastMatch = undefined;
             generateNewCard();
             $('.matchButton.backButton').addClass('disabledReturn');

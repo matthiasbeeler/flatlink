@@ -989,7 +989,6 @@
                                     output.style.display = "block"
 
                                     let images = ""
-                                    console.log(imagesArray)
                                     imagesArray.forEach((image, index) => {
                                         images += `<div class="image">
     <img src="${URL.createObjectURL(image)}" alt="image">
@@ -1192,7 +1191,6 @@
 
                     // Trigger change event
                     const event = new Event('change');
-                    console.log("hi")
                     document.querySelector('#file').dispatchEvent(event);
                 } catch (error) {
                     console.error(`Error adding image from ${url}:`, error);
@@ -1283,7 +1281,6 @@
                 "flatlinkAuth": getCookie('flatlinkAuth'),
             },
             success: function (data, status, xhr) {
-                console.log(data)
                 if (data.success == true) {
                     $('.hideSuccess').hide()
                     if (data.userData.userType == "searcher") searcher(data);
