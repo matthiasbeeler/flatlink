@@ -9,7 +9,6 @@ const jwt = require('jsonwebtoken')
 
 router.get("/logout", (req, res) => {
   res.clearCookie("flatlinkAuth");
-  console.log("Success logout")
   res.redirect("/");
 });
 
