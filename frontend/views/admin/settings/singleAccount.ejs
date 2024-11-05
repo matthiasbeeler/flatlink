@@ -12,7 +12,7 @@
         <p class="smallTitleSide">User Details</p>
 
         <!-- User Basic Info Section -->
-        <div class="accountTopSection grayShadowBoldNoOffset">
+        <div class="accountTopSection">
             <div class="profileImage" id="userImage">
                 <img src="/assets/images/defaultProfile.jpg" alt="Profile">
             </div>
@@ -141,6 +141,7 @@ async function loadUserData() {
 
         if (response.success) {
             currentUserData = response;
+            $('#userImage').children('img').attr('src', `<%=process.env.apiUrl%>/accountService/uploads/searcherImages/<%=userId%>?flatlinkAuth=${getCookie('flatlinkAuth')}`)
             displayUserData(response);
         } else {
             showError(response.error || 'Failed to load user data');
@@ -235,7 +236,7 @@ function formatBooleanValue(value) {
                 const selectInput = document.createElement('div');
                 selectInput.className = 'selectInput selectInput4';
                 selectInput.id = `pref_${key}`;
-                const options = ['male', 'female', 'none', 'intersex'];
+                const options = ["male", "female", "intersex", "none"];
                 selectInput.innerHTML = options.map(option => `
                     <div class="selectElement ${value === option ? 'selected' : ''}" 
                          onclick="selectOption(this, '${key}')" 
@@ -245,27 +246,37 @@ function formatBooleanValue(value) {
                 `).join('');
                 return selectInput;
             }
+            if ((key === 'roomSize' || key === 'flatSize') && "<%=userType%>" === "searcher") {
+        const selectInput = document.createElement('div');
+        selectInput.className = 'selectInput selectInput3';
+        selectInput.id = `pref_${key}`;
+        const options = key === 'roomSize' ? ["1-8", "9-14", "15-20", "21+"] : ["1-40", "41-90", "91-140", "141+"];
+        selectInput.innerHTML = options.map(option => `
+            <div class="selectElement ${value === option ? 'selected' : ''}" 
+                 onclick="selectOption(this, '${key}')" 
+                 data-value="${option}">
+                ${option}
+            </div>
+        `).join('');
+        return selectInput;
+    }
 
-            if (key === 'flatSize' || key === 'roomSize') {
-                const selectInput = document.createElement('div');
-                selectInput.className = 'selectInput selectInput3';
-                selectInput.id = `pref_${key}`;
-                const options = ['small', 'medium', 'large'];
-                selectInput.innerHTML = options.map(option => `
-                    <div class="selectElement ${value === option ? 'selected' : ''}" 
-                         onclick="selectOption(this, '${key}')" 
-                         data-value="${option}">
-                        ${option.charAt(0).toUpperCase() + option.slice(1)}
-                    </div>
-                `).join('');
-                return selectInput;
-            }
+    // For providers, roomSize and flatSize are number inputs
+    if ((key === 'roomSize' || key === 'flatSize') && "<%=userType%>" === "provider") {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.min = '0';
+        input.id = `pref_${key}`;
+        input.value = value || '';
+        input.placeholder = `${key === 'roomSize' ? 'Room' : 'Flat'} size in m²`;
+        return input;
+    }
 
             if (key === 'food') {
                 const selectInput = document.createElement('div');
                 selectInput.className = 'selectInput selectInput3';
                 selectInput.id = `pref_${key}`;
-                const options = ['none', 'vegetarian', 'vegan'];
+                const options = ["none", "vegan", "vegetarian"];
                 selectInput.innerHTML = options.map(option => `
                     <div class="selectElement ${value === option ? 'selected' : ''}" 
                          onclick="selectOption(this, '${key}')" 
@@ -274,6 +285,10 @@ function formatBooleanValue(value) {
                     </div>
                 `).join('');
                 return selectInput;
+            }
+
+            if (key === 'transportData' || key === 'supermarketData' || key === 'images') {
+               return "";
             }
 
             let input;
@@ -321,7 +336,7 @@ function formatBooleanValue(value) {
             images.forEach((image, index) => {
                 const slide = document.createElement('div');
                 slide.className = 'carouselSlide';
-                slide.innerHTML = `<img src="${image}" class="carouselImage" alt="Apartment Image ${index + 1}">`;
+                slide.innerHTML = `<img src="<%=process.env.apiUrl%>/accountService/uploads/providerImages/${image}?flatlinkAuth=${getCookie('flatlinkAuth')}" class="carouselImage" alt="Apartment Image ${index + 1}">`;
                 carousel.appendChild(slide);
 
                 const dot = document.createElement('span');

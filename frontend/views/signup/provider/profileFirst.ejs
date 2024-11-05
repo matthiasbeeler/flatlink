@@ -308,14 +308,7 @@
         var data = JSON.parse(localStorage.getItem("signupData"));
         data.gender = $('#gender').val();
         data.food = $('#food').val();
-        /*data.intersexFlatmates = Number($('.intersexCounter').val());
-        data.maleFlatmates = Number($('.maleCounter').val())
-        data.femaleFlatmates = Number($('.femaleCounter').val())
-        data.noneFlatmates = Number($('.noneCounter').val())*/
-        data.intersexFlatmates = 0;
-        data.maleFlatmates =0;
-        data.femaleFlatmates = 0;
-        data.noneFlatmates =0;
+
         data.description = $('#description').val();
         localStorage.setItem("signupData", JSON.stringify(data));
         try {

@@ -203,10 +203,6 @@ exports.tenProvider = [
   "quietness",
   "cleanliness",
   "flatmates",
-  "intersexFlatmates",
-  "maleFlatmates",
-  "femaleFlatmates",
-  "noneFlatmates",
 ];
 
 exports.ynqProvider = ["balcony", "internet", "washer"];
