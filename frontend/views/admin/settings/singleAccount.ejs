@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<%- include('../../modules/head', {title:"User Management"}) %>
+
+<body>
+    <div class="content">
+        <a href="/admin/settings/userAccounts" class="backButtonLink">
+            <div class="backButton">
+                <img src="/assets/svg/backIcon.svg" alt="">
+            </div>
+        </a>
+        
+        <p class="smallTitleSide">User Details</p>
+
+        <!-- User Basic Info Section -->
+        <div class="accountTopSection">
+            <div class="profileImage" id="userImage">
+                <img src="/assets/images/defaultProfile.jpg" alt="Profile">
+            </div>
+            <div class="accountDetails">
+                <div class="nameDetail" id="userName"></div>
+                <div class="occupationDetail" id="userEmail"></div>
+                <div class="occupationDetail" id="userPhone"></div>
+            </div>
+        </div>
+
+        <div class="spacing3"></div>
+
+        <!-- Basic User Info -->
+        <p class="inputLabel">Basic Information</p>
+        <input type="text" id="firstName" placeholder="First Name">
+        <div class="spacing3"></div>
+        <input type="text" id="lastName" placeholder="Last Name">
+        <div class="spacing3"></div>
+        <input type="email" id="email" placeholder="Email">
+        <div class="spacing3"></div>
+        <input type="tel" id="phonenumber" placeholder="Phone">
+
+        <div class="spacing3"></div>
+        <div class="seperator"></div>
+        <div class="spacing3"></div>
+
+        <!-- Preferences Section -->
+        <p class="inputLabel">Preferences</p>
+        <div id="preferencesContainer">
+            <!-- Dynamically populated -->
+        </div>
+
+        <!-- For Providers: Images Section -->
+        <div id="imagesSection" style="display: none;">
+            <div class="spacing3"></div>
+            <div class="seperator"></div>
+            <div class="spacing3"></div>
+            
+            <p class="inputLabel">Apartment Images</p>
+            <div class="carouselContainer grayShadowBoldNoOffset">
+                <div class="carouselTrack" id="imageCarousel">
+                    <!-- Images will be populated here -->
+                </div>
+                <div class="dots" id="imageDots"></div>
+            </div>
+        </div>
+
+        <!-- Match History -->
+        <div class="spacing3"></div>
+        <div class="seperator"></div>
+        <div class="spacing3"></div>
+
+        <p class="inputLabel">Match History</p>
+        <div id="matchLogsContainer"></div>
+
+        <!-- Save Button -->
+        <div class="spacing5"></div>
+        <div class="button buttonDiv" onclick="saveChanges()">
+            <div class="buttonText">Save Changes</div>
+        </div>
+        <div class="spacing5"></div>
+
+        <div class="message errorMessage grayShadowBoldNoOffset">
+            <div class="messageText"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentUserData = null;
+        let currentSlide = 0;
+
+        // Replace the displayUserData function with this corrected version:
+function displayUserData(data) {
+    // Basic user info
+    document.getElementById('userName').textContent = 
+        `${data.userData.firstName} ${data.userData.lastName}`;
+    document.getElementById('userEmail').textContent = data.userData.email;
+    document.getElementById('userPhone').textContent = data.userData.phonenumber;
+
+    // Form fields
+    document.getElementById('firstName').value = data.userData.firstName;
+    document.getElementById('lastName').value = data.userData.lastName;
+    document.getElementById('email').value = data.userData.email;
+    document.getElementById('phonenumber').value = data.userData.phonenumber;
+
+    // Determine which preferences object to use based on user type
+    const preferences = "<%=userType%>" === "searcher" ? data.searcher : data.provider;
+    
+    if (preferences) {
+        displayPreferences(preferences);
+        
+        // Show images section for providers
+        if ("<%=userType%>" === "provider" && preferences.images) {
+            setupImageCarousel(preferences.images);
+        }
+    } else {
+        showError('No preferences found for this user');
+    }
+
+    // Display match logs if they exist
+    if (data.matchLogs && data.matchLogs.length > 0) {
+        displayMatchLogs(data.matchLogs);
+    } else {
+        document.getElementById('matchLogsContainer').innerHTML = `
+            <div class="message errorMessage grayShadowBoldNoOffset" style="display: block;">
+                <div class="messageText">No matches found</div>
+            </div>
+        `;
+    }
+}
+
+// Add better error handling to loadUserData:
+async function loadUserData() {
+    try {
+        const response = await $.ajax({
+            url: '<%=process.env.apiUrl%>/adminService/getUserData',
+            type: 'POST',
+            data: {
+                id: "<%=userId%>",
+                userType: "<%=userType%>",
+                flatlinkAuth: getCookie('flatlinkAuth')
+            }
+        });
+
+        console.log('Response:', response); // For debugging
+
+        if (response.success) {
+            currentUserData = response;
+            $('#userImage').children('img').attr('src', `<%=process.env.apiUrl%>/accountService/uploads/searcherImages/<%=userId%>?flatlinkAuth=${getCookie('flatlinkAuth')}`)
+            displayUserData(response);
+        } else {
+            showError(response.error || 'Failed to load user data');
+        }
+    } catch (error) {
+        console.error('Error loading user data:', error);
+        showError('Failed to load user data: ' + (error.message || 'Unknown error'));
+    }
+}
+
+// Update displayMatchLogs to handle the data structure correctly:
+function displayMatchLogs(logs) {
+    const container = document.getElementById('matchLogsContainer');
+    container.innerHTML = '';
+
+    if (!logs || logs.length === 0) {
+        container.innerHTML = `
+            <div class="message errorMessage grayShadowBoldNoOffset" style="display: block;">
+                <div class="messageText">No matches found</div>
+            </div>
+        `;
+        return;
+    }
+
+    logs.forEach(log => {
+        const matchIcon = log.matchType ? 
+            '/assets/svg/heartGreenLight.svg' : 
+            '/assets/svg/heartBrokenRedLight.svg';
+
+        // Add details based on user type
+        const details = "<%=userType%>" === "provider" ?
+            `${log.User ? `Matched with ${log.User.firstName} ${log.User.lastName}` : 'Unknown user'}` :
+            `${log.providerPreference ? `Matched with ${log.providerPreference.street}, ${log.providerPreference.place}` : 'Unknown property'}`;
+
+        container.innerHTML += `
+            <div class="likeElement grayShadowBoldNoOffset">
+                <div class="buttonIcon">
+                    <img src="${matchIcon}" alt="${log.matchType ? 'Like' : 'Dislike'}">
+                </div>
+                <div class="textContent">
+                    <div class="likeAddress">${details}</div>
+                    <div class="likeInfo">${new Date(log.createdAt).toLocaleDateString()}</div>
+                </div>
+            </div>
+            <div class="spacing3"></div>
+        `;
+    });
+}
+
+// Add this helper function to format boolean values for display
+function formatBooleanValue(value) {
+    if (typeof value === 'boolean') {
+        return value ? 'Yes' : 'No';
+    }
+    return value;
+}
+        function displayPreferences(preferences) {
+            const container = document.getElementById('preferencesContainer');
+            container.innerHTML = '';
+
+            for (const [key, value] of Object.entries(preferences)) {
+                if (key === 'id' || key === 'createdAt' || key === 'updatedAt') continue;
+
+                const label = document.createElement('p');
+                label.className = 'inputLabel';
+                label.textContent = formatLabel(key);
+                container.appendChild(label);
+
+                const input = createAppropriateInput(key, value);
+                container.appendChild(input);
+                
+                const spacing = document.createElement('div');
+                spacing.className = 'spacing3';
+                container.appendChild(spacing);
+            }
+        }
+
+        function createAppropriateInput(key, value) {
+            if (typeof value === 'boolean') {
+                const selectInput = document.createElement('div');
+                selectInput.className = 'selectInput selectInput2';
+                selectInput.innerHTML = `
+                    <div class="selectElement ${value ? 'selected' : ''}" onclick="toggleBoolean(this, '${key}')" data-value="true">Yes</div>
+                    <div class="selectElement ${!value ? 'selected' : ''}" onclick="toggleBoolean(this, '${key}')" data-value="false">No</div>
+                `;
+                selectInput.id = `pref_${key}`;
+                return selectInput;
+            }
+
+            // Handle specific enums/special cases
+            if (key === 'genderPreference' || key === 'gender') {
+                const selectInput = document.createElement('div');
+                selectInput.className = 'selectInput selectInput4';
+                selectInput.id = `pref_${key}`;
+                const options = ["male", "female", "intersex", "none"];
+                selectInput.innerHTML = options.map(option => `
+                    <div class="selectElement ${value === option ? 'selected' : ''}" 
+                         onclick="selectOption(this, '${key}')" 
+                         data-value="${option}">
+                        ${option.charAt(0).toUpperCase() + option.slice(1)}
+                    </div>
+                `).join('');
+                return selectInput;
+            }
+            if ((key === 'roomSize' || key === 'flatSize') && "<%=userType%>" === "searcher") {
+        const selectInput = document.createElement('div');
+        selectInput.className = 'selectInput selectInput3';
+        selectInput.id = `pref_${key}`;
+        const options = key === 'roomSize' ? ["1-8", "9-14", "15-20", "21+"] : ["1-40", "41-90", "91-140", "141+"];
+        selectInput.innerHTML = options.map(option => `
+            <div class="selectElement ${value === option ? 'selected' : ''}" 
+                 onclick="selectOption(this, '${key}')" 
+                 data-value="${option}">
+                ${option}
+            </div>
+        `).join('');
+        return selectInput;
+    }
+
+    // For providers, roomSize and flatSize are number inputs
+    if ((key === 'roomSize' || key === 'flatSize') && "<%=userType%>" === "provider") {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.min = '0';
+        input.id = `pref_${key}`;
+        input.value = value || '';
+        input.placeholder = `${key === 'roomSize' ? 'Room' : 'Flat'} size in m²`;
+        return input;
+    }
+
+            if (key === 'food') {
+                const selectInput = document.createElement('div');
+                selectInput.className = 'selectInput selectInput3';
+                selectInput.id = `pref_${key}`;
+                const options = ["none", "vegan", "vegetarian"];
+                selectInput.innerHTML = options.map(option => `
+                    <div class="selectElement ${value === option ? 'selected' : ''}" 
+                         onclick="selectOption(this, '${key}')" 
+                         data-value="${option}">
+                        ${option.charAt(0).toUpperCase() + option.slice(1)}
+                    </div>
+                `).join('');
+                return selectInput;
+            }
+
+            if (key === 'transportData' || key === 'supermarketData' || key === 'images') {
+               return "";
+            }
+
+            let input;
+            if (typeof value === 'number') {
+                input = document.createElement('input');
+                input.type = 'number';
+            } else if (key === 'description') {
+                input = document.createElement('textarea');
+                input.style.height = '100px';
+            } else if (typeof value === 'object') {
+                input = document.createElement('textarea');
+                input.value = JSON.stringify(value, null, 2);
+            } else {
+                input = document.createElement('input');
+                input.type = 'text';
+            }
+
+            input.id = `pref_${key}`;
+            input.value = value || '';
+            return input;
+        }
+
+        function toggleBoolean(element, key) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.selectElement').forEach(el => {
+                el.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        function selectOption(element, key) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.selectElement').forEach(el => {
+                el.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        function setupImageCarousel(images) {
+            const carousel = document.getElementById('imageCarousel');
+            const dotsContainer = document.getElementById('imageDots');
+            carousel.innerHTML = '';
+            dotsContainer.innerHTML = '';
+            
+            images.forEach((image, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'carouselSlide';
+                slide.innerHTML = `<img src="<%=process.env.apiUrl%>/accountService/uploads/providerImages/${image}?flatlinkAuth=${getCookie('flatlinkAuth')}" class="carouselImage" alt="Apartment Image ${index + 1}">`;
+                carousel.appendChild(slide);
+
+                const dot = document.createElement('span');
+                dot.className = 'dot' + (index === 0 ? ' active' : '');
+                dot.onclick = () => moveToSlide(index);
+                dotsContainer.appendChild(dot);
+            });
+
+            document.getElementById('imagesSection').style.display = 'block';
+        }
+
+        function moveToSlide(index) {
+            const slides = document.querySelectorAll('.carouselSlide');
+            if (index >= slides.length) index = 0;
+            if (index < 0) index = slides.length - 1;
+
+            document.querySelector('.carouselTrack').style.transform = 
+                `translateX(-${index * 100}%)`;
+            
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+
+            currentSlide = index;
+        }
+
+        function displayMatchLogs(logs) {
+    const container = document.getElementById('matchLogsContainer');
+    container.innerHTML = '';
+
+    if (!logs || logs.length === 0) {
+        container.innerHTML = `
+            <div class="message errorMessage grayShadowBoldNoOffset" style="display: block;">
+                <div class="messageText">No matches found</div>
+            </div>
+        `;
+        return;
+    }
+
+    logs.forEach(log => {
+        const logEntry = document.createElement('div');
+        logEntry.className = 'groupButtonDiv grayShadowBoldNoOffset';
+        logEntry.style.marginBottom = '10px';
+
+        const matchIcon = log.matchType ? 
+            '/assets/svg/heartGreenLight.svg' : 
+            '/assets/svg/heartBrokenRedLight.svg';
+
+        // Different display for searcher vs provider
+        let matchDetails = '';
+        if ("<%=userType%>" === "provider") {
+            matchDetails = `
+                <div class="buttonTitle">
+                    ${log.User ? `${log.User.firstName} ${log.User.lastName}` : 'Unknown User'}
+                </div>
+                <div class="buttonContent">
+                    Searcher ID: ${log.searcherId}
+                </div>
+            `;
+        } else {
+            matchDetails = `
+                <div class="buttonTitle">
+                    ${log.providerPreference ? `${log.providerPreference.street}, ${log.providerPreference.place}` : 'Unknown Property'}
+                </div>
+                <div class="buttonContent">
+                    Provider ID: ${log.providerId}
+                </div>
+            `;
+        }
+
+        logEntry.innerHTML = `
+            <div class="buttonIcon">
+                <img src="${matchIcon}" alt="${log.matchType ? 'Like' : 'Dislike'}">
+            </div>
+            <div class="textContent">
+                ${matchDetails}
+                <div class="buttonContent">
+                    ${new Date(log.createdAt).toLocaleDateString()}
+                </div>
+            </div>
+        `;
+
+        container.appendChild(logEntry);
+    });
+}
+
+        function saveChanges() {
+            const button = document.querySelector('.button');
+            button.classList.add('buttonLoading');
+
+            const updatedData = {
+                userData: {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    email: document.getElementById('email').value,
+                    phonenumber: document.getElementById('phonenumber').value
+                },
+                preferences: gatherPreferencesData()
+            };
+
+            $.ajax({
+                url: '<%=process.env.apiUrl%>/adminService/updateUserData',
+                type: 'POST',
+                data: {
+                    ...updatedData,
+                    id: "<%=userId%>",
+                    userType: "<%=userType%>",
+                    flatlinkAuth: getCookie('flatlinkAuth')
+                },
+                success: function(response) {
+                    button.classList.remove('buttonLoading');
+                    if (response.success) {
+                        showMessage('Changes saved successfully');
+                        loadUserData();
+                    } else {
+                        showError('Failed to save changes');
+                    }
+                },
+                error: function() {
+                    button.classList.remove('buttonLoading');
+                    showError('Error saving changes');
+                }
+            });
+        }
+
+        function gatherPreferencesData() {
+            const preferences = {};
+            const container = document.getElementById('preferencesContainer');
+            
+            container.querySelectorAll('[id^="pref_"]').forEach(element => {
+                const key = element.id.replace('pref_', '');
+                let value;
+
+                if (element.classList.contains('selectInput')) {
+                    value = element.querySelector('.selected').dataset.value;
+                    if (value === 'true') value = true;
+                    if (value === 'false') value = false;
+                } else if (element.type === 'number') {
+                    value = parseFloat(element.value);
+                } else if (element.tagName === 'TEXTAREA' && key !== 'description') {
+                    try {
+                        value = JSON.parse(element.value);
+                    } catch (e) {
+                        console.error('Invalid JSON in', key);
+                        value = element.value;
+                    }
+                } else {
+                    value = element.value;
+                }
+
+                preferences[key] = value;
+            });
+
+            return preferences;
+        }
+
+        function formatLabel(key) {
+            return key
+                .replace(/([A-Z])/g, ' $1')
+                .replace(/^./, str => str.toUpperCase());
+        }
+
+        function showMessage(message) {
+            const messageElement = document.querySelector('.message');
+            messageElement.classList.remove('errorMessage');
+            messageElement.style.display = 'block';
+            messageElement.querySelector('.messageText').textContent = message;
+            setTimeout(() => {
+                messageElement.style.display = 'none';
+            }, 3000);
+        }
+
+        function showError(message) {
+            const messageElement = document.querySelector('.message');
+            messageElement.classList.add('errorMessage');
+            messageElement.style.display = 'block';
+            messageElement.querySelector('.messageText').textContent = message;
+            setTimeout(() => {
+                messageElement.style.display = 'none';
+            }, 3000);
+        }
+
+        // Initial load
+        loadUserData();
+    </script>
+
+    <%- include('../../modules/footer', { minHeight: 0.89, hide: true}) %>
+</body>
+</html>
