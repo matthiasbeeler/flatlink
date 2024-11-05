@@ -1,5 +1,4 @@
 const { type } = require("express/lib/response");
-
 module.exports = (sequelize, DataTypes) => {
     const searcherPreferences = sequelize.define("searcherPreferences", {
         id:{
