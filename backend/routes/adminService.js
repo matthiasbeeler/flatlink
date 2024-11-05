@@ -20,7 +20,7 @@ const {
   verifyEmail,
   resendVerificationEmail,
 } = require("../services/accountUpdate");
-const { getStartStats } = require("../services/adminData");
+const { getStartStats, filterUserAccounts, getUserData, updateUserData } = require("../services/adminData");
 
 
 
@@ -44,6 +44,20 @@ router.post("/getStartStats", async (req, res, next) => {
     await getStartStats(req, res, User, matchLog);
   });
 
+
+  router.post("/filterUserAccounts", async (req, res, next) => {
+    await filterUserAccounts(req, res, User, matchLog);
+  });
+
+
+  router.post("/getUserData", async (req, res, next) => {
+    await getUserData(req, res, User, matchLog, searcherPreferences, providerPreferences);
+  });
+
+  router.post("/updateUserData", async (req, res, next) => {
+    await updateUserData(req, res, User, matchLog, searcherPreferences, providerPreferences);
+  });
+  
 router.get("*", function (req, res, next) {
     //checking if user is logged on get ! -> redirect 
 

@@ -26,6 +26,19 @@ router.get('/', function(req, res, next) {
 });
 
 
+router.get('/settings', function(req, res, next) {
+  res.render('admin/settingsOverview');
+});
+
+router.get('/settings/userAccounts', function(req, res, next) {
+  res.render('admin/settings/userAccounts');
+});
+
+router.get('/settings/userAccounts/:userId/:userType', function(req, res, next) {
+  console.log(req.params.userType)
+  res.render('admin/settings/singleAccount', {userId: req.params.userId, userType: req.params.userType});
+});
+
 
 router.get('/account', function(req, res, next) {
   res.render('loggedin/account', {userType: jwt.verify(req.cookies.flatlinkAuth, process.env.jwtSecret).data.userType});
@@ -36,9 +49,6 @@ router.get('/likes', function(req, res, next) {
   res.render('loggedin/likes', {userType: jwt.verify(req.cookies.flatlinkAuth, process.env.jwtSecret).data.userType});
 });
 
-router.get('/preferences', function(req, res, next) {
-  res.render('loggedin/preferences');
-});
 
 router.get('/tutorial/searcher', function(req, res, next) {
   res.render('loggedin/tutorialSearcher');
