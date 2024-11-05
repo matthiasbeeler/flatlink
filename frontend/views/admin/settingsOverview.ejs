@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<%- include('../modules/head', {title:"Settings"}) %>
+
+    <body>
+        <div class="content">
+            <img src="/assets/svg/settingsText.svg" alt="" class="hideMatchDetail topLeftLogoText">
+
+           <!-- <a onclick="location.reload()">
+                <img src="/assets/svg/sync.svg" class="topRightButton hideMatchDetail" alt="">
+            </a>
+            -->
+            <div class="spacing10 hideMatchDetail"></div>
+            <div class="spacing10 hideMatchDetail"></div>
+            <a href="/admin/settings/userAccounts">
+            <div class="infoAdminContainer grayShadowBoldNoOffset searcher">
+                <div class="icon">
+                    <img src="/assets/svg/face.svg" alt="">
+                </div>
+                <div class="text">
+                    <div class="smallText">
+                        user accounts
+                    </div>
+                    <div class="number">
+
+                    </div>
+                </div>
+            </div>
+        </a>
+            <div class="infoAdminContainer grayShadowBoldNoOffset provider">
+                <div class="icon">
+                    <img src="/assets/svg/apartmentBuilding.svg" alt="">
+                </div>
+                <div class="text">
+                    <div class="smallText">
+                        listings
+                    </div>
+                    <div class="number">
+
+                    </div>
+                </div>
+            </div>
+            <div class="spacing1"></div>
+           <!-- <div class="seperator"></div>
+            <div class="spacing1"></div>
+            <div class="infoAdminContainer grayShadowBoldNoOffset matcheCount" style="display: block;">
+                <div class="icon">
+                    <img src="/assets/svg/match.svg" alt="">
+                </div>
+                <div class="text">
+                    <div class="smallText">
+                        matches
+                    </div>
+                    <div class="number">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="infoAdminContainer grayShadowBoldNoOffset likes">
+                <div class="icon">
+                    <img src="/assets/svg/heartGreenLight.svg" alt="">
+                </div>
+                <div class="text">
+                    <div class="smallText">
+                        likes
+                    </div>
+                    <div class="number">
+
+                    </div>
+                </div>
+            </div>
+            <div class="infoAdminContainer grayShadowBoldNoOffset dislikes">
+                <div class="icon">
+                    <img src="/assets/svg/heartBrokenRedLight.svg" alt="">
+                </div>
+                <div class="text">
+                    <div class="smallText">
+                        dislikes
+                    </div>
+                    <div class="number">
+
+                    </div>
+                </div>
+            </div>
+            -->
+            <div class="foreground bottomNav hideMatchDetail">
+                <div class="foregroundTop">
+                    <div class="oval"></div>
+                </div>
+                <div class="innerForeground">
+                    <div class="innerNav">
+                        <a href="/admin">
+                        <div class="navElement">
+                            <center>
+                                <img src="/assets/svg/exploreFull.svg" alt="" style="display: none;" >
+                                <img src="/assets/svg/exploreEmpty.svg" alt="">
+                                <p>Stats</p>
+                            </center>
+                        </div>
+                    </a>
+                        <a href="/admin/settings">
+                            <div class="navElement">
+                                <center>
+
+                                    <img src="/assets/svg/accountEmpty.svg" alt="" style="display: none;" >
+                                    <img src="/assets/svg/accountFull.svg" alt="">
+                                    <p>Settings</p>
+                                </center>
+                            </div>
+                        </a>
+
+                        <a href="/logout">
+                            <div class="navElement">
+                                <center>
+
+                                    <img src="/assets/svg/logout.svg" alt="">
+                                    <img src="/assets/svg/heartFull.svg" style="display: none;" alt="">
+                                    <p>Logout</p>
+                                </center>
+                            </div>
+                        </a>
+                        <!--
+                        <a href="/user/account">
+                            <div class="navElement">
+                                <center>
+
+                                    <img src="/assets/svg/accountEmpty.svg" alt="">
+                                    <img src="/assets/svg/accountFull.svg" style="display: none;" alt="">
+                                    <p>Account</p>
+                                </center>
+                            </div>
+                        </a>
+
+                    </div>
+                    -->
+                </div>
+
+            </div>
+
+        </div>
+        <%- include('../modules/footer', { minHeight: 0.89, hide: true}) %>
+
+    </body>
+
+    </html>
+
+    <script>
+       
+
+        $.ajax({
+            url: '<%=process.env.apiUrl%>/adminService/getStartStats',
+            type: 'POST',
+            async: true,
+            cache: false,
+            crossDomain: true,
+            data: {
+                "flatlinkAuth": getCookie('flatlinkAuth'),
+            },
+            success: function (data, status, xhr) {
+                if (data) {
+                    console.log(data)
+                    if (data.success == true) {
+                            $('.searcher .text .number').text(data.searcherCount + data.providerCount)
+                        $('.provider .text .number').text(data.providerCount)
+                        $('.likes .text .number').text(data.likesCount)
+                        $('.dislikes .text .number').text(data.dislikesCount)
+                        $('.matcheCount .text .number').text(data.matchCount)
+
+                       
+                    }
+                    if (data.success == false) {
+                        $('.errorMessage').show()
+                        $('.errorMessage .messageText').html(errorMessages[data.error])
+                    }
+                }
+
+            },
+            error: function (jqXHR, textStatus, err) {
+                $('.errorOverlay').show()
+                setTimeout(() => {
+                    window.location.reload();
+                }, 30000);
+
+            }
+        });
+
+    </script>

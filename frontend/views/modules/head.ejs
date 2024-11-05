@@ -49,6 +49,7 @@
         displayMode = 'standalone';
       }
       if (displayMode == "browser tab") {
+        if(!document.querySelector('.foreground.bottomNav')) return;
         document.querySelector('.foreground.bottomNav').style.height = "unset";
         document.querySelector('.foreground.bottomNav .innerForeground').style.paddingBottom = "0px";
       }
