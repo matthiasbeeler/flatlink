@@ -236,11 +236,7 @@ function formatBooleanValue(value) {
                 const selectInput = document.createElement('div');
                 selectInput.className = 'selectInput selectInput4';
                 selectInput.id = `pref_${key}`;
-<<<<<<< HEAD
                 const options = ["male", "female", "intersex", "none"];
-=======
-                const options = ['male', 'female', 'none', 'intersex'];
->>>>>>> 42c20ab57362f86ade1437aebcaa62ea11d94284
                 selectInput.innerHTML = options.map(option => `
                     <div class="selectElement ${value === option ? 'selected' : ''}" 
                          onclick="selectOption(this, '${key}')" 
@@ -250,7 +246,6 @@ function formatBooleanValue(value) {
                 `).join('');
                 return selectInput;
             }
-<<<<<<< HEAD
             if ((key === 'roomSize' || key === 'flatSize') && "<%=userType%>" === "searcher") {
         const selectInput = document.createElement('div');
         selectInput.className = 'selectInput selectInput3';
@@ -276,33 +271,12 @@ function formatBooleanValue(value) {
         input.placeholder = `${key === 'roomSize' ? 'Room' : 'Flat'} size in m²`;
         return input;
     }
-=======
-
-            if (key === 'flatSize' || key === 'roomSize') {
-                const selectInput = document.createElement('div');
-                selectInput.className = 'selectInput selectInput3';
-                selectInput.id = `pref_${key}`;
-                const options = ['small', 'medium', 'large'];
-                selectInput.innerHTML = options.map(option => `
-                    <div class="selectElement ${value === option ? 'selected' : ''}" 
-                         onclick="selectOption(this, '${key}')" 
-                         data-value="${option}">
-                        ${option.charAt(0).toUpperCase() + option.slice(1)}
-                    </div>
-                `).join('');
-                return selectInput;
-            }
->>>>>>> 42c20ab57362f86ade1437aebcaa62ea11d94284
 
             if (key === 'food') {
                 const selectInput = document.createElement('div');
                 selectInput.className = 'selectInput selectInput3';
                 selectInput.id = `pref_${key}`;
-<<<<<<< HEAD
                 const options = ["none", "vegan", "vegetarian"];
-=======
-                const options = ['none', 'vegetarian', 'vegan'];
->>>>>>> 42c20ab57362f86ade1437aebcaa62ea11d94284
                 selectInput.innerHTML = options.map(option => `
                     <div class="selectElement ${value === option ? 'selected' : ''}" 
                          onclick="selectOption(this, '${key}')" 
@@ -313,13 +287,10 @@ function formatBooleanValue(value) {
                 return selectInput;
             }
 
-<<<<<<< HEAD
             if (key === 'transportData' || key === 'supermarketData' || key === 'images') {
                return "";
             }
 
-=======
->>>>>>> 42c20ab57362f86ade1437aebcaa62ea11d94284
             let input;
             if (typeof value === 'number') {
                 input = document.createElement('input');
@@ -365,11 +336,7 @@ function formatBooleanValue(value) {
             images.forEach((image, index) => {
                 const slide = document.createElement('div');
                 slide.className = 'carouselSlide';
-<<<<<<< HEAD
                 slide.innerHTML = `<img src="<%=process.env.apiUrl%>/accountService/uploads/providerImages/${image}?flatlinkAuth=${getCookie('flatlinkAuth')}" class="carouselImage" alt="Apartment Image ${index + 1}">`;
-=======
-                slide.innerHTML = `<img src="${image}" class="carouselImage" alt="Apartment Image ${index + 1}">`;
->>>>>>> 42c20ab57362f86ade1437aebcaa62ea11d94284
                 carousel.appendChild(slide);
 
                 const dot = document.createElement('span');
