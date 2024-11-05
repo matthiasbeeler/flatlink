@@ -3,9 +3,11 @@
 
 <body>
     <div class="content">
-        <img src="/assets/svg/admin.svg" alt="" class="hideMatchDetail topLeftLogoText">
-        <div class="spacing10"></div>
-        <div class="spacing10"></div>
+        <a href="/admin/settings/" class="backButtonLink">
+            <div class="backButton">
+                <img src="/assets/svg/backIcon.svg" alt="">
+            </div>
+        </a>
         <div class="spacing10"></div>
 
         <div class="groupButtonDiv grayShadowBoldNoOffset" onclick="toggleFilters()" style="margin-bottom: 20px;">
@@ -40,8 +42,13 @@
             <div class="button buttonDiv" onclick="applyFilters()">
                 <div class="buttonText">Apply Filters</div>
             </div>
-            <div class="spacing5"></div>
         </div>
+        <div class="spacing1"></div>
+        <div class="spacing1"></div>
+
+        <div class="title countTitle smallTitleSide">Count: </div>
+        <div class="spacing1"></div>
+        <div class="spacing1"></div>
 
         <div id="userResults"></div>
         
@@ -174,6 +181,9 @@
                 `;
                 container.appendChild(noResults);
             }
+            const count = document.querySelectorAll('.groupButtonDiv').length -1;
+            console.log(count);
+            $('.countTitle').text('Count: ' + count);
         }
 
         // Initial load
