@@ -41,27 +41,7 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.STRING,
           allowNull: false,
           unique: false
-        },
-        maleFlatmates: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          unique: false
-        },
-        femaleFlatmates: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          unique: false
-        },
-        noneFlatmates: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          unique: false
-        },
-        intersexFlatmates: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          unique: false
-        },
+        },        
         genderPreference: {
           type: DataTypes.STRING,
           allowNull: false,
