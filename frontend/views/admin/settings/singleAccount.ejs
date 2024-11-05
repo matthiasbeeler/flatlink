@@ -141,10 +141,7 @@ async function loadUserData() {
 
         if (response.success) {
             currentUserData = response;
-<<<<<<< HEAD
             $('#userImage').children('img').attr('src', `<%=process.env.apiUrl%>/accountService/uploads/searcherImages/<%=userId%>?flatlinkAuth=${getCookie('flatlinkAuth')}`)
-=======
->>>>>>> 42c20ab57362f86ade1437aebcaa62ea11d94284
             displayUserData(response);
         } else {
             showError(response.error || 'Failed to load user data');
