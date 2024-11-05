@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<%- include('../../modules/head', {title:"User Management"}) %>
+
+<body>
+    <div class="content">
+        <img src="/assets/svg/admin.svg" alt="" class="hideMatchDetail topLeftLogoText">
+        <div class="spacing10"></div>
+        <div class="spacing10"></div>
+        <div class="spacing10"></div>
+
+        <div class="groupButtonDiv grayShadowBoldNoOffset" onclick="toggleFilters()" style="margin-bottom: 20px;">
+            <div class="buttonIcon">
+                <img src="/assets/svg/preferences.svg" alt="Filter">
+            </div>
+            <div class="textContent">
+                <div class="buttonTitle">Filter Users</div>
+                <div class="buttonContent">Click to show/hide filters</div>
+            </div>
+        </div>
+
+        <div id="filterContent" class="filterContent" style="display: none;">
+            <input type="text" id="firstName" placeholder="First Name" class="filterField">
+            <div class="spacing5"></div>
+            <input type="text" id="lastName" placeholder="Last Name" class="filterField">
+            <div class="spacing5"></div>
+
+            <input type="email" id="email" placeholder="Email" class="filterField">
+            <div class="spacing5"></div>
+
+            <input type="text" id="phonenumber" placeholder="Phone Number" class="filterField">
+            <div class="spacing5"></div>
+
+            <select id="userType" class="filterField">
+                <option value="">All Users</option>
+                <option value="searcher">Searchers</option>
+                <option value="provider">Providers</option>
+            </select>
+            <div class="spacing5"></div>
+
+            <div class="button buttonDiv" onclick="applyFilters()">
+                <div class="buttonText">Apply Filters</div>
+            </div>
+            <div class="spacing5"></div>
+        </div>
+
+        <div id="userResults"></div>
+        
+        <div class="spacing10"></div>
+    </div>
+
+    <script>
+        let filtersVisible = false;
+        let allUsers = [];
+
+        function toggleFilters() {
+            filtersVisible = !filtersVisible;
+            document.getElementById('filterContent').style.display = 
+                filtersVisible ? 'block' : 'none';
+        }
+
+        function fuzzyMatch(str, pattern) {
+            if (!str) str = '';
+            if (!pattern) return true;
+            
+            pattern = pattern.toLowerCase();
+            str = str.toLowerCase();
+            
+            let patternIdx = 0;
+            let strIdx = 0;
+            const patternLength = pattern.length;
+            const strLength = str.length;
+
+            while (patternIdx < patternLength && strIdx < strLength) {
+                if (pattern[patternIdx] === str[strIdx]) {
+                    patternIdx++;
+                }
+                strIdx++;
+            }
+
+            return patternIdx === patternLength;
+        }
+
+        function applyFilters() {
+            const button = document.querySelector('.button');
+            button.classList.add('buttonLoading');
+
+            const filters = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phonenumber: document.getElementById('phonenumber').value,
+                userType: document.getElementById('userType').value
+            };
+
+            const filteredUsers = allUsers.filter(user => {
+                const matchFirstName = !filters.firstName || fuzzyMatch(user.firstName, filters.firstName);
+                const matchLastName = !filters.lastName || fuzzyMatch(user.lastName, filters.lastName);
+                const matchEmail = !filters.email || fuzzyMatch(user.email, filters.email);
+                const matchPhone = !filters.phonenumber || fuzzyMatch(user.phonenumber, filters.phonenumber);
+                const matchType = !filters.userType || user.userType === filters.userType;
+
+                return matchFirstName && matchLastName && matchEmail && matchPhone && matchType;
+            });
+
+            displayUsers(filteredUsers);
+            button.classList.remove('buttonLoading');
+        }
+
+        function loadInitialUsers() {
+            $.ajax({
+                url: '<%=process.env.apiUrl%>/adminService/filterUserAccounts',
+                type: 'POST',
+                data: {
+                    flatlinkAuth: getCookie('flatlinkAuth'),
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    phonenumber: '',
+                    userType: ''
+                },
+                success: function(data) {
+                    if (data.success) {
+                        allUsers = data.userList;
+                        displayUsers(allUsers);
+                    }
+                },
+                error: function(err) {
+                    console.error('Error fetching users:', err);
+                    const container = document.getElementById('userResults');
+                    container.innerHTML = `
+                        <div class="message errorMessage grayShadowBoldNoOffset" style="display: block;">
+                            <div class="messageText">Error loading users. Please try again.</div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        function displayUsers(users) {
+            const container = document.getElementById('userResults');
+            container.innerHTML = '';
+
+            users.forEach(user => {
+                const userCard = document.createElement('div');
+                userCard.className = 'groupButtonDiv grayShadowBoldNoOffset';
+                userCard.style.marginBottom = '10px';
+                
+                const userTypeIcon = user.userType === 'searcher' ? 
+                    '/assets/svg/face.svg' : '/assets/svg/apartmentBuilding.svg';
+
+                userCard.innerHTML = `
+                    <div class="buttonIcon">
+                        <img src="${userTypeIcon}" alt="${user.userType}">
+                    </div>
+                    <div class="textContent">
+                        <div class="buttonTitle">${user.firstName} ${user.lastName}</div>
+                        <div class="buttonContent">${user.email} | ${user.phonenumber || 'No phone'}</div>
+                    </div>
+                `;
+
+                userCard.addEventListener('click', () => {
+                    window.location.href = `/admin/settings/userAccounts/${user.id}/${user.userType}`;
+                });
+
+                container.appendChild(userCard);
+            });
+
+            if (users.length === 0) {
+                const noResults = document.createElement('div');
+                noResults.className = 'message errorMessage grayShadowBoldNoOffset';
+                noResults.style.display = 'block';
+                noResults.innerHTML = `
+                    <div class="messageText">No users found matching these filters</div>
+                `;
+                container.appendChild(noResults);
+            }
+        }
+
+        // Initial load
+        loadInitialUsers();
+    </script>
+
+    <%- include('../../modules/footer', { minHeight: 0.89, hide: true}) %>
+</body>
+</html>

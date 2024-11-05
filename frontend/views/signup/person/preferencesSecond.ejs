@@ -171,7 +171,6 @@ const urlParams = new URLSearchParams(window.location.search);
           10: "ten"
         }
         var data = JSON.parse(localStorage.getItem("signupData"));
-        console.log(data.lastName)
         $('#accessibility').parent().children("."+data.accessibility).click()
         $('#accessibility').parent().children("."+numSelect[data.accessibility]).click()
         $('#flatmates').parent().children("."+numSelect[data.flatmates]).click()

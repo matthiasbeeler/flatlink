@@ -88,7 +88,6 @@
 
         $("form").submit(function(e) {
         e.preventDefault();
-        console.log($('#location').val())
         $(".submitButton").addClass('buttonLoading');
         $('.submitButton').attr('onclick', '');
         document.querySelectorAll('.selectInput').forEach(element => {

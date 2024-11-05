@@ -90,7 +90,6 @@
             crossDomain: true,
             data: $('form').serializeArray(),
             success: function (data) {
-                console.log(data)
                 if (data.success == true) {
                     if(data.type == "login"){
                         $('.displayLogin').attr('style', '')
