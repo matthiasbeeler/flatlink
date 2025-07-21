@@ -22,7 +22,7 @@
         "http-errors": "~1.8.1",
         "jsonwebtoken": "^9.0.2",
         "libphonenumber-js": "^1.11.5",
-        "morgan": "~1.9.1",
+        "morgan": "~1.10.1",
         "run-all": "^1.0.1",
         "serve-favicon": "^2.5.0",
         "sqlite3": "^5.1.7",
