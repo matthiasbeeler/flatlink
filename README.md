@@ -1,71 +1,113 @@
 # flatlink
-Welcome to flatlink, my matura project
 
-# Get started
+flatlink is a flat-sharing matching web app, built as a matura project. People looking for a room ("searchers") and people offering one ("providers") each create a profile with their preferences. The app matches them and lets both sides like or dislike each other. Providers and searchers both see a match score and the details of each match.
 
+> **Status:** archived. The project is no longer maintained and is not running anywhere. It is published for reference.
 
-## File structure 
-File or Folder | Purpose
----------|----------
-`backend/` | main backend processes go here
-`frontend/` | main frontend processes go here
-`package.json` | configuration for running API and frontend
-`readme.md` | this getting started guide
+## Features
 
-## Routes
+- Signup for searchers and providers, with a multi-step preferences questionnaire
+- Email verification, password reset and email address change (via signed, expiring tokens)
+- Matching between searchers and providers based on preferences and location
+- Likes, dislikes and matches, each with a detail view
+- Profile and flat images, with server-side resizing
+- Admin dashboard for managing user accounts
+- Installable as a PWA (manifest, service worker, offline page)
+- German-language UI, with imprint and privacy pages
 
-###  frontend
+## Tech stack
 
-Basic route URI | Purpose
--------------|----------
-`/` | not logged in (such as login, signup, pw forgotten) & eMail verification and data-privacy
-`/user` | anything logged in
-`/admin` | admin dashboard
+| Part | Stack |
+|---|---|
+| Frontend | Node.js, Express, EJS templates, plain JavaScript and CSS |
+| Backend (REST API) | Node.js, Express, Sequelize ORM |
+| Database | PostgreSQL |
+| Auth | JWT, bcrypt, `express-bouncer` against brute force |
+| Email | Nodemailer with EJS email templates |
+| Images | `sharp`, `express-fileupload` |
 
-### backend
+## Project structure
 
-Basic route URI | Purpose
--------------|----------
-`/` | no API
-`/accountService` | anything related to accounts - including pictures
-`/matchingService` | matching, disliking, liking and getting likes
-`/adminService` | admin dashboard data
+| Path | Purpose |
+|---|---|
+| `backend/` | REST API: routes, services (business logic), Sequelize models, email templates |
+| `frontend/` | Server-rendered web app: routes, EJS views, static assets |
+| `package.json` | Root scripts to start backend and frontend together |
 
-## Setup Guide
+### Routes
+
+**Frontend** (port 3000)
+
+| Route | Purpose |
+|---|---|
+| `/` | Logged out area: login, signup, forgot password, email verification, legal pages |
+| `/user` | Everything for logged-in users |
+| `/admin` | Admin dashboard |
+
+**Backend API** (port 4000)
+
+| Route | Purpose |
+|---|---|
+| `/accountService` | Accounts, including pictures |
+| `/matchingService` | Matching, liking, disliking and fetching likes |
+| `/adminService` | Admin dashboard data |
+
+## Getting started
 
 ### Prerequisites
 
-- Install [Node.js](https://nodejs.org)
-- Install [PostgreSQL](https://postgresql.org)
-
+- [Node.js](https://nodejs.org)
+- [PostgreSQL](https://postgresql.org), with an empty database created for development
+- `nodemon` (`npm install -g nodemon`), used by the development scripts
 
 ### Installation
 
-- In the main directory, `backend/` and `frontend/` directories install all the dependecies with `npm install` respectively
-- On your computer install nodemon with the commant `npm install -g nodemon` 
-- In `backend/` create a `development.env` file and add the following variables
+1. Install dependencies in the root, `backend/` and `frontend/`:
 
-Variable name | Variable
--------------|----------
-`dbUserDev` | Username for Dev-Database User
-`dbPassDev` | Password for specified user
-`dbDev` | Dev-Database name
-`dbHostDev` | Host of Dev-DB (if locally installed: `localhost`)
-`jwtSecret` | Secret Key for JWT encryption
+   ```bash
+   npm install
+   cd backend && npm install
+   cd ../frontend && npm install
+   ```
 
-- In `frontend/` also create a `development.env` file and add the following variables
+2. Create `backend/development.env`:
 
-Variable name | Variable
--------------|----------
-`apiUrl` | `http://localhost:4000`
-`appUrl` | `http://localhost:3000`
-`jwtSecret` | Secret Key for JWT encryption (same as in backend)
+   | Variable | Description |
+   |---|---|
+   | `dbUserDev` | Dev database user |
+   | `dbPassDev` | Password of that user |
+   | `dbDev` | Dev database name |
+   | `dbHostDev` | Dev database host (`localhost` if local) |
+   | `jwtSecret` | Secret for signing JWTs |
+   | `appUrl` | Frontend URL used in emails, e.g. `http://localhost:3000` |
+   | `emailUser` | SMTP username (only needed to send emails) |
+   | `emailPassword` | SMTP password (only needed to send emails) |
+   | `emailUserName` | Sender address shown in emails |
 
-- Open a new terminal and run `npm test` in the main directory (with `test` the DB-Tables are created automatically)
-    - if testing on windows use `npm run testWindows` 
-- The app should be running on http://localhost:3000/ with the API running on http://localhost:4000/
+3. Create `frontend/development.env`:
 
+   | Variable | Description |
+   |---|---|
+   | `apiUrl` | `http://localhost:4000` |
+   | `appUrl` | `http://localhost:3000` |
+   | `jwtSecret` | Same value as in the backend |
 
-## Learn More
+   The `.env` files are git-ignored. Never commit them.
 
-To learn more, contact us at nyv.ch.
+4. Start both apps in development mode, from the repository root:
+
+   ```bash
+   npm test
+   ```
+
+   On Windows use `npm run testWindows`. The database tables are created automatically on first start (Sequelize `sync`).
+
+5. Open <http://localhost:3000>. The API runs on <http://localhost:4000>.
+
+> **Note:** the root `package.json` scripts call `cd Backend` and `cd Frontend` with capital letters. On case-sensitive file systems (Linux) that fails. Either fix the casing or start each app yourself with `npm test` inside `backend/` and `frontend/`.
+
+### Production
+
+`npm start` runs both apps with `NODE_ENV=production`. The backend then reads `dbUser`, `dbPass`, `db` and `dbHost` instead of the `…Dev` variables. `PORT` can override the default ports.
+
+The sender host `mail.nyv.ch` is hardcoded in `backend/services/mailer.js`, and the allowed CORS origins are listed in `backend/app.js`. Change both if you deploy your own instance.
